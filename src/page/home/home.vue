@@ -16,10 +16,6 @@ onMounted(() => {
   onChangeTab(active.value);
 });
 
-// 跳转
-function goOrderList() {
-  goRouter("/orderList");
-}
 
 // 显示角标 切换
 async function onChangeTab(val) {
@@ -65,7 +61,7 @@ async function onChangeTab(val) {
         <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title">
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
-            <van-grid-item v-for="task in item.task" @click="task.tap" class="!py-0">
+            <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
               <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
                 <img :src="task.icon" class="!w-[4rem] !h-[4rem] bg-[#ffcf48] rounded-xl shadowC" alt="" />
               </van-badge>
@@ -78,7 +74,7 @@ async function onChangeTab(val) {
         <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title">
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
-            <van-grid-item v-for="task in item.task" @click="task.tap" class="!py-0">
+            <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
               <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
                 <img :src="task.icon" class="!w-[4rem] !h-[4rem] bg-[#ffcf48] rounded-xl shadowC" alt="" />
               </van-badge>

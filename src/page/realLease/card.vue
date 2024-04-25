@@ -20,9 +20,9 @@ function getStatus(i) { // 获取状态
       <div class="mx-2">
         {{ props.item.orderBase.orderId }}
       </div>
-      <plainButton class="!h-[18.8px] shadow-inner" @click.stop="$copyText(props.item.orderBase.orderId)">复制</plainButton>
+      <plainButton class="!h-[18.7px] shadow-inner" @click.stop="$copyText(props.item.orderBase.orderId)">复制</plainButton>
       <div class="flex-1 justify-end pr-1 flex">
-        <plainButton @click.stop="() => {}" class="!h-[18.8px] shadow-inner">状态</plainButton>
+        <plainButton @click.stop="() => {}" class="!h-[18.7px] shadow-inner">状态</plainButton>
       </div>
     </div>
 

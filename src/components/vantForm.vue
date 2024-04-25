@@ -16,9 +16,9 @@ const slotDoms = [props.form]
   .filter((n) => n.customSlot)
   .map((n) => n.customSlot);
 
-onActivated(() => {
-  console.log(3333);
-});
+function getSlot(slot) {
+  return lo.find(props.form, (o) => o.customSlot == slot)
+}
 
 function setRef(dom) {
   gl.submitDoms.push(dom);
@@ -30,7 +30,7 @@ function setRef(dom) {
     <van-cell-group inset :class="props.groupClass">
       <recuDynComponent :form="props.form">
         <template v-for="slot of slotDoms" #[slot] :key="slot">
-          <slot :name="slot" />
+          <slot :name="slot" :slot="getSlot(slot)" />
         </template>
       </recuDynComponent>
     </van-cell-group>

@@ -10,11 +10,12 @@ export const useForm = defineStore("form", () => {
 });
 
 export function bindForm(_) {
-  const gl = useForm();
-  gl.gl.length = 0;
-  gl.gl.push(_);
+  const form = useForm();
+  form.gl.length = 0;
+  form.gl.push(_);
   onUnmounted(() => {
-    gl.gl.length = 0;
+    form.gl.pop()
+    form.gl.length = 0;
   });
 }
 

@@ -1,6 +1,31 @@
 const titleClass = "!pl-[5px]";
 
-export const itemDetail = [];
+export const itemDetail = [
+  {
+    customSlot: "person",
+    title: '任命',
+    value: 'value',
+    orderId: '-',
+    stageId: '-'
+  },
+  {
+    formType: "cell",
+    name: "orderId",
+    title: "系统编号",
+    valueClass: "mr-[10px]",
+    titleClass,
+    value: "-",
+  },
+  {
+    formType: "cell",
+    name: "designId",
+    title: "进件编号",
+    valueClass: "mr-[10px]",
+    titleClass,
+    value: "-",
+    
+  },
+];
 
 export const inquiry = [
   {
@@ -13,12 +38,12 @@ export const inquiry = [
     formType: "cell",
     name: "/inquiry/inquiry",
     title: "预审信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -34,12 +59,12 @@ export const customerInfo = [
     formType: "cell",
     name: "/inquiry",
     title: "客户信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -55,24 +80,24 @@ export const survey = [
     formType: "cell",
     name: "/inquiry",
     title: "业务踏勘",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
   {
     formType: "cell",
     name: "/inquiry",
     title: "技术勘察",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -87,12 +112,12 @@ export const contractSign = [
     formType: "cell",
     name: "/inquiry",
     title: "合同签约",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -107,12 +132,12 @@ export const record = [
     formType: "cell",
     name: "/inquiry",
     title: "备案证及权属证明",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -127,24 +152,24 @@ export const initReview = [
     formType: "cell",
     name: "/inquiry",
     title: "初设评审信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
   {
     formType: "cell",
     name: "/inquiry",
     title: "设计变更信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -159,36 +184,36 @@ export const build = [
     formType: "cell",
     name: "/inquiry",
     title: "施工信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
   {
     formType: "cell",
     name: "/inquiry",
     title: "设备信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
   {
     formType: "cell",
     name: "/inquiry",
     title: "设备影像件信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -203,12 +228,12 @@ export const grid = [
     formType: "cell",
     name: "/inquiry",
     title: "并网信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -225,12 +250,12 @@ export const electricityContract = [
     formType: "cell",
     name: "/inquiry",
     title: "购售电合同信息",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];
@@ -245,12 +270,12 @@ export const income = [
     formType: "cell",
     name: "/inquiry",
     title: "屋顶业主收益查询",
-    valueClass: "text-yellow mr-[10px]",
+    valueClass: "mr-[10px]",
     titleClass,
     isLink: true,
-    value: "待填写",
+    value: "未开启",
     click() {
-      console.log(3333);
+      console.log(this.value);
     },
   },
 ];

@@ -80,7 +80,6 @@ export const form = [
     },
     async backfill(data) {
       const cascader = getItem("regAddressPop", "inlineForm.0");
-      await waitValue(cascader, "options");
       const value = data.regAddress.areaCode || data.regAddress.cityCode;
       setItem("regAddressPop", "inlineForm.0.value", value);
       const tree = searchTree(cascader.options, (n) => n.value == value);

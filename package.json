@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dist": "cd dist && npx http-server ."
   },
   "dependencies": {
     "@babel/cli": "^7.24.1",

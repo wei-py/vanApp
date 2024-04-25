@@ -1,6 +1,6 @@
 export default function statusColor(status) {
   if (lo.isUndefined(status)) {
-    return 'gray'
+    return "gray";
   }
 
   if (status.includes("通过") || status.includes("完毕") || status.includes("已签约") || status == "起租") {
@@ -20,6 +20,4 @@ export default function statusColor(status) {
   if (status.includes("未")) {
     return "gray";
   }
-
-  
 }

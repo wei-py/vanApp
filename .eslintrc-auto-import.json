@@ -373,7 +373,7 @@
     "form2": true,
     "getPathBabel": true,
     "getPath": true,
-    "concurrenceArr": true,
+    "concurr": true,
     "openUrl": true,
     "openWeb": true,
     "parseUrl": true,
@@ -384,6 +384,9 @@
     "subtract": true,
     "routerPush": true,
     "itemDetailTitleClass": true,
-    "deepGet": true
+    "deepGet": true,
+    "concurrenceArr": true,
+    "find": true,
+    "runTime": true
   }
 }
