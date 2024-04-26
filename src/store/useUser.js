@@ -2,7 +2,7 @@
  * @Author: rabbwei 
  * @Date: 2024-04-06 14:36:39 
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-24 08:10:10
+ * @Last Modified time: 2024-04-25 19:44:47
  * @Desc: 登录获取用户数据缓存数据
  */
 
@@ -36,6 +36,11 @@ export function setUserInfo(info) {
   lo.merge(user.info, info);
 }
 
+export function getUserVo() {
+  const user = useUser();
+  return user.info.userVo
+}
+
 /**
  * 结合用户信息获取请求头
  * @returns { Authorization, Uid, Biztype, Version }
@@ -45,7 +50,7 @@ export function getHeaderInfo() {
   return {
     Authorization: user.info.access_token,
     Uid: user.info.uid,
-    // Biztype: user.info.Biztype,
+    Biztype: useFlag().headers.Biztype,
     // Version: user.info.Version,
   };
 }

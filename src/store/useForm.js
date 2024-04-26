@@ -13,7 +13,7 @@ export function bindForm(_) {
   const form = useForm();
   form.gl.length = 0;
   form.gl.push(_);
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     form.gl.pop()
     form.gl.length = 0;
   });
@@ -57,9 +57,16 @@ export function getItem(name, path) {
       result = item;
     }
   });
+
+  // if (lo.isFunction(path)) {
+  //   path(result)
+  //   return
+  // }
+
   if (path) {
     result = lo.get(result, path);
   }
+
   if (!lo.isNull(result)) {
     return result;
   } else {

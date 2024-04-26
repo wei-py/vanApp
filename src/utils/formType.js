@@ -2,8 +2,10 @@
  * @Author: rabbwei 
  * @Date: 2024-04-06 14:44:27 
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-18 23:39:27
+ * @Last Modified time: 2024-04-26 20:27:44
  */
+
+import { createElementBlock } from "vue";
 
 export const formType = {
   input: van.Field,
@@ -11,15 +13,19 @@ export const formType = {
   cell: van.Cell,
   popup: van.Popup,
   cascader: van.Cascader,
-  // pick: van.Picker,
+  pick: van.Picker,
+  button: van.Button,
+  div: createElementBlock('div')
 };
 
 export function reform(item) {
 
   let labelClass = lo.get(item, "labelClass", "");
-  labelClass += " !w-[auto]";
+  labelClass += " !min-w-[30%]";
   lo.set(item, "labelClass", labelClass);
-  item.inputAlign = "right";
+  if (!item.inputAlign) {
+    item.inputAlign = "right";
+  }
 
   if (item.formType == "input") {
     reformInput(item);

@@ -7,33 +7,41 @@ const finished = ref(false); // 触底加载
 const list = ref([]); // 列表数据
 const page = ref({ pageNum: 1, pageSize: 10 }); // 分页
 const queryTag = ref(""); // 搜索内容
-const tab = ref("");
 const query = getQuery(); // 路由 query
 const isCysj = query.from == "cysj"; // 从常用数据中跳转过来的
 const orderType = flag.headers.Biztype; // 业务类型
+const tab = ref(""); // 预览筛选
 const tabs = ref([
   { count: "0", title: "订单数量", value: "orderCount" },
   { count: "0", title: "签约量", value: "statisticsSinged" },
   { count: "0", title: "建设中", value: "statisticsBuilding" },
   { count: "0", title: "并网量", value: "statisticsGridConnection" },
 ]);
+const curTab = computed(() => tabs.value[tab.value]);
 
+// 筛选框
 const filter = ref({
   companyId: "",
   prjCompanyId: "",
   leaseProductCode: "",
 });
 
-onMounted(() => {
-  mounted();
+onMounted(async () => {
+  list.value.length = 0;
+  finished.value = false;
+  await getTab();
 });
 
-async function mounted() {
-  // console.log(isCysj);
+async function getTab() {
   let url = ""; // 请求接口
+  const params = lo.pick(getQuery(), ["stageId", "stateId", "taskId"]);
   if (isCysj) {
+    params.stateId = "CURRENT";
+    const { data } = await http.post("bi/app-order-page-head", params);
+    tabs.value.forEach((t, i) => {
+      t.count = i == 0 ? data[t.value] : unitConver(data[t.value], 2).result;
+    });
   } else {
-    const params = lo.pick(getQuery(), ["stageId", "stateId", "taskId"]);
     lo.merge(params, filter.value, { orderType, queryTag: queryTag.value });
     const isCsps = query.title == "初设评审"; // 从初设评审中跳转过来的
     const isKcsh = query.title == "勘察审核"; // 从勘察审核中跳转过来的
@@ -42,32 +50,18 @@ async function mounted() {
 
     const { data } = await http.get(queryUrl(url, params));
     tabs.value = data.map((n) => ({ title: n.stateName, count: n.count, value: n.stateId }));
-    // console.log(data, 3333)
   }
 }
 
-// 初次加载回写
-function getData() {
-  list.value.length = 0;
-  finished.value = false;
-  onLoad();
-}
-
 // 触底加载方法
-async function onLoad() {
-  // const payload = {
-  //   stageId: "",
-  //   companyId: "",
-  //   prjCompanyId: "",
-  //   leaseProductCode: "",
-  //   stateId: "CURRENT",
-  //   queryTag: "",
-  //   orderType: "ZZD",
-  // };
+const getDataThrottle = lo.debounce(getData, 300);
+async function getData() {
+  const stateId = curTab.value.value.replace("orderCount", "");
   // 编辑参数
   const isZzOrWc = query.title == "终止" || query.title == "完成";
-  const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states";
+  const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states"; // 判断是否从终止或者完成中跳转过来
   const body = { orderType, queryTag: queryTag.value }; // post 参数
+  lo.merge(body, lo.pick(getQuery(), ["stageId", "stateId", "taskId"]), filter.value, { stateId });
   const isCyjsTab = query.from == "cysj" && query.stageId; // 从常用数据中跳转过来并且选择了其他Tab
   isCyjsTab && (body.stateId = query.stageId);
   const params = queryUrl(url, page.value);
@@ -84,12 +78,23 @@ async function onLoad() {
 }
 
 async function onChangeTab() {
-  // await http.post('bi/app-order-page-head')
+  if (isCysj) return;
+  page.value.pageNum = 1;
+  page.value.pageSize = 10;
+  list.value.length = 0;
+  finished.value = false;
+  await getDataThrottle();
 }
 
-async function onSearch() {}
+async function onSearch() {
+  page.value.pageNum = 1;
+  page.value.pageSize = 10;
+  list.value.length = 0;
+  finished.value = false;
+  getDataThrottle();
+}
 
-eventManage({ getData });
+eventManage({ getData: getDataThrottle });
 </script>
 
 <template>
@@ -108,14 +113,14 @@ eventManage({ getData });
       <van-tab v-for="t in tabs">
         <template #title>
           <div class="xCenter">{{ t.count }}</div>
-          <div>{{ t.title }}</div>
+          <div class="xCenter">{{ t.title }}</div>
         </template>
       </van-tab>
     </van-tabs>
 
-    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" class="!pt-2">
+    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
       <template v-for="item in list" :key="item.orderBase.orderId">
-        <card @click="$routerPush('/itemDetail', { query: { orderId: item.orderBase.orderId } })" :item="item"></card>
+        <card @click="$router.push({ path: '/itemDetail', query: { orderId: item.orderBase.orderId } })" :item="item"></card>
       </template>
     </van-list>
   </div>

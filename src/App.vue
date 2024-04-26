@@ -52,21 +52,29 @@ async function login() {
       @click-left="onClickLeft"
       class="shadowC !sticky top-0 !z-10"
     />
-    <van-pull-refresh v-if="$route.meta.refresh" class="flex-1" v-model="loading" @refresh="onRefresh">
-      <router-view v-slot="{ Component }">
-          <transition name="fade-transform" mode="out-in">
-            <component :is="Component" :key="$route.fullPath" />
-          </transition>
-        </router-view>
-      <!-- <router-view keep-alive :key="$route.fullPath"></router-view> -->
+    <van-pull-refresh v-if="$route.meta.refresh" class="flex-1 flex flex-col" v-model="loading" @refresh="onRefresh">
+      <!-- <router-view v-slot="{ Component }" class="flex-1">
+        <transition name="fade-transform" mode="out-in">
+          <component :is="Component" :key="$route.fullPath" />
+        </transition>
+      </router-view> -->
+      <Suspense>
+        <div class="flex-1 bg-[#f3f3f3]">
+          <router-view :key="$route.fullPath"></router-view>
+        </div>
+      </Suspense>
     </van-pull-refresh>
     <template v-else>
-      <router-view v-slot="{ Component }" class="flex-1">
-          <transition name="fade-transform" mode="out-in">
-            <component :is="Component" :key="$route.fullPath" />
-          </transition>
-        </router-view>
-      <!-- <router-view keep-alive :key="$route.fullPath" class="flex-1"></router-view> -->
+      <!-- <router-view v-slot="{ Component }" class="flex-1">
+        <transition name="fade-transform" mode="out-in">
+          <component :is="Component" :key="$route.fullPath" />
+        </transition>
+      </router-view> -->
+      <Suspense>
+        <div class="flex-1">
+          <router-view :key="$route.fullPath"></router-view>
+        </div>
+      </Suspense>
     </template>
 
     <div v-show="$route.meta.tabbar" class="h-[50px] bg-gray-100 w-full"></div>
@@ -121,5 +129,9 @@ async function login() {
 
 :deep(.van-nav-bar__content) {
   display: sticky !important;
+}
+
+:deep(.van-pull-refresh__track) {
+  @apply flex-1 flex flex-col;
 }
 </style>

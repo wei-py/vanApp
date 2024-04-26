@@ -21,6 +21,7 @@ export function getParamList() {
  */
 export async function validate() {
   const gl = useDom();
+  console.log(gl.submitDoms, 3333)
   return await Promise.all(
     gl.submitDoms.map(async (dom) => {
       await dom.validate();

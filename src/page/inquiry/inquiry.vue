@@ -1,39 +1,37 @@
 <script setup>
-import { form, form2 } from "./inquiry";
+import { lessorInfo, salespersonInfo, guarantor, signInfo } from "./inquiry";
 
-let _ = makeForm({ form, form2 });
+let _ = makeForm({ lessorInfo, salespersonInfo, guarantor, signInfo });
+const query = getQuery();
 
-onMounted(async () => {
-  await getData();
+onMounted(() => {
+  runTime(getData)
+  // getData();
 });
 
 async function getData() {
-  const url = "/order/org/get-pre-approval";
-  const param = { orderId: "202404031627140986" };
-  const { data } = await http.get(queryUrl(url, param));
+  const url = "/order/get-pre-approval";
+  const { data } = await http.get(queryUrl(url, query));
   backfill(_, data);
-  console.log(_, 333)
 }
-eventManage({ getData });
 
 async function submit() {
   await validate();
   const result = getParam();
-  console.log(result)
+  console.log(result);
 }
+
+eventManage({ getData });
 </script>
 
 <template>
-  <!-- 剪枝 -->
-  <div class="w-screen bg-[gray] p-0">
-    <vantForm :form="_.form" class="pt-3">
-      <!-- <template #aa>123</template> -->
-    </vantForm>
-    <vantForm :form="_.form2" class="pt-3"> </vantForm>
+  <vantForm :form="_.lessorInfo" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.salespersonInfo" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.guarantor" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.signInfo" class="pt-3" group-class="shadowC"> </vantForm>
 
-    <div class="flex justify-center mt-2">
-      <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-    </div>
+  <div class="flex justify-center mt-2">
+    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
   </div>
 </template>
 

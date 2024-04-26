@@ -1,5 +1,6 @@
-<script setup>
+<script setup name="vantForm">
 import recuDynComponent from "./recuDynComponent.vue";
+
 const props = defineProps({
   form: {}, // 表单
   title: {}, // 标题
@@ -21,8 +22,14 @@ function getSlot(slot) {
 }
 
 function setRef(dom) {
-  gl.submitDoms.push(dom);
+  if (dom) {
+    gl.submitDoms.push(dom);
+  }
 }
+
+onBeforeUnmount(() => {
+  gl.submitDoms.length = 0
+})
 </script>
 
 <template>

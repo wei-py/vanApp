@@ -1,8 +1,8 @@
 <script setup>
 import step from "./step.vue";
 import {
-  inquiry,
   itemDetail,
+  inquiry,
   survey,
   contractSign,
   record,
@@ -16,8 +16,8 @@ import {
 } from "./itemDetail.js";
 
 let _ = makeForm({
-  inquiry,
   itemDetail,
+  inquiry,
   survey,
   contractSign,
   record,
@@ -37,17 +37,17 @@ async function getData() {
   const { data } = await http.post(`/order/search`, { queryTag: query.orderId, orderId: query.orderId });
 
   gets(data, "list.0", (v) => {
-    _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-";
-    _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-";
+    _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
+    _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
   });
 
   gets(data, "*.currentOrderState.0", (v) => {
     _.itemDetail[0].orderId = v?.orderId;
-    _.itemDetail[2].orderId = v?.leaseReview?.contractNumber || "-";
     _.itemDetail[1].value = v?.orderId;
+    // _.itemDetail[2].orderId = v?.leaseReview?.contractNumber || "-";
   });
 
-  // 各个阶段的状态
+  // // 各个阶段的状态
   gets(data, "*.orderStates", (val) => {
     concurr(val, (v) => {
       const taskId = v?.taskId;
@@ -55,13 +55,14 @@ async function getData() {
       const stageId = v?.stageId;
       const value = statusDic[stateId] || "未开启";
       const title = statusDic[taskId] || statusDic[stageId] || "";
-
-      gets(_, "*.title", (val, parent) => {
-        if (val == title) {
-          parent.value = value;
-          const color = statusColor(value);
-          parent.valueClass += " text-" + color;
-        }
+      lo.forEach(_, (v, k) => {
+        v.forEach((val) => {
+          if (val.title == title) {
+            val.value = value;
+            const color = statusColor(value);
+            val.valueClass = val.valueClass.replace(/text-[^ ]+/, 'text-'+color);
+          }
+        });
       });
     });
   });
@@ -69,8 +70,8 @@ async function getData() {
 
 onMounted(() => {
   // query = getQuery(); // 路由参数
-  runTime(getData, "itemDetail - getData");
-  // getData();
+  // runTime(getData, "itemDetail - getData");
+  getData();
 });
 </script>
 

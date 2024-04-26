@@ -1,3 +1,83 @@
+<script setup>
+const userStore = useUser();
+const user = reactive({
+  username: "superadmin",
+  password: "CMJBG06#",
+  code: "",
+
+  usernameList: [],
+  usernameListShow: false,
+
+  passwordFlag: true,
+  passwordType: "password",
+  passwordIcon: "closed-eye",
+
+  usernameRule: toRaw(convertRules([(val) => val.length || "用户名必填"])),
+  passwordRule: toRaw(convertRules([(val) => val.length || "密码必填"])),
+  codeRule: toRaw(convertRules([(val) => val.length || "验证码必填"])),
+});
+
+const checked = ref([]);
+const isPasswordToLogin = ref(true);
+
+async function onLogin(params) {
+  const t = {
+    phone: "superadmin",
+    password: "CMJBG06#",
+    code: "",
+    type: "password",
+    systemType: "android",
+    systemVersion: "6.0",
+    appVersion: "2.4.16",
+  };
+  const body = lo.merge(t, params);
+  const { data } = await http.post("/login", body);
+  // 缓存用户信息
+  userStore.info = data;
+
+  // 缓存密码项
+  params.text = params.phone;
+  userStore.usernameList.unshift(lo.omit(params, "phone"));
+  userStore.usernameList = lo.uniqBy(userStore.usernameList, "text");
+
+  // 状态字典
+  const resp = await http.get("order-state/dic");
+  const statusDic = resp.data;
+  const flag = useFlag();
+  flag.statusDic = { ...statusDic.state, ...statusDic.stage, ...statusDic.task };
+
+  // 选择组织
+
+  // 跳转
+  router.push("/home");
+  showSuccessToast({
+    message: '登录成功',
+    className: 'shadowC'
+  });
+}
+
+async function onGetCode() {
+  console.log("获取验证码");
+}
+
+function onPasswordIconClick() {
+  user.passwordFlag = !user.passwordFlag;
+  user.passwordType = user.passwordFlag ? "password" : "text";
+  user.passwordIcon = user.passwordFlag ? "closed-eye" : "eye-o";
+}
+
+function onUsernameInput(val) {
+  user.usernameList = userStore.usernameList.filter((n) => n.text.includes(val));
+  user.usernameListShow = new Boolean(user.usernameList.length);
+  user.usernameListShow = val.length ? true : false;
+}
+
+function onUsernamePopClick(val) {
+  user.username = val.text;
+  user.password = val.password;
+}
+</script>
+
 <template>
   <div class="h-full w-full flex-1">
     <div class="h-[30vh] w-full center bgImg">
@@ -54,9 +134,7 @@
             placeholder="请输入验证码"
           >
             <template #button>
-              <van-button @click="onGetCode" size="small" type="warning" class="!bg-[#ffab30] !h-[24px] shadow-md"
-                >获取验证码</van-button
-              >
+              <van-button @click="onGetCode" size="small" type="warning" class="!bg-[#ffab30] !h-[24px] shadow-md">获取验证码</van-button>
             </template>
           </van-field>
         </van-cell-group>
@@ -65,13 +143,9 @@
             <van-checkbox icon-size="18px" checked-color="#ffab30" name="remember">记住密码</van-checkbox>
             <van-checkbox class="py-[1vh]" icon-size="18px" checked-color="#ffab30" name="readed">
               我已阅读并同意博光NEW
-              <a class="text-[blue]" @click.stop="$openWeb('https://www.btosolarman.com/APP/boGuangAPP/privacy.txt', '隐私政策')"
-                >隐私政策</a
-              >
+              <a class="text-[blue]" @click.stop="$openWeb('https://www.btosolarman.com/APP/boGuangAPP/privacy.txt', '隐私政策')">隐私政策</a>
               和
-              <a class="text-[blue]" @click.stop="$openWeb('/protocolOfUsage.html', '使用协议')"
-                >使用协议</a
-              >
+              <a class="text-[blue]" @click.stop="$openWeb('/protocolOfUsage.html', '使用协议')">使用协议</a>
             </van-checkbox>
           </van-checkbox-group>
         </div>
@@ -92,83 +166,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-const userStore = useUser();
-const user = reactive({
-  username: "superadmin",
-  password: "CMJBG06#",
-  code: "",
-
-  usernameList: [],
-  usernameListShow: false,
-
-  passwordFlag: true,
-  passwordType: "password",
-  passwordIcon: "closed-eye",
-
-  usernameRule: toRaw(convertRules([(val) => val.length || "用户名必填"])),
-  passwordRule: toRaw(convertRules([(val) => val.length || "密码必填"])),
-  codeRule: toRaw(convertRules([(val) => val.length || "验证码必填"])),
-});
-
-const checked = ref([]);
-const isPasswordToLogin = ref(true);
-
-async function onLogin(params) {
-  const t = {
-    phone: "superadmin",
-    password: "CMJBG06#",
-    code: "",
-    type: "password",
-    systemType: "android",
-    systemVersion: "6.0",
-    appVersion: "2.4.16",
-  };
-  const body = lo.merge(t, params);
-  const { data } = await http.post("/login", body);
-  // 缓存用户信息
-  userStore.info = data;
-
-  // 缓存密码项
-  params.text = params.phone;
-  userStore.usernameList.unshift(lo.omit(params, "phone"));
-  userStore.usernameList = lo.uniqBy(userStore.usernameList, "text");
-
-  // 状态字典
-  const resp = await http.get("order-state/dic");
-  const statusDic = resp.data;
-  const flag = useFlag();
-  flag.statusDic = { ...statusDic.state, ...statusDic.stage, ...statusDic.task };
-
-  // 选择组织
-
-  // 跳转
-  router.push("/home");
-  showSuccessToast("登录成功");
-}
-
-async function onGetCode() {
-  console.log("获取验证码");
-}
-
-function onPasswordIconClick() {
-  user.passwordFlag = !user.passwordFlag;
-  user.passwordType = user.passwordFlag ? "password" : "text";
-  user.passwordIcon = user.passwordFlag ? "closed-eye" : "eye-o";
-}
-
-function onUsernameInput(val) {
-  user.usernameList = userStore.usernameList.filter((n) => n.text.includes(val));
-  user.usernameListShow = new Boolean(user.usernameList.length);
-  user.usernameListShow = val.length ? true : false;
-}
-
-function onUsernamePopClick(val) {
-  user.username = val.text;
-  user.password = val.password;
-}
-</script>
 
 <style scoped>
 :deep(.van-popover__action) {

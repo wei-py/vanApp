@@ -358,7 +358,6 @@ const checkTask = [
     query: {
       stageId: "KAN_CHA",
       stateId: "WAITING_APPROVAL",
-      taskId: "",
     },
   },
   {

@@ -4,23 +4,6 @@
 
 ## list
 
-## tab
-
-## params
-
-```js
-query 和 tab
-const payload = {
-  stageId: "",
-  companyId: "",
-  prjCompanyId: "",
-  leaseProductCode: "",
-  stateId: "CURRENT",
-  queryTag: "",
-  orderType: "ZZD",
-};
-```
-
 ## filter
 
 
@@ -29,13 +12,15 @@ const payload = {
 
 
 ## event
-- onload
 - search
-- changeTab
-- tab
+- getTab
+- getData
+
+
+- filter
 
 
 
-- isCysj
+<!-- - isCysj
   - 初设审核
-    - 
+    -  -->

@@ -2,7 +2,7 @@
  * @Author: rabbwei
  * @Date: 2024-04-06 14:36:39
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-19 00:15:48
+ * @Last Modified time: 2024-04-26 01:13:49
  * @Desc: makeForm -> setForm -> setItem
  */
 
@@ -13,13 +13,13 @@
  */
 function setItem(item) {
   if (item.required) {
-    item.rules = lo.get(item, "rules", []);
+    item.rules = [];
     item.rules.push((val) => !val && `${item.label}必填`);
   }
 
   lo.forIn(item, async (attr, key) => {
     if (key == "formType") {
-      reform(item)
+      reform(item);
       // let formAttr = ;
       // item[key] = formAttr;
     }
@@ -29,13 +29,13 @@ function setItem(item) {
     }
 
     if (key == "rules") {
-      item.rules = reactive(convertRules(item[key]));
+      item.rules = toRaw(convertRules(item[key]));
     }
 
     if (key == "onMounted") {
-      onMounted(async () => {
+      onBeforeMount(async () => {
         await item.onMounted(item);
-      })
+      });
     }
   });
 
@@ -65,6 +65,7 @@ export function makeForm(formList) {
   });
 
   const result = reactive(formList);
+
   bindForm(result);
   // bindSource(formList);
 
