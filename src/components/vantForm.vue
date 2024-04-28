@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 
 <template>
   <van-form :ref="setRef">
-    <van-cell-group inset :class="props.groupClass">
+    <van-cell-group inset :class="props.groupClass" class="">
       <recuDynComponent :form="props.form">
         <template v-for="slot of slotDoms" #[slot] :key="slot">
           <slot :name="slot" :slot="getSlot(slot)" />

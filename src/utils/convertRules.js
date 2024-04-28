@@ -2,7 +2,7 @@
  * @Author: rabbwei
  * @Date: 2024-03-26 14:33:36
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-26 01:08:56
+ * @Last Modified time: 2024-04-26 21:07:08
  * @Desc: 转换校验规则
  */
 
@@ -22,6 +22,8 @@ export function convertRules(validators) {
         return result;
       },
       message: "",
+      // trigger: "onChange",
+      trigger: "onSubmit",
     };
   });
   // if (lo.isFunction(validators[0])) {

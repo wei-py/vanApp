@@ -2,7 +2,7 @@
  * @Author: rabbwei
  * @Date: 2024-04-06 14:36:39
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-26 01:13:49
+ * @Last Modified time: 2024-04-27 14:44:07
  * @Desc: makeForm -> setForm -> setItem
  */
 
@@ -39,6 +39,10 @@ function setItem(item) {
     }
   });
 
+  // if (!lo.isArray(item.menuRight)) {
+  //   item.menuRight = [];
+  // }
+
   item.class = lo.get(item, "class", "");
   const name = lo.get(item, "name", "");
   item.class += ` ${name}`;
@@ -67,6 +71,7 @@ export function makeForm(formList) {
   const result = reactive(formList);
 
   bindForm(result);
+  // onLongPressImg()
   // bindSource(formList);
 
   // onUnmounted(() => {

@@ -86,7 +86,7 @@ const commonTask = [
   return {
     ...n,
     from: "常见数据",
-    icon: `/icons/realLeaseTop/${n.icon}.png`,
+    icon: `./icons/realLeaseTop/${n.icon}.png`,
     tap() {
       router.push({ path: n.path, query: { ...n.query, from: "cysj", title: n.text } });
       // router.push({path :n.path, query: { ...n.query, from: 'cysj', title: n.text }})
@@ -314,7 +314,7 @@ const phaseTask = [
   return {
     ...n,
     from: "任务大全",
-    icon: `/icons/realLeaseTop/${n.icon}.png`,
+    icon: `./icons/realLeaseTop/${n.icon}.png`,
   };
 });
 
@@ -444,7 +444,7 @@ const checkTask = [
   return {
     ...n,
     from: "审核大全",
-    icon: `/icons/realLeaseTop/${n.icon}.png`,
+    icon: `./icons/realLeaseTop/${n.icon}.png`,
   };
 });
 

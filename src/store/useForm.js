@@ -14,14 +14,14 @@ export function bindForm(_) {
   form.gl.length = 0;
   form.gl.push(_);
   onBeforeUnmount(() => {
-    form.gl.pop()
+    form.gl.pop();
     form.gl.length = 0;
   });
 }
 
 export function bindSource(source) {
   const gl = useForm();
-  gl.source = source
+  gl.source = source;
 }
 
 /**
@@ -37,8 +37,8 @@ export function getForm() {
  * @param {*} callback
  */
 export function forForm(callback) {
-  const formList = getForm();
-  lo.forIn(formList, (form, key) => {
+  const gl = useForm();
+  lo.forIn(gl.gl[0], (form, key) => {
     lo.forEach(form, (item) => {
       callback(item);
     });
@@ -58,6 +58,7 @@ export function getItem(name, path) {
     }
   });
 
+
   // if (lo.isFunction(path)) {
   //   path(result)
   //   return
@@ -67,11 +68,13 @@ export function getItem(name, path) {
     result = lo.get(result, path);
   }
 
-  if (!lo.isNull(result)) {
-    return result;
-  } else {
-    throw new Error(`custom error: not find ${name}`);
-  }
+  return result;
+
+  // if (!lo.isNull(result)) {
+  //   return result;
+  // } else {
+  //   throw new Error(`custom error: not find ${name}`);
+  // }
 }
 
 /**
@@ -107,4 +110,10 @@ export function setItem(name, handle, other = Symbol("other")) {
   }
 
   throw new Error(`custom error: setItem`);
+}
+
+export function getsForm(path, callback = () => {}) {
+  gets(useForm().gl[0], path, (value, parent, p) => {
+    callback(value, parent, p);
+  });
 }

@@ -1,4 +1,4 @@
-const titleClass = "!pl-[5px]";
+const titleClass = "!pl-[5px] !min-w-[30%]";
 
 export const itemDetail = [
   {
@@ -63,7 +63,7 @@ export const customerInfo = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: '/customerInfo', query: { orderId: getQuery().orderId } })
     },
   },
 ];

@@ -1,6 +1,7 @@
 export const useDom = defineStore("dom", () => {
   const submitDoms = ref([]);
-  return { submitDoms };
+  const longPressDom = ref(null)
+  return { submitDoms, longPressDom };
 });
 
 
@@ -15,13 +16,27 @@ export function getParamList() {
   });
 }
 
+export function getLongDom() {
+  const gl = useDom();
+  return gl.longPressDom
+}
+
+export function getlongPressUrl() {
+  const gl = useDom();
+  const src = lo.get(gl, 'longPressDom.src', '')
+  if (src) {
+    return src
+  } else {
+    showToast('图片路径还在加载中，请稍后2s后再试')
+  }
+}
+
 /**
  * 执行表单校验
  * @returns 
  */
 export async function validate() {
   const gl = useDom();
-  console.log(gl.submitDoms, 3333)
   return await Promise.all(
     gl.submitDoms.map(async (dom) => {
       await dom.validate();
@@ -40,9 +55,15 @@ export function getParam() {
   }, {});
 
   forForm(item => {
+    if (!lo.isUndefined(item.realValue)) {
+      item.getParam = (params) => {
+        params[item.name] = item.realValue
+      }
+    }
     if (lo.isFunction(item.getParam)) {
       item.getParam(params)
     }
+    
   })
 
   return params

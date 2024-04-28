@@ -14,9 +14,9 @@ async function onRefresh() {
   loading.value = false;
 }
 
-// onMounted(async () => {
-//   login();
-// });
+onMounted(async () => {
+  // login();
+});
 
 window.addEventListener("beforeunload", clearStore);
 window.removeEventListener("beforeunload", clearStore);
@@ -103,7 +103,7 @@ async function login() {
 }
 
 .shadowC {
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
 }
 
 .xCenter {
@@ -116,6 +116,30 @@ async function login() {
 
 .center {
   @apply flex items-center justify-center;
+}
+
+.van-uploader__upload {
+  border-radius: 8px !important;
+  border: 1px dashed #dee0e2;
+  // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+}
+</style>
+
+<style>
+/* .van-cascader__tabs {
+  flex: 1;
+} */
+
+.van-cascader__options {
+  height: 80vh !important;
+}
+
+.van-uploader__preview-image {
+  /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important; */
+  border-radius: 8px !important;
+}
+.van-uploader__preview-delete {
+  border-top-right-radius: 8px !important;
 }
 </style>
 
@@ -133,5 +157,9 @@ async function login() {
 
 :deep(.van-pull-refresh__track) {
   @apply flex-1 flex flex-col;
+}
+
+:deep(.van-field__label) {
+  flex: none !important;
 }
 </style>

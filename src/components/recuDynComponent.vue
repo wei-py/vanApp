@@ -2,7 +2,7 @@
 import { get } from "lodash";
 import { formType } from "@/utils/formType";
 
-const now = Date.now() + lo.random(0, 100)
+const now = Date.now() + lo.random(0, 100);
 
 const props = defineProps({
   form: {}, // 表单
@@ -17,13 +17,16 @@ function omitItem(item) {
 
 function setRef(el, item) {
   item.ref = el;
+  if (item.longPress) {
+    onLongPress(el, (e) => {
+      item.longPress = e.target.src;
+    });
+  }
 }
 
 function getFunction(item, func, ...args) {
   return lo.isFunction(item[func]) ? item[func](...args) : () => {};
 }
-
-const cls = log
 </script>
 
 <template>
@@ -44,7 +47,11 @@ const cls = log
       @clickLeftIcon="(...args) => getFunction(item, 'clickLeftIcon', ...args)"
       @clickOverlay="(...args) => getFunction(item, 'clickOverlay', ...args)"
       @confirm="(...args) => getFunction(item, 'confirm', ...args)"
+      @input="(...args) => getFunction(item, 'input', ...args)"
+      @blur="(...args) => getFunction(item, 'blur', ...args)"
+      @update:model-value="(...args) => getFunction(item, 'updateValue', ...args)"
     >
+          <!-- @touchstart.stop="(...args) => getFunction(item, 'touchstart', ...args)" -->
       <template v-for="slot of get(item, 'inlineForm', [])" #[slot.slot] :key="now">
         <recuDynComponent :form="slot" />
       </template>

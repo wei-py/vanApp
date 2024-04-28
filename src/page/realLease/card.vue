@@ -13,7 +13,7 @@ function getStatus(i) { // 获取状态
 </script>
 
 <template>
-  <van-cell-group inset class="p-1 !mb-2 shadow-lg">
+  <van-cell-group inset class="p-1 !mb-2 shadowC">
     <!-- header -->
     <div class="flex h-auto items-center pt-[1px]">
       <div class="min-w-4 px-1 h-4 ml-2 text-sm shadowC flex items-center justify-center text-white rounded-full bg-[#ffab30]">{{ props.item.index }}</div>

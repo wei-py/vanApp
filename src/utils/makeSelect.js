@@ -39,9 +39,9 @@ export function makeSelect(name, columns, type = "static") {
   if (type == "static") {
     return item;
   } else {
-    item.makeSelect = function (value, columns, ) {
+    item.makeSelect = function (value, columns) {
       this.value = value;
-      this.inlineForm[0].inlineForm[0].columns.push(...columns)
+      this.inlineForm[0].inlineForm[0].columns = columns;
       const text = columns.find((n) => n.value == value)?.text;
       this.realValue = this.value;
       this.value = text;
@@ -53,9 +53,9 @@ export function makeSelect(name, columns, type = "static") {
 export function backSelect() {
   return {
     backfill(data) {
-      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name])?.text;
-      this.realValue = this.value;
+      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text;
       this.value = text;
+      this.realValue = data[this.name];
     },
   };
 }

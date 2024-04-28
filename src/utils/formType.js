@@ -2,7 +2,7 @@
  * @Author: rabbwei 
  * @Date: 2024-04-06 14:44:27 
  * @Last Modified by: rabbwei
- * @Last Modified time: 2024-04-26 20:27:44
+ * @Last Modified time: 2024-04-28 10:15:24
  */
 
 import { createElementBlock } from "vue";
@@ -15,6 +15,8 @@ export const formType = {
   cascader: van.Cascader,
   pick: van.Picker,
   button: van.Button,
+  upload: van.Uploader,
+  numberKeyboard: van.NumberKeyboard,
   div: createElementBlock('div')
 };
 
@@ -22,6 +24,7 @@ export function reform(item) {
 
   let labelClass = lo.get(item, "labelClass", "");
   labelClass += " !min-w-[30%]";
+  labelClass = lo.uniq(labelClass.split(" ")).join(" ")
   lo.set(item, "labelClass", labelClass);
   if (!item.inputAlign) {
     item.inputAlign = "right";
@@ -35,5 +38,8 @@ export function reform(item) {
 }
 
 function reformInput(item) {
-  lo.merge(item, { autosize: true, type: "textarea", rows: "1" });
+  if (lo.isUndefined(item.type)) {
+    item.type = 'textarea'
+  }
+  lo.merge(item, { autosize: true,  rows: "1" });
 }

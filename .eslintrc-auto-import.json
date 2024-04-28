@@ -409,6 +409,19 @@
     "makeTitle": true,
     "makeSelect": true,
     "setSelectValue": true,
-    "backSelect": true
+    "backSelect": true,
+    "sToUrl": true,
+    "longPres": true,
+    "onLongPressImg": true,
+    "getLongDom": true,
+    "getlongPressUrl": true,
+    "arrayToVantColumns": true,
+    "getsForm": true,
+    "upload": true,
+    "toUrl": true,
+    "toUploadUrl": true,
+    "toParamsUrl": true,
+    "toSrcs": true,
+    "watchItem": true
   }
 }

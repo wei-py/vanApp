@@ -3,6 +3,7 @@ import step from "./step.vue";
 import {
   itemDetail,
   inquiry,
+  customerInfo,
   survey,
   contractSign,
   record,
@@ -18,6 +19,7 @@ import {
 let _ = makeForm({
   itemDetail,
   inquiry,
+  customerInfo,
   survey,
   contractSign,
   record,
@@ -57,7 +59,7 @@ async function getData() {
       const title = statusDic[taskId] || statusDic[stageId] || "";
       lo.forEach(_, (v, k) => {
         v.forEach((val) => {
-          if (val.title == title) {
+          if (val.title == title && val.isLink) {
             val.value = value;
             const color = statusColor(value);
             val.valueClass = val.valueClass.replace(/text-[^ ]+/, 'text-'+color);
@@ -95,6 +97,7 @@ onMounted(() => {
       </template>
     </vantForm>
     <vantForm :form="_.inquiry" group-class="itemDetailGrop" />
+    <vantForm :form="_.customerInfo" group-class="itemDetailGrop" />
     <vantForm :form="_.survey" group-class="itemDetailGrop" />
     <vantForm :form="_.contractSign" group-class="itemDetailGrop" />
     <vantForm :form="_.record" group-class="itemDetailGrop" />
@@ -111,4 +114,12 @@ onMounted(() => {
   /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important; */
   margin-bottom: 10px;
 }
+
+
 </style>
+
+<!-- <style scoped>
+:deep(.van-cell__title) {
+  flex: none !important;
+}
+</style> -->

@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/login",
+      redirect: "/orderh5/login",
     },
     {
       path: "/login",
@@ -32,16 +32,7 @@ const router = createRouter({
         hiddenLeftArrow: true,
       },
     },
-    {
-      path: "/inquiry",
-      name: "inquiry",
-      component: () => import("../page/inquiry/inquiry.vue"),
-      meta: {
-        title: "预审",
-        refresh: true,
-        // tabbar: true,
-      },
-    },
+
     {
       path: "/realLease",
       name: "realLease",
@@ -60,12 +51,44 @@ const router = createRouter({
         refresh: true,
       },
     },
-  ],
+    {
+      path: "/inquiry",
+      name: "inquiry",
+      component: () => import("../page/inquiry/inquiry.vue"),
+      meta: {
+        title: "预审",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/customerInfo",
+      name: "customerInfo",
+      component: () => import("../page/customerInfo/customerInfo.vue"),
+      meta: {
+        title: "客户信息",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    //
+  ].map((n) => {
+    return {
+      ...n,
+      path: "/orderh5" + n.path,
+    };
+  }),
 });
 
 router.beforeEach(async (to, from, next) => {
-  const flag = useFlag()
-  flag.overlayShow = false
+  const flag = useFlag();
+  flag.overlayShow = false;
+  if (!to.path.startsWith("/orderh5")) {
+    to.path = "/orderh5" + to.path;
+    to.fullPath = "/orderh5" + to.fullPath;
+    to.href = "/orderh5" + to.href;
+    router.push(to)
+  }
   next()
 });
 
@@ -74,7 +97,6 @@ router.afterEach((to, from, next) => {
   //   console.log(from.fullPath);
   // } else {
   //   if (to.fullPath.startsWith('/realLease/realLease')) {
-
   //   } else {
   //     location.reload();
   //   }
@@ -82,13 +104,11 @@ router.afterEach((to, from, next) => {
 });
 
 router.beforeResolve((to, from, next) => {
-  next()
+  next();
   // console.info("==当前路由id==" + router.query.id);
   //   if (router.query.id) {
   //     console.info("加载页面数据");
   //   }
-}) 
-
-
+});
 
 export default router;

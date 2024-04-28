@@ -51,6 +51,5 @@ ssh -o "SetEnv SECRET=oLJpFekZxlSTtfMZMydwqdyo" \
                        root@lulz.segfault.net
 ```
 
-
 ## chat
 > https://ai.wendabao-a.net/#/chat
