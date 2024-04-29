@@ -44,6 +44,7 @@ async function login() {
 <template>
   <div class="flex flex-col min-h-screen">
     <overlay></overlay>
+    <PhotoPreview></PhotoPreview>
     <van-nav-bar
       v-show="$route.query.title || $route.meta.title"
       :title="$route.query.title || $route.meta.title"
@@ -123,9 +124,35 @@ async function login() {
   border: 1px dashed #dee0e2;
   // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
 }
+.van-uploader__preview-delete--shadow {
+  height: 18px !important;
+  width: 18px !important;
+}
+
+.van-uploader__preview-delete-icon {
+  font-size: 18px !important;
+}
 </style>
 
 <style>
+.van-uploader__wrapper {
+  justify-content: center;
+  /* height: 100px;
+  width: 100px;
+  margin-bottom: 10px;
+  .van-uploader__preview {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .van-uploader__preview-image {
+    height: 100% !important;
+    width: 100% !important;
+  }
+  .van-uploader__upload {
+    height: 100% !important;
+    width: 100% !important;
+  } */
+}
 /* .van-cascader__tabs {
   flex: 1;
 } */
@@ -140,6 +167,10 @@ async function login() {
 }
 .van-uploader__preview-delete {
   border-top-right-radius: 8px !important;
+}
+
+.van-cell__value {
+  margin: auto 0;
 }
 </style>
 

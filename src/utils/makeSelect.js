@@ -1,15 +1,19 @@
 export function makeSelect(name, columns, type = "static") {
   // type = 'dynamic'
   const item = {
-    rightIcon: "arrow",
     readonly: true,
     realValue: "",
     getParam(param) {
       param[name] = this.realValue;
     },
-    clickRightIcon() {
+    isLink: true,
+    click() {
       this.inlineForm[0].show = true;
     },
+    // rightIcon: "arrow",
+    // clickRightIcon() {
+    //   this.inlineForm[0].show = true;
+    // },
     inlineForm: [
       {
         slot: "extra",

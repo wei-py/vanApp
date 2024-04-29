@@ -24,7 +24,7 @@ export const lessorInfo = [
     label: "证件类型",
     name: "idCardType",
     required: true,
-    rightIcon: "arrow",
+    // rightIcon: "arrow",
     readonly: true,
     value: "身份证",
     ...backSelect(),
@@ -74,16 +74,18 @@ export const lessorInfo = [
     formType: "input",
     label: "家庭住址区域",
     name: "houseAddr",
-    // isLink: true,
-    rightIcon: "arrow",
     readonly: true,
-    value: "",
     required: true,
     placeholder: "请选择所在地区",
     middle: { value: [], provinceCode: "", cityCode: "", areaCode: "" },
-    clickRightIcon() {
+    isLink: true,
+    click() {
       this.inlineForm[0].show = true;
     },
+    // rightIcon: "arrow",
+    // clickRightIcon() {
+    //   this.inlineForm[0].show = true;
+    // },
     getParam(param) {
       const [provinceCode, cityCode, areaCode] = this.middle.value;
       param.houseAddr = { provinceCode, cityCode, areaCode };
@@ -91,6 +93,7 @@ export const lessorInfo = [
     async backfill(data) {
       const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
       const value = data.houseAddr.areaCode || data.houseAddr.cityCode;
+      cascader.options = await getArea();
       setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
       const tree = searchTree(cascader.options, (n) => n.value == value);
       const arr = toTreeArray(tree);
@@ -102,7 +105,7 @@ export const lessorInfo = [
 
     inlineForm: [
       {
-        slot: "extra",
+        slot: "button",
         formType: "popup",
         show: false,
         round: true,
@@ -115,16 +118,18 @@ export const lessorInfo = [
             title: "请选择所在地区",
             options: [],
             value: "",
-            async onMounted() {
-              this.options = await getArea();
-            },
+            // async onMounted() {
+            //   this.options = await getArea();
+            // },
             close() {
               setItem("houseAddr", "inlineForm.0.show", false);
             },
             finish(result) {
               const text = result.selectedOptions.map((n) => n.text).join("/");
               const value = result.selectedOptions.map((n) => n.value);
-              this.value = result.value;
+              if (!lo.isObject(result.value)) {
+                this.value = result.value;
+              }
               setItem("houseAddr", text);
               setItem("houseAddr", "middle.value", value);
               setItem("houseAddr", "inlineForm.0.show", false);
@@ -143,15 +148,15 @@ export const lessorInfo = [
     required: true,
     hidden: isZZD_ORG(),
     value: "",
-    inputAlign: 'left',
+    inputAlign: "left",
     errorMessage: "提示: 此地址是屋顶业主本人现在的家庭住址, 所以可能和需要安装光伏的房屋地址不一致。从省/自治区/直辖市/特别行政区 开始写",
     getParam(params) {
       params.houseAddr.detailedAddress = this.value;
       delete params.detailedAddress;
     },
     backfill(data) {
-      this.value = data.houseAddr.detailedAddress
-    }
+      this.value = data.houseAddr.detailedAddress;
+    },
     // clickRightIcon() {
     //   showToast("扫码功能开发中");
     // },
@@ -256,9 +261,9 @@ export const signInfo = [
         round: true,
         class: "!mr-[10px] !text-[14px] !px-5 !py-4 !bg-[#f5f5f5] !border-0",
         click() {
-          showToast('开发中')
-          console.log(this.text)
-        }
+          showToast("开发中");
+          console.log(this.text);
+        },
       },
       {
         slot: "extra",
@@ -268,9 +273,9 @@ export const signInfo = [
         size: "mini",
         class: " !text-[14px] !px-5 !py-4 !bg-[#f5f5f5] !border-0",
         click() {
-          showToast('开发中')
-          console.log(this.text)
-        }
+          showToast("开发中");
+          console.log(this.text);
+        },
       },
     ],
   },
@@ -287,12 +292,12 @@ export const signInfo = [
     value: "",
     click() {
       if (this.realValue) {
-        router.push({ path: '/web', query: { src: this.realValue, title: '信息使用协议', } })
+        router.push({ path: "/web", query: { src: this.realValue, title: "信息使用协议" } });
       } else {
         showFailToast({
-          message: '暂无数据',
-          className: 'shadowC !bg-[red]'
-        })
+          message: "暂无数据",
+          className: "shadowC !bg-[red]",
+        });
       }
     },
     backfill(data) {

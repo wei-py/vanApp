@@ -10,6 +10,7 @@ declare module 'vue' {
     Cas: typeof import('./src/components/cas.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Overlay: typeof import('./src/components/overlay.vue')['default']
+    PhotoPreview: typeof import('./src/components/photoPreview.vue')['default']
     PlainButton: typeof import('./src/components/plainButton.vue')['default']
     RecuDynComponent: typeof import('./src/components/recuDynComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -1,8 +1,5 @@
-const a = 'text-red mr-[10px]'
-const b = a.replace(/text-[^ ]+/, 'text-blue');
+const a = [0,1,2]
 
-// 如何正则匹配red改为yellow
-// const b = 
-console.log(b)
+const b= a.splice(0, 1)
 
-
+console.log(b,a)

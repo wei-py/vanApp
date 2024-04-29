@@ -38,11 +38,13 @@ export function getForm() {
  */
 export function forForm(callback) {
   const gl = useForm();
-  lo.forIn(gl.gl[0], (form, key) => {
-    lo.forEach(form, (item) => {
-      callback(item);
-    });
-  });
+  const tmp = Object.entries(gl.gl[0]);
+  for (let i = 0; i < tmp.length; i++) {
+    const form = tmp[i][1];
+    for (let j = 0; j < form.length; j++) {
+      callback(form[j]);
+    }
+  }
 }
 
 /**
@@ -58,11 +60,10 @@ export function getItem(name, path) {
     }
   });
 
-
-  // if (lo.isFunction(path)) {
-  //   path(result)
-  //   return
-  // }
+  if (lo.isFunction(path)) {
+    path(result);
+    return;
+  }
 
   if (path) {
     result = lo.get(result, path);
@@ -85,6 +86,36 @@ export function getItem(name, path) {
  * @returns
  */
 export function setItem(name, handle, other = Symbol("other")) {
+  // gets(useForm().gl[0], '*.name', (v, item, p) => {
+  //   if (v == name) {
+  //     if (!lo.isSymbol(other)) {
+  //       lo.set(item, handle, other);
+  //       return;
+  //     }
+
+  //     if (lo.isString(handle) || lo.isBoolean(handle) || lo.isNumber(handle)) {
+  //       item.value = handle;
+  //       return;
+  //     }
+
+  //     if (lo.isFunction(handle)) {
+  //       handle(item);
+  //       return;
+  //     }
+
+  //     if (lo.isObject(handle)) {
+  //       lo.forIn(handle, (value, key) => {
+  //         item[key] = value;
+  //       });
+  //       return;
+  //     }
+
+  //     throw new Error(`custom error: setItem`);
+
+  //   }
+  //   // callback(value, parent, p);
+  // });
+
   const item = getItem(name);
 
   if (!lo.isSymbol(other)) {
@@ -103,9 +134,11 @@ export function setItem(name, handle, other = Symbol("other")) {
   }
 
   if (lo.isObject(handle)) {
-    lo.forIn(handle, (value, key) => {
+    const tmp = Object.entries(handle);
+    for (let i = 0; i < tmp.length; i++) {
+      const [key, value] = tmp[i];
       item[key] = value;
-    });
+    }
     return;
   }
 

@@ -42,7 +42,7 @@ export const inquiry = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: '/inquiry', query: { orderId: getQuery().orderId } })
+      router.push({ path: "/inquiry", query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -63,7 +63,7 @@ export const customerInfo = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: '/customerInfo', query: { orderId: getQuery().orderId } })
+      router.push({ path: "/customerInfo", query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -77,26 +77,26 @@ export const survey = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/businessReconnaissance",
     title: "业务踏勘",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: "/businessReconnaissance", query: { orderId: getQuery().orderId } });
     },
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/technicalLnvestigation",
     title: "技术勘察",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -116,7 +116,7 @@ export const contractSign = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -136,7 +136,7 @@ export const record = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -156,7 +156,7 @@ export const initReview = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
   {
@@ -168,7 +168,7 @@ export const initReview = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -188,7 +188,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
   {
@@ -200,7 +200,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
   {
@@ -212,7 +212,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -232,7 +232,7 @@ export const grid = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -254,7 +254,7 @@ export const electricityContract = [
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];
@@ -267,14 +267,14 @@ export const income = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "屋顶业主收益查询",
     title: "屋顶业主收益查询",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
     value: "未开启",
     click() {
-      console.log(this.value);
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
 ];

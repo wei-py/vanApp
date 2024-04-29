@@ -6,6 +6,8 @@
  * @Desc: 回填数据
  */
 
+
+
 /**
  * 回填数据
  * @param {Array[Object]} _ 表单数据
@@ -21,8 +23,15 @@ export default function backfill(_, data) {
       item.backfill(data);
       return;
     }
-    
   });
 
-  onLongPressImg()
+  const dom = useDom();
+  dom.imgDoms = [];
+  gets(data, "*", (v) => {
+    if (lo.isString(v) && isImg(v)) {
+      dom.imgDoms.push(sToUrl(v));
+    }
+  });
+
+  onLongPressImg();
 }

@@ -1,7 +1,11 @@
 export const useDom = defineStore("dom", () => {
   const submitDoms = ref([]);
   const longPressDom = ref(null)
-  return { submitDoms, longPressDom };
+
+  const imgDoms = ref([])
+  const showPreviewImg = ref(false)
+  const imgIndex = ref(0)
+  return { submitDoms, longPressDom, imgDoms, showPreviewImg, imgIndex };
 });
 
 

@@ -13,7 +13,7 @@ export default function statusColor(status) {
   if (status.includes("审")) {
     return "blue";
   }
-  if (status.includes("填写") || status.includes("待")) {
+  if (status.includes("填写") || status.includes("待") || status.includes('查询')) {
     return "yellow";
   }
 

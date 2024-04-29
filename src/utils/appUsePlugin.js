@@ -13,7 +13,7 @@ export default function appUsePlugin(app) {
   app.use(createInstall(openWeb, "openWeb"));
   app.use(createInstall(log, "log"));
 
-  window.back = () => {
+  window.goBack = () => {
     const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");
     if (!isPopupShow) {
       router.go(-1);

@@ -17,11 +17,11 @@ function setItem(item) {
     item.rules.push((val) => !val && `${item.label}必填`);
   }
 
-  lo.forIn(item, async (attr, key) => {
+  const tmp = Object.entries(item);
+  for (let i = 0; i < tmp.length; i++) {
+    const key = tmp[i][0];
     if (key == "formType") {
       reform(item);
-      // let formAttr = ;
-      // item[key] = formAttr;
     }
 
     if (key == "inlineForm") {
@@ -37,11 +37,33 @@ function setItem(item) {
         await item.onMounted(item);
       });
     }
-  });
+  }
 
-  // if (!lo.isArray(item.menuRight)) {
-  //   item.menuRight = [];
-  // }
+  // lo.forIn(item, async (attr, key) => {
+  //   if (key == "formType") {
+  //     reform(item);
+  //     // let formAttr = ;
+  //     // item[key] = formAttr;
+  //   }
+
+  //   if (key == "inlineForm") {
+  //     setForm(item[key]);
+  //   }
+
+  //   if (key == "rules") {
+  //     item.rules = toRaw(convertRules(item[key]));
+  //   }
+
+  //   if (key == "onMounted") {
+  //     onBeforeMount(async () => {
+  //       await item.onMounted(item);
+  //     });
+  //   }
+  // });
+
+  if (!lo.isArray(item.menuRight)) {
+    item.menuRight = [];
+  }
 
   item.class = lo.get(item, "class", "");
   const name = lo.get(item, "name", "");
@@ -53,9 +75,9 @@ function setItem(item) {
  * @param {*} form
  */
 function setForm(form) {
-  lo.forEach(form, (item) => {
-    setItem(item);
-  });
+  for (let i = 0; i < form.length; i++) {
+    setItem(form[i]);
+  }
 }
 
 /**
@@ -64,9 +86,14 @@ function setForm(form) {
  * @returns
  */
 export function makeForm(formList) {
-  lo.forEach(formList, (value, key) => {
-    setForm(value);
-  });
+  // lo.forEach(formList, (value) => {
+  //   setForm(value);
+  // });
+  const tmp = Object.entries(formList);
+  for (let i = 0; i < tmp.length; i++) {
+    const item = tmp[i][1];
+    setForm(item);
+  }
 
   const result = reactive(formList);
 

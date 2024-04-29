@@ -11,6 +11,26 @@ async function getData() {
   const url = isZZD_ORG().value ? "order/org/get-customer-info" : "order/get-customer-info";
   const { data } = await http.get(queryUrl(url, query));
   backfill(_, data);
+
+
+
+  // forForm(form => {
+  //   if (form.formType == 'cell' && form.readonly) {
+  //     form.titleClass += ' !text-[#d5d6d8]'
+  //   }
+  //   form.readonly = true
+  //   form.disabled = true
+  //   form.required = false
+  //   form.errorMessage = ''
+  //   form.rightIcon = ''
+  //   form.isLink = false
+  //   form.clickRightIcon = () => {}
+  // })
+  // getsForm('*.formType', (v, p) => {
+  //   if (v == 'upload') {
+  //     p.deletable = false
+  //   }
+  // })
 }
 
 async function submit() {

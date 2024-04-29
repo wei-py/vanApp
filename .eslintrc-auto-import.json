@@ -422,6 +422,8 @@
     "toUploadUrl": true,
     "toParamsUrl": true,
     "toSrcs": true,
-    "watchItem": true
+    "watchItem": true,
+    "makeUpload": true,
+    "isImg": true
   }
 }

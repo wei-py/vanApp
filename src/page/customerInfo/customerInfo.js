@@ -21,80 +21,12 @@ export const lessorInfo = [
     formType: "cell",
     title: "证件照片",
     name: "",
+    readonly: true,
     titleClass: "xCenter text-[16px]",
   },
-  {
-    formType: "input",
-    label: "证件正面(头像面)",
-    name: "idCardFront",
-    value: "",
-    required: true,
-    longPress: true,
-    class: "flex-col-reverse !w-[50%] float-start",
-    labelClass: "xCenter !w-full",
-    inlineForm: [
-      {
-        slot: "input",
-        formType: "upload",
-        accept: "*",
-        uploadIcon: "plus",
-        value: [],
-        maxCount: 1,
-        class: "mx-auto mt-2",
-        menuRight: [
-          {
-            label: "下载图片到相册",
-            click: (...args) => {
-              const src = getlongPressUrl();
-              console.log(src);
-            },
-          },
-        ],
-      },
-    ],
-    backfill(data) {
-      this.inlineForm[0].value = data.idCardFront ? [{ url: sToUrl(data.idCardFront) }] : [];
-    },
-    getParam(param) {
-      param[this.name] = this.inlineForm[0].value[0].url;
-    },
-  },
-  {
-    formType: "input",
-    label: "证件反面(国徽面)",
-    name: "idCardBack",
-    value: "",
-    required: true,
-    longPress: true,
-    class: "flex-col-reverse !w-[50%] float-start",
-    labelClass: "xCenter !w-full",
-    inlineForm: [
-      {
-        slot: "input",
-        formType: "upload",
-        accept: "*",
-        maxCount: 1,
-        value: [],
-        uploadIcon: "plus",
-        class: "mx-auto mt-2",
-        menuRight: [
-          {
-            label: "下载图片到相册",
-            click: (...args) => {
-              const src = getlongPressUrl();
-              console.log(src);
-            },
-          },
-        ],
-      },
-    ],
-    backfill(data) {
-      this.inlineForm[0].value = data.idCardBack ? [{ url: sToUrl(data.idCardBack) }] : [];
-    },
-    getParam(param) {
-      param[this.name] = this.inlineForm[0].value[0].url;
-    },
-  },
+  { ...makeUpload(1, 50), required: true, label: "证件正面(头像面)", name: "idCardFront" },
+
+  { ...makeUpload(1, 50), required: true, label: "证件反面(国徽面)", name: "idCardBack" },
   {
     formType: "input",
     label: "出租人电话",
@@ -194,15 +126,14 @@ export const lessorInfo = [
       lo.merge(param, { provinceCode, cityCode, areaCode });
     },
     async backfill(data) {
-      // console.log(data, 33333)
-      const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
-      const value = data.areaCode || data.cityCode;
-      setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
-      const tree = searchTree(cascader.options, (n) => n.value == value);
-      const arr = toTreeArray(tree);
-      cascader.finish({
-        selectedOptions: arr,
-        value: value,
+      runTime(async () => {
+        const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
+        cascader.options = await getArea();
+        const value = data.areaCode || data.cityCode;
+        setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
+        const tree = searchTree(cascader.options, (n) => n.value == value);
+        const arr = toTreeArray(tree);
+        cascader.finish({ selectedOptions: arr, value: value });
       });
     },
 
@@ -221,9 +152,6 @@ export const lessorInfo = [
             title: "请选择所在地区",
             options: [],
             value: "",
-            async onMounted() {
-              this.options = await getArea();
-            },
             close() {
               setItem("houseAddr", "inlineForm.0.show", false);
             },
@@ -256,47 +184,48 @@ export const lessorInfo = [
 
 export const bankInfo = [
   makeTitle("租金收益银行卡"),
-  {
-    formType: "input",
-    label: "银行卡-卡号面",
-    name: "bankCardFront",
-    value: "",
-    required: true,
-    longPress: true,
-    class: "flex-col-reverse float-start",
-    labelClass: "xCenter !w-full",
-    inlineForm: [
-      {
-        slot: "input",
-        formType: "upload",
-        accept: "*",
-        maxCount: 1,
-        value: [],
-        uploadIcon: "plus",
-        class: "mx-auto mt-2",
-        beforeRead: async (file, detail) => {
-          const src = await upload(file);
-          file.src = src;
-          return file;
-        },
-        menuRight: [
-          {
-            label: "下载图片到相册",
-            click: (...args) => {
-              const src = getlongPressUrl();
-              console.log(src);
-            },
-          },
-        ],
-      },
-    ],
-    getParam(param) {
-      param[this.name] = toParamsUrl(param[this.name])[0]?.url;
-    },
-    backfill(data) {
-      this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
-    },
-  },
+  { ...makeUpload(1, 100, "*"), required: true, label: "银行卡-卡号面", name: "bankCardFront" },
+  // {
+  //   formType: "input",
+  //   label: "银行卡-卡号面",
+  //   name: "bankCardFront",
+  //   value: "",
+  //   required: true,
+  //   longPress: true,
+  //   class: "flex-col-reverse float-start",
+  //   labelClass: "xCenter !w-full",
+  //   inlineForm: [
+  //     {
+  //       slot: "input",
+  //       formType: "upload",
+  //       accept: "*",
+  //       maxCount: 1,
+  //       value: [],
+  //       uploadIcon: "plus",
+  //       class: "mx-auto mt-2",
+  //       beforeRead: async (file, detail) => {
+  //         const src = await upload(file);
+  //         file.src = src;
+  //         return file;
+  //       },
+  //       menuRight: [
+  //         {
+  //           label: "下载图片到相册",
+  //           click: (...args) => {
+  //             const src = getlongPressUrl();
+  //             console.log(src);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   getParam(param) {
+  //     param[this.name] = toParamsUrl(param[this.name])[0]?.url;
+  //   },
+  //   backfill(data) {
+  //     this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
+  //   },
+  // },
   {
     formType: "input",
     name: "bankAccount",
@@ -373,11 +302,7 @@ export const bankInfo = [
                 async updateValue(val) {
                   let url = val ? `lease-bank/bank?queryTag=${val}` : "lease-bank/bank";
                   const { data } = await http.get(url);
-                  getsForm("*.title", (val, parent) => {
-                    if (val == "银行") {
-                      parent.options = arrayToVantColumns(data);
-                    }
-                  });
+                  setItem("bankName", "inlineForm.0.inlineForm.0.options", arrayToVantColumns(data));
                 },
               },
             ],
@@ -436,16 +361,11 @@ export const bankInfo = [
                   let url = val ? `lease-bank/sub-bank?queryTag=${val}&name=${bankName}` : `lease-bank/sub-bank?name=${bankName}`;
                   // let url = val ? `lease-bank/bank?queryTag=${val}` : "lease-bank/bank";
                   const { data } = await http.get(url);
-                  getsForm("*.title", (val, parent) => {
-                    if (val == "选择开户支行") {
-                      parent.options = data.map((n) => {
-                        return {
-                          text: n.bankFullName,
-                          value: n.bankNum,
-                        };
-                      });
-                    }
-                  });
+                  setItem(
+                    "accountOpeningBranch",
+                    "inlineForm.0.inlineForm.0.options",
+                    data.map((n) => ({ text: n.bankFullName, value: n.bankNum }))
+                  );
                 },
               },
             ],
@@ -484,17 +404,18 @@ export const lesseeInfo = [
     required: true,
     placeholder: "请选择项目公司",
     ...backSelect(),
-    ...makeSelect("projectCompany", []),
-    async onMounted() {
-      // watchItem("recordType", async (v) => {
-      //   const url = queryUrl("leaseLessor/getAuth", { pageNum: 1, pageSize: 999, orderId: getQuery()?.orderId, recordType: v });
-      //   const { data } = await http.get(url);
-      //   this.inlineForm[0].inlineForm[0].columns = data.map((n) => ({
-      //     text: `${n.code}, ${n.companyName}, ${n.areaId}`,
-      //     value: n.code,
-      //     disabled: n.disabled,
-      //   }));
-      // });
+    ...makeSelect("projectCompany", [], "dynamic"),
+    backfill(bData) {
+      watchItem("recordType", async (v) => {
+        const url = queryUrl("leaseLessor/getAuth", { pageNum: 1, pageSize: 999, orderId: getQuery()?.orderId, recordType: v });
+        const { data } = await http.get(url);
+        const columns = data.map((n) => ({
+          text: `${n.code}, ${n.companyName}, ${n.areaId}`,
+          value: n.code,
+          disabled: n.disabled,
+        }));
+        this.makeSelect(bData[this.name], columns);
+      });
     },
   },
 ];
@@ -513,31 +434,21 @@ export const productWithArea = [
     ...backSelect(),
     ...makeSelect("productWithArea", [], "dynamic"),
     async backfill(bData) {
-      // const form = getForm()
-      // console.log(form, 3333)
-      
-      // const recordType = getItem("recordType");
-      // console.log(recordType)
-      // watch(() => recordType.value, v => {
-      //   console.log(v, 33333)
-      // })
       watchItem("recordType", async (v) => {
-        console.log(v)
-      //   console.log(3333)
-      //   const url = queryUrl("/leasePrjProjectProduct/get", {
-      //     isPage: false,
-      //     type: v,
-      //     orderId: getQuery()?.orderId,
-      //   });
-      //   const { data } = await http.get(url);
-      //   const columns = data.map((n) => {
-      //     return {
-      //       text: `${n.code}, ${n.areaType}, ${n.area}`,
-      //       value: n.code,
-      //       disabled: n.disabled,
-      //     };
-      //   });
-      //   this.makeSelect(bData[this.name], columns)
+        const url = queryUrl("/leasePrjProjectProduct/get", {
+          isPage: false,
+          type: v,
+          orderId: getQuery()?.orderId,
+        });
+        const { data } = await http.get(url);
+        const columns = data.map((n) => {
+          return {
+            text: `${n.code}, ${n.areaType}, ${n.area}`,
+            value: n.code,
+            disabled: n.disabled,
+          };
+        });
+        this.makeSelect(bData[this.name], columns);
       });
     },
   },

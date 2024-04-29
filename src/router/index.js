@@ -71,7 +71,26 @@ const router = createRouter({
         // tabbar: true,
       },
     },
-    //
+    {
+      path: "/businessReconnaissance",
+      name: "businessReconnaissance",
+      component: () => import("../page/businessReconnaissance/businessReconnaissance.vue"),
+      meta: {
+        title: "业务踏勘",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/technicalLnvestigation",
+      name: "technicalLnvestigation",
+      component: () => import("../page/technicalLnvestigation/technicalLnvestigation.vue"),
+      meta: {
+        title: "技术勘察",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
   ].map((n) => {
     return {
       ...n,

@@ -45,10 +45,11 @@ function getFunction(item, func, ...args) {
       @finish="(...args) => getFunction(item, 'finish', ...args)"
       @clickRightIcon="(...args) => getFunction(item, 'clickRightIcon', ...args)"
       @clickLeftIcon="(...args) => getFunction(item, 'clickLeftIcon', ...args)"
-      @clickOverlay="(...args) => getFunction(item, 'clickOverlay', ...args)"
+      @clickOverlay.stop="(...args) => getFunction(item, 'clickOverlay', ...args)"
       @confirm="(...args) => getFunction(item, 'confirm', ...args)"
       @input="(...args) => getFunction(item, 'input', ...args)"
       @blur="(...args) => getFunction(item, 'blur', ...args)"
+      @clickPreview="(...args) => getFunction(item, 'clickPreview', ...args)"
       @update:model-value="(...args) => getFunction(item, 'updateValue', ...args)"
     >
           <!-- @touchstart.stop="(...args) => getFunction(item, 'touchstart', ...args)" -->

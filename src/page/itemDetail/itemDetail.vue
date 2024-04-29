@@ -50,6 +50,16 @@ async function getData() {
   });
 
   // // 各个阶段的状态
+  forForm((form) => {
+    if (form.valueClass) {
+      form.value = "未开启";
+      form.valueClass = form.valueClass.replace(/text-[^ ]+/, "text-gray");
+    }
+  });
+
+  let htqyFlag = false;
+  let sgxxFlag = false;
+
   gets(data, "*.orderStates", (val) => {
     concurr(val, (v) => {
       const taskId = v?.taskId;
@@ -57,15 +67,36 @@ async function getData() {
       const stageId = v?.stageId;
       const value = statusDic[stateId] || "未开启";
       const title = statusDic[taskId] || statusDic[stageId] || "";
-      lo.forEach(_, (v, k) => {
-        v.forEach((val) => {
-          if (val.title == title && val.isLink) {
-            val.value = value;
-            const color = statusColor(value);
-            val.valueClass = val.valueClass.replace(/text-[^ ]+/, 'text-'+color);
-          }
-        });
+
+      forForm((val) => {
+        if (val.title == title && val.isLink) {
+          val.value = value;
+          const color = statusColor(value);
+          val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
+        }
+        if (val.title == "合同签约" && value == "起租") {
+          htqyFlag = true;
+        }
+        if (val.title == "屋顶业主收益查询" && htqyFlag) {
+          val.value = "查询";
+          const color = statusColor(val.value);
+          val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
+        }
+        if (val.title == "施工信息" && value == "资方审核通过") {
+          sgxxFlag = true;
+          console.log(val.title);
+        }
+        if (val.title == "设计变更信息" && sgxxFlag) {
+          val.value = "不可变更";
+          const color = statusColor(val.value);
+          val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
+        }
       });
+
+      // lo.forEach(_, (v, k) => {
+      //   v.forEach((val) => {
+      //   });
+      // });
     });
   });
 }
@@ -114,8 +145,6 @@ onMounted(() => {
   /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important; */
   margin-bottom: 10px;
 }
-
-
 </style>
 
 <!-- <style scoped>

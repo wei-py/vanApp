@@ -17,6 +17,7 @@ export const formType = {
   button: van.Button,
   upload: van.Uploader,
   numberKeyboard: van.NumberKeyboard,
+  icon: van.Icon,
   div: createElementBlock('div')
 };
 
@@ -26,7 +27,8 @@ export function reform(item) {
   labelClass += " !min-w-[30%]";
   labelClass = lo.uniq(labelClass.split(" ")).join(" ")
   lo.set(item, "labelClass", labelClass);
-  if (!item.inputAlign) {
+
+  if (!lo.has(item, 'inputAlign')) {
     item.inputAlign = "right";
   }
 
