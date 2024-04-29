@@ -35,6 +35,13 @@ let _ = makeForm({
 let query = getQuery(); // 路由参数
 const statusDic = getStatusDic(); // 阶段状态字典
 
+onMounted(() => {
+  // query = getQuery(); // 路由参数
+  runTime(getData, "itemDetail - getData");
+  // getData();
+
+});
+
 async function getData() {
   const { data } = await http.post(`/order/search`, { queryTag: query.orderId, orderId: query.orderId });
 
@@ -57,10 +64,8 @@ async function getData() {
     }
   });
 
-  let htqyFlag = false;
-  let sgxxFlag = false;
-
-  gets(data, "*.orderStates", (val) => {
+  let htqyFlag = false; // 合同签约是否起租
+  await gets(data, "*.orderStates", (val) => {
     concurr(val, (v) => {
       const taskId = v?.taskId;
       const stateId = v?.stateId;
@@ -82,30 +87,12 @@ async function getData() {
           const color = statusColor(val.value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
         }
-        if (val.title == "施工信息" && value == "资方审核通过") {
-          sgxxFlag = true;
-          console.log(val.title);
-        }
-        if (val.title == "设计变更信息" && sgxxFlag) {
-          val.value = "不可变更";
-          const color = statusColor(val.value);
-          val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
-        }
       });
-
-      // lo.forEach(_, (v, k) => {
-      //   v.forEach((val) => {
-      //   });
-      // });
     });
   });
 }
 
-onMounted(() => {
-  // query = getQuery(); // 路由参数
-  // runTime(getData, "itemDetail - getData");
-  getData();
-});
+
 </script>
 
 <template>

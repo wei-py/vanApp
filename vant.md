@@ -69,3 +69,4 @@ https://v2.tailwindcss.com/docs/guides/vue-3-vite
 ## 图片预览模块
 ## 扫码模块
 ## pdf 模块
+## 

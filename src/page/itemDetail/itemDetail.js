@@ -42,7 +42,11 @@ export const inquiry = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: "/inquiry", query: { orderId: getQuery().orderId } });
+      if (this.value != "未开启") {
+        router.push({ path: "/inquiry", query: { orderId: getQuery().orderId } });
+      } else {
+        showFailToast(this.value);
+      }
     },
   },
 ];
@@ -56,14 +60,18 @@ export const customerInfo = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/customerInfo",
     title: "客户信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: "/customerInfo", query: { orderId: getQuery().orderId } });
+      if (this.value != "未开启") {
+        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      } else {
+        showFailToast(this.value);
+      }
     },
   },
 ];
@@ -84,7 +92,11 @@ export const survey = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: "/businessReconnaissance", query: { orderId: getQuery().orderId } });
+      if (this.value != "未开启") {
+        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      } else {
+        showFailToast(this.value);
+      }
     },
   },
   {
@@ -96,7 +108,11 @@ export const survey = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      if (this.value != "未开启") {
+        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      } else {
+        showFailToast(this.value);
+      }
     },
   },
 ];
@@ -109,7 +125,7 @@ export const contractSign = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/contractAward",
     title: "合同签约",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -129,7 +145,7 @@ export const record = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/certificate",
     title: "备案证及权属证明",
     valueClass: "mr-[10px] text-gray",
     titleClass,

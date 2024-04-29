@@ -15,14 +15,15 @@
  */
 export default function backfill(_, data) {
   forForm((item) => {
-    if (lo.has(data, item.name)) {
-      // setItem(item.name, 'value', data[item.name])
-      item.value = data[item.name];
-    }
     if (lo.isFunction(item.backfill)) {
       item.backfill(data);
       return;
     }
+    if (lo.has(data, item.name)) {
+      // setItem(item.name, 'value', data[item.name])
+      item.value = data[item.name];
+    }
+    
   });
 
   const dom = useDom();

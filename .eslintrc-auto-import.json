@@ -424,6 +424,7 @@
     "toSrcs": true,
     "watchItem": true,
     "makeUpload": true,
-    "isImg": true
+    "isImg": true,
+    "baseURLDic": true
   }
 }

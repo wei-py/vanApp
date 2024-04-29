@@ -50,36 +50,102 @@ export const roofForm = [
     required: true,
     label: "站东南角往西北拍",
     name: "roofSoutheast",
+    backfill(data) {
+      if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
   {
     ...makeUpload(999, 100),
     required: true,
     label: "站北往正南拍",
     name: "roofNorth",
+    backfill(data) {
+       if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
   {
     ...makeUpload(999, 100),
     required: true,
     label: "站西南角往东北拍",
     name: "roofSouthwest",
+    backfill(data) {
+       if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
   {
     ...makeUpload(999, 100),
     required: true,
     label: "站东北角往西南拍",
     name: "roofDBToXN",
+    backfill(data) {
+       if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
   {
     ...makeUpload(999, 100),
     required: true,
     label: "站南往正北拍",
     name: "roofNToB",
+    backfill(data) {
+       if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
   {
     ...makeUpload(999, 100),
     required: true,
     label: "站西北角往东南拍",
     name: "roofXBToDN",
+    backfill(data) {
+       if (lo.isArray(data[this.name])) {
+        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
+      } else if (lo.isString(data[this.name])) {
+        if (data[this.name].startsWith('[')) {
+          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
+        } else {
+          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+        }
+      }
+    },
   },
 ];
 
@@ -101,8 +167,8 @@ export const dimensionalDrawingForm = [
     label: "楼板厚度照",
     name: "floorThickness",
     backfill(data) {
-      this.inlineForm[0].value = data[this.name] ? data[this.name].map(n => ({url: sToUrl(n)})) : [];
-    }
+      this.inlineForm[0].value = data[this.name] ? data[this.name].map((n) => ({ url: sToUrl(n) })) : [];
+    },
   },
 ];
 
@@ -114,9 +180,9 @@ export const explorationTableForm = [
     label: "勘察表正面",
     name: "front",
     backfill(data) {
-      const imgs = lo.get(data, `explorationTable.${this.name}`)
-      this.inlineForm[0].value = imgs ? [{url: sToUrl(imgs)}] : [];
-    }
+      const imgs = lo.get(data, `explorationTable.${this.name}`);
+      this.inlineForm[0].value = imgs ? [{ url: sToUrl(imgs) }] : [];
+    },
   },
   {
     ...makeUpload(1, 50),
@@ -124,9 +190,9 @@ export const explorationTableForm = [
     label: "屋面尺寸图",
     name: "back",
     backfill(data) {
-      const imgs = lo.get(data, `explorationTable.${this.name}`)
-      this.inlineForm[0].value = imgs ? [{url: sToUrl(imgs)}] : [];
-    }
+      const imgs = lo.get(data, `explorationTable.${this.name}`);
+      this.inlineForm[0].value = imgs ? [{ url: sToUrl(imgs) }] : [];
+    },
   },
 ];
 
@@ -137,8 +203,11 @@ export const otherImagesForm = [
     label: "其他踏勘影像件",
     name: "imageAddr",
     required: true,
+    backfill(data) {
+      const imgs = data.otherImages.imageAddr
+      this.inlineForm[0].value = imgs.map(n => ({url: sToUrl(n)}))
+    }
   },
 ];
 
 // export const = kjl
-

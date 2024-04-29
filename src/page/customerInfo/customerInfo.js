@@ -25,7 +25,6 @@ export const lessorInfo = [
     titleClass: "xCenter text-[16px]",
   },
   { ...makeUpload(1, 50), required: true, label: "证件正面(头像面)", name: "idCardFront" },
-
   { ...makeUpload(1, 50), required: true, label: "证件反面(国徽面)", name: "idCardBack" },
   {
     formType: "input",

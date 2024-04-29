@@ -16,6 +16,7 @@ declare global {
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const backSelect: typeof import('./utils/makeSelect.js')['backSelect']
   const backfill: typeof import('./utils/backfill.js')['default']
+  const baseURLDic: typeof import('./config/http.js')['baseURLDic']
   const bindForm: typeof import('./store/useForm.js')['bindForm']
   const bindSource: typeof import('./store/useForm.js')['bindSource']
   const callPhone: typeof import('./utils/callPhone.js')['default']

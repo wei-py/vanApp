@@ -91,6 +91,27 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/contractAward",
+      name: "contractAward",
+      component: () => import("../page/contractAward/contractAward.vue"),
+      meta: {
+        title: "合同签约",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/certificate",
+      name: "certificate",
+      component: () => import("../page/certificate/certificate.vue"),
+      meta: {
+        title: "备案证及权属证明",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    // 
   ].map((n) => {
     return {
       ...n,

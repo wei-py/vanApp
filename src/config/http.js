@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURLDic = {
+export const baseURLDic = {
   boge: { app: "http://192.168.30.15:30600", web: "/dev" }, // 波哥
   bogeSto: { app: "http://192.168.30.15:30610", web: "/devSto" }, // 波哥 供应链
   mingjie: { app: "http://192.168.30.11:30600", web: "/mj" }, // 铭杰
@@ -21,6 +21,7 @@ http.interceptors.request.use(
     const headerInfo = getHeaderInfo();
     const flag = useFlag();
     flag.overlayShow = true;
+    converBaseUrl(config)
 
     if (!lo.isUndefined(headerInfo.Uid)) {
       lo.merge(config.headers, headerInfo);
@@ -61,5 +62,12 @@ http.interceptors.response.use(
     return Promise.reject(new Error(error));
   }
 );
+
+function converBaseUrl(config) {
+  if (config.url.startsWith('sto')) {
+    config.baseURL = config.baseURL.replace('/order', 'Sto')
+    config.url = config.url.replace('sto', '')
+  }
+}
 
 export default http;

@@ -135,6 +135,9 @@ async function login() {
 </style>
 
 <style>
+.van-cell__right-icon {
+  margin: auto 0;
+}
 .van-uploader__wrapper {
   justify-content: center;
   /* height: 100px;

@@ -24,7 +24,8 @@ export const formType = {
 export function reform(item) {
 
   let labelClass = lo.get(item, "labelClass", "");
-  labelClass += " !min-w-[30%]";
+  labelClass += " !min-w-[50%]";
+  // labelClass += ' flex-1'
   labelClass = lo.uniq(labelClass.split(" ")).join(" ")
   lo.set(item, "labelClass", labelClass);
 
