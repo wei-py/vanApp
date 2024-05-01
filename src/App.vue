@@ -120,6 +120,7 @@ async function login() {
 }
 
 .van-uploader__upload {
+  margin: 8px !important;
   border-radius: 8px !important;
   border: 1px dashed #dee0e2;
   // box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
@@ -138,7 +139,14 @@ async function login() {
 .van-cell__right-icon {
   margin: auto 0;
 }
+label {
+  /* margin: auto; */
+}
+.van-uploader__preview {
+  margin: 4px !important;
+}
 .van-uploader__wrapper {
+  margin: 0 !important;
   justify-content: center;
   /* height: 100px;
   width: 100px;
@@ -168,12 +176,23 @@ async function login() {
   /* box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important; */
   border-radius: 8px !important;
 }
+.van-uploader__file {
+  border-radius: 8px !important;
+}
 .van-uploader__preview-delete {
   border-top-right-radius: 8px !important;
 }
 
 .van-cell__value {
   margin: auto 0;
+}
+
+.van-uploader__preview-cover {
+  /* border-radius: 8px !important;
+  border: 1px dashed #dee0e2; */
+}
+.van-field__label {
+  margin: auto;
 }
 </style>
 

@@ -11,9 +11,6 @@ async function getData() {
   const url = isZZD_ORG().value ? "order/org/get-customer-info" : "order/get-customer-info";
   const { data } = await http.get(queryUrl(url, query));
   backfill(_, data);
-
-
-
   // forForm(form => {
   //   if (form.formType == 'cell' && form.readonly) {
   //     form.titleClass += ' !text-[#d5d6d8]'

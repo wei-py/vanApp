@@ -5,13 +5,12 @@ import { VantResolver } from "@vant/auto-import-resolver";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 
-
 import mkcert from "vite-plugin-mkcert";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/orderh5',
+  base: "/orderh5",
   publicDir: "./public",
   plugins: [
     vue(),
@@ -51,12 +50,12 @@ export default defineConfig({
     }),
 
     Components({
-      resolvers: [VantResolver()],
+      resolvers: [VantResolver() ],
     }),
     mkcert(),
   ],
 
-   resolve: {
+  resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },

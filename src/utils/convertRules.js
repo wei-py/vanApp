@@ -12,7 +12,7 @@
  * @returns
  */
 export function convertRules(validators) {
-  // console.log(validators, 3333333)
+  // console.log(validators, 3333333);
   return validators.map((validator) => {
     return {
       validator(val) {

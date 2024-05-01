@@ -165,7 +165,7 @@ export const initReview = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/InitialReview",
     title: "初设评审信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -197,7 +197,7 @@ export const build = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/build",
     title: "施工信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -209,7 +209,7 @@ export const build = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/deviceInfo",
     title: "设备信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -221,8 +221,8 @@ export const build = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
-    title: "设备影像件信息",
+    name: "/buildVideo",
+    title: "施工影像件信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
@@ -241,7 +241,7 @@ export const grid = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/gridConnected",
     title: "并网信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -263,7 +263,7 @@ export const electricityContract = [
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/electricityContract",
     title: "购售电合同信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,

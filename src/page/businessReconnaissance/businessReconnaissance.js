@@ -51,15 +51,7 @@ export const roofForm = [
     label: "站东南角往西北拍",
     name: "roofSoutheast",
     backfill(data) {
-      if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
   {
@@ -68,15 +60,7 @@ export const roofForm = [
     label: "站北往正南拍",
     name: "roofNorth",
     backfill(data) {
-       if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
   {
@@ -85,15 +69,7 @@ export const roofForm = [
     label: "站西南角往东北拍",
     name: "roofSouthwest",
     backfill(data) {
-       if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
   {
@@ -102,15 +78,7 @@ export const roofForm = [
     label: "站东北角往西南拍",
     name: "roofDBToXN",
     backfill(data) {
-       if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
   {
@@ -119,15 +87,7 @@ export const roofForm = [
     label: "站南往正北拍",
     name: "roofNToB",
     backfill(data) {
-       if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
   {
@@ -136,15 +96,7 @@ export const roofForm = [
     label: "站西北角往东南拍",
     name: "roofXBToDN",
     backfill(data) {
-       if (lo.isArray(data[this.name])) {
-        this.inlineForm[0].value = (data[this.name]).map((n) => ({ url: sToUrl(n) }));
-      } else if (lo.isString(data[this.name])) {
-        if (data[this.name].startsWith('[')) {
-          this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n) }));
-        } else {
-          this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
-        }
-      }
+      lo.bind(makeImgs, this)(data)
     },
   },
 ];
@@ -204,9 +156,9 @@ export const otherImagesForm = [
     name: "imageAddr",
     required: true,
     backfill(data) {
-      const imgs = data.otherImages.imageAddr
-      this.inlineForm[0].value = imgs.map(n => ({url: sToUrl(n)}))
-    }
+      const imgs = data.otherImages.imageAddr;
+      this.inlineForm[0].value = imgs.map((n) => ({ url: sToUrl(n) }));
+    },
   },
 ];
 

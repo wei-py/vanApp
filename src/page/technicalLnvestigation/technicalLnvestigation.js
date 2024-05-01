@@ -15,7 +15,7 @@ export const reconnaissanceUserForm = [
         return { ...item, text: item.name, value: item.userId };
       });
       watchItem("userId", (v) => {
-        setItem("phone", "value", lo.find(columns, ["value", v]).phone);
+        setItem("phone", "value", lo.find(columns, ["value", v])?.phone || '');
       });
       this.makeSelect(bData[this.name], columns);
     },
@@ -79,19 +79,21 @@ export const basicMessageForm = [
   },
   {
     formType: "input",
-    label: "拟安装组件功率(W)",
+    label: "拟安装组件功率",
     value: "",
     placeholder: "请输入",
     type: "digit",
     name: "modulePower",
+    ...makeUnit("W"),
   },
   {
     formType: "input",
-    label: "拟安装组件数量(块)",
+    label: "拟安装组件数量",
     value: "",
     placeholder: "请输入",
     name: "moduleNumberReckon",
     type: "number",
+    ...makeUnit("块"),
   },
   {
     formType: "input",
@@ -102,12 +104,14 @@ export const basicMessageForm = [
     placeholder: "自动计算",
     realValue: 0,
     name: "installedCapacityReckon",
+    ...makeUnit("W"),
     backfill(bData) {
       computedAsync(() => {
         const value = getItem("modulePower").value * getItem("moduleNumberReckon").value;
         this.realValue = value;
         const result = unitConver(value, 2);
-        this.value = result.result;
+        this.value = result.value;
+        this.makeUnit(result.unit);
         return value;
       });
     },
@@ -173,6 +177,7 @@ export const junctionLocationForm = [
     ...backSelect(),
     ...makeSelect("allowCrane", arrayToVantColumns(["能", "不能", "不确定"])),
   },
+  
 ];
 
 // export const multiConfluence = [

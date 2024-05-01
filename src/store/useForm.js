@@ -36,7 +36,7 @@ export function getForm() {
  * 遍历表单数据
  * @param {*} callback
  */
-export function forForm(callback) {
+export function forForm(callback, fn = () => { }) {
   const gl = useForm();
   const tmp = Object.entries(gl.gl[0]);
   for (let i = 0; i < tmp.length; i++) {

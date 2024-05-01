@@ -184,47 +184,6 @@ export const lessorInfo = [
 export const bankInfo = [
   makeTitle("租金收益银行卡"),
   { ...makeUpload(1, 100, "*"), required: true, label: "银行卡-卡号面", name: "bankCardFront" },
-  // {
-  //   formType: "input",
-  //   label: "银行卡-卡号面",
-  //   name: "bankCardFront",
-  //   value: "",
-  //   required: true,
-  //   longPress: true,
-  //   class: "flex-col-reverse float-start",
-  //   labelClass: "xCenter !w-full",
-  //   inlineForm: [
-  //     {
-  //       slot: "input",
-  //       formType: "upload",
-  //       accept: "*",
-  //       maxCount: 1,
-  //       value: [],
-  //       uploadIcon: "plus",
-  //       class: "mx-auto mt-2",
-  //       beforeRead: async (file, detail) => {
-  //         const src = await upload(file);
-  //         file.src = src;
-  //         return file;
-  //       },
-  //       menuRight: [
-  //         {
-  //           label: "下载图片到相册",
-  //           click: (...args) => {
-  //             const src = getlongPressUrl();
-  //             console.log(src);
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   ],
-  //   getParam(param) {
-  //     param[this.name] = toParamsUrl(param[this.name])[0]?.url;
-  //   },
-  //   backfill(data) {
-  //     this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
-  //   },
-  // },
   {
     formType: "input",
     name: "bankAccount",

@@ -26,3 +26,19 @@ async function getData() {
     <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
   </div>
 </template>
+
+
+<style>
+:root {
+  --van-popover-action-width: 250px !important;
+}
+
+.van-popover__action{
+  width: auto !important;
+}
+
+.van-popover__content {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+</style>

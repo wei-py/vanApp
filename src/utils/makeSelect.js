@@ -22,7 +22,7 @@ export function makeSelect(name, columns, type = "static") {
         show: false,
         round: true,
         position: "bottom",
-        class: "h-[40vh]",
+        class: "h-[40vh] !w-screen",
         closeOnClickOverlay: true,
         inlineForm: [
           {

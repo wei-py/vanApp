@@ -13,8 +13,9 @@
  */
 function setItem(item) {
   if (item.required) {
-    item.rules = [];
-    item.rules.push((val) => !val && `${item.label}必填`);
+    item.rules = toRaw([...lo.get(item, "rules", []), (val) => !val && `${item.label}必填`]);
+    // item.rules = [];
+    // item.rules.push((val) => !val && `${item.label}必填`);
   }
 
   const tmp = Object.entries(item);
@@ -29,7 +30,7 @@ function setItem(item) {
     }
 
     if (key == "rules") {
-      item.rules = toRaw(convertRules(item[key]));
+      item.rules = toRaw([...lo.get(item, "rules", []), ...convertRules(item[key])]);
     }
 
     if (key == "onMounted") {

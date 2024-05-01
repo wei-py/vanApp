@@ -111,6 +111,66 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/InitialReview",
+      name: "InitialReview",
+      component: () => import("../page/InitialReview/InitialReview.vue"),
+      meta: {
+        title: "初设评审",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/build",
+      name: "build",
+      component: () => import("../page/build/build.vue"),
+      meta: {
+        title: "施工",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/deviceInfo",
+      name: "deviceInfo",
+      component: () => import("../page/deviceInfo/deviceInfo.vue"),
+      meta: {
+        title: "施工",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/buildVideo",
+      name: "buildVideo",
+      component: () => import("../page/buildVideo/buildVideo.vue"),
+      meta: {
+        title: "施工影像件信息",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/gridConnected",
+      name: "gridConnected",
+      component: () => import("../page/gridConnected/gridConnected.vue"),
+      meta: {
+        title: "施工影像件信息",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/electricityContract",
+      name: "electricityContract",
+      component: () => import("../page/electricityContract/electricityContract.vue"),
+      meta: {
+        title: "施工影像件信息",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
     // 
   ].map((n) => {
     return {

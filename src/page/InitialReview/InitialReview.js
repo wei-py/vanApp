@@ -1,0 +1,373 @@
+import { actionSheetProps } from "vant";
+
+export const basicInfoForm = [
+  makeTitle("基本信息"),
+  {
+    formType: "input",
+    label: "设计类型",
+    required: true,
+    value: "",
+    name: "designType",
+    ...backSelect(),
+    ...makeSelect("designType", arrayToVantColumns(["一字型", "人字型", "阵列式", "一字型+人字型", "一字型+阵列式", "人字型+阵列式"])),
+    backfill(data) {
+      this.value = data.designType;
+      this.realValue = data.designType;
+    },
+  },
+  {
+    formType: "input",
+    label: "南坡组件数量",
+    value: "",
+    type: "number",
+    name: "southModuleNumber",
+    rules: [(val) => val < 0 && "请输入正整数或 0"],
+  },
+  {
+    formType: "input",
+    label: "北坡组件数量",
+    value: "",
+    type: "number",
+    name: "northModuleNumber",
+    rules: [(val) => val < 0 && "请输入正整数或 0"],
+  },
+  {
+    formType: "input",
+    label: "东坡组件数量",
+    value: "",
+    type: "number",
+    name: "eastModuleNumber",
+    rules: [(val) => val < 0 && "请输入正整数或 0"],
+  },
+  {
+    formType: "input",
+    label: "西坡组件数量",
+    value: "",
+    type: "number",
+    name: "westModuleNumber",
+    rules: [(val) => val < 0 && "请输入正整数或 0"],
+  },
+  {
+    formType: "input",
+    label: "是否有天窗",
+    required: true,
+    value: "",
+    name: "skyLight",
+    ...backSelect(),
+    ...makeSelect("skyLight", [
+      { text: "无", value: 0 },
+      { text: "有", value: 1 },
+    ]),
+  },
+  {
+    formType: "input",
+    label: "组件朝向",
+    // required: true,
+    value: "",
+    name: "moduleTowards",
+    ...backSelect(),
+    ...makeSelect("moduleTowards", arrayToVantColumns(["正南", "东南", "西南", "正西", "正东", "正北", "东北", "西北"])),
+  },
+  {
+    formType: "input",
+    label: "方位角",
+    required: true,
+    value: "",
+    type: "number",
+    name: "azimuthAngle",
+    rules: [(val) => (val * 1 > 359 || val * 1 < 0) && "只允许输入 0-360 (含0, 不含360) 之间的数字, 不允许输入小数点, 不允许输入其他字符或中文"],
+    ...makeUnit("度"),
+  },
+  {
+    formType: "input",
+    label: "倾斜角",
+    required: true,
+    value: "0",
+    type: "number",
+    name: "tiltAngle",
+    rules: [(val) => (val * 1 > 89 || val * 1 < 0) && "只允许输入 0-89 (含0, 不含89) 之间的数字, 不允许输入小数点, 不允许输入其他字符或中文"],
+    ...makeUnit("度"),
+  },
+  {
+    formType: "input",
+    label: "安装最高点(房屋+光伏总高度)",
+    required: true,
+    value: "",
+    type: "digit",
+    name: "installedHeight",
+    rules: [(val) => val < 0 && "高度不能为负数"],
+    ...makeUnit("米"),
+  },
+];
+
+export const zj = [
+  makeTitle("组件"),
+  {
+    formType: "input",
+    label: "设计组件功率",
+    type: "digit",
+    name: "deviceSpec",
+    required: true,
+    ...makeUnit("W"),
+  },
+  {
+    formType: "input",
+    label: "设计组件数量",
+    value: "",
+    required: true,
+    type: "number",
+    name: "quantity",
+    ...makeUnit("块"),
+  },
+  {
+    formType: "input",
+    label: "设计容量",
+    placeholder: "自动计算",
+    value: "",
+    required: true,
+    readonly: true,
+    type: "digit",
+    name: "installedCapacityDesign",
+    ...makeUnit("W"),
+  },
+  {
+    formType: "input",
+    label: "基底分类",
+    required: true,
+    value: "",
+    name: "moduleBaseType",
+    ...backSelect(),
+    ...makeSelect("moduleBaseType", arrayToVantColumns(["N型组件", "P型组件"])),
+  },
+  {
+    formType: "input",
+    label: "背板分类",
+    required: true,
+    value: "",
+    name: "moduleBackPlateType",
+    ...backSelect(),
+    ...makeSelect("moduleBackPlateType", arrayToVantColumns(["双玻双面", "单玻单面"])),
+  },
+];
+
+export const nbq = [
+  makeTitle("逆变器"),
+  {
+    formType: "input",
+    label: "逆变器规格型号",
+    type: "number",
+    name: "deviceSpec-nbq",
+    value: "",
+    ...makeUnit("kW"),
+  },
+  {
+    formType: "input",
+    label: "逆变器个数",
+    type: "number",
+    name: "quantity-nbq",
+    value: "",
+    ...makeUnit("个"),
+  },
+  {
+    formType: "input",
+    inputAlign: "center",
+    inlineForm: [
+      {
+        slot: "input",
+        text: "添加",
+        formType: "button",
+        className: "bg-[#ddd] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        disabled: true,
+        click() {
+          const deviceSpec = getItem("deviceSpec-nbq").value;
+          const quantity = getItem("quantity-nbq").value;
+          setItem("table-nbq", (v) => {
+            v.value.push({ deviceSpec: deviceSpec + " kW", quantity });
+            const group = lo.groupBy(v.value, "deviceSpec");
+            const sums = lo.mapValues(group, (n) => lo.sumBy(n, (o) => o.quantity * 1));
+            const result = [];
+            lo.forIn(sums, (val, key) => {
+              result.push({ deviceSpec: key, quantity: val });
+            });
+            v.value = result;
+
+            setItem("deviceSpec-nbq", "value", "");
+            setItem("quantity-nbq", "value", "");
+          });
+        },
+      },
+    ],
+    backfill() {
+      watchItem(["deviceSpec-nbq", "quantity-nbq"], ([deviceSpec, quantity]) => {
+        // console.log(deviceSpec, quantity, 3333)
+        const flag = new Boolean(deviceSpec?.length && quantity?.length).valueOf();
+        console.log(flag);
+        const color = flag ? "yellow" : "disabled";
+        this.inlineForm[0].disabled = !flag;
+        this.inlineForm[0].className = this.inlineForm[0].className.replace(/bg-[^ ]+/, `bg-${color}`);
+      });
+    },
+  },
+  {
+    customSlot: "table-nbq",
+    formType: "",
+    name: "table-nbq",
+    value: [],
+    backfill(data) {
+      this.value = data.designDevice.filter((n) => n.deviceType == "NBQ");
+      this.value.forEach((n) => {
+        n.deviceSpec = n.deviceSpec + " kW";
+      });
+    },
+    remove(row) {
+      const index = this.value.findIndex((n) => n.deviceSpec == row.deviceSpec);
+      this.value.splice(index, 1)
+    },
+  },
+];
+
+export const cjq = [
+  makeTitle("采集器"),
+  {
+    formType: "input",
+    label: "采集器个数",
+    type: "number",
+    name: "deviceSpec-cjq",
+    required: true,
+    value: "",
+    ...makeUnit("个"),
+  },
+];
+
+export const pdx = [
+  makeTitle("逆变器"),
+  {
+    formType: "input",
+    label: "逆变器规格型号",
+    type: "number",
+    name: "deviceSpec-pdx",
+    value: "",
+    ...makeUnit("kW"),
+  },
+  {
+    formType: "input",
+    label: "逆变器个数",
+    type: "number",
+    name: "quantity-pdx",
+    value: "",
+    ...makeUnit("个"),
+  },
+  {
+    formType: "input",
+    inputAlign: "center",
+    inlineForm: [
+      {
+        slot: "input",
+        text: "添加",
+        formType: "button",
+        className: "bg-[#ddd] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        disabled: true,
+        click() {
+          const deviceSpec = getItem("deviceSpec-pdx").value;
+          const quantity = getItem("quantity-pdx").value;
+          setItem("table-pdx", (v) => {
+            v.value.push({ deviceSpec: deviceSpec + " kW", quantity });
+            const group = lo.groupBy(v.value, "deviceSpec");
+            const sums = lo.mapValues(group, (n) => lo.sumBy(n, (o) => o.quantity * 1));
+            const result = [];
+            lo.forIn(sums, (val, key) => {
+              result.push({ deviceSpec: key, quantity: val });
+            });
+            v.value = result;
+
+            setItem("deviceSpec-pdx", "value", "");
+            setItem("quantity-pdx", "value", "");
+          });
+        },
+      },
+    ],
+    backfill() {
+      watchItem(["deviceSpec-pdx", "quantity-pdx"], ([deviceSpec, quantity]) => {
+        // console.log(deviceSpec, quantity, 3333)
+        const flag = new Boolean(deviceSpec?.length && quantity?.length).valueOf();
+        console.log(flag);
+        const color = flag ? "yellow" : "disabled";
+        this.inlineForm[0].disabled = !flag;
+        this.inlineForm[0].className = this.inlineForm[0].className.replace(/bg-[^ ]+/, `bg-${color}`);
+      });
+    },
+  },
+  {
+    customSlot: "table-pdx",
+    formType: "",
+    name: "table-pdx",
+    value: [],
+    backfill(data) {
+      this.value = data.designDevice.filter((n) => n.deviceType == "PDX");
+      this.value.forEach((n) => {
+        n.deviceSpec = n.deviceSpec + " kW";
+      });
+    },
+    remove(row) {
+      const index = this.value.findIndex((n) => n.deviceSpec == row.deviceSpec);
+      this.value.splice(index, 1)
+    },
+  },
+];
+
+export const structureChartForm = [
+  makeTitle("结构图纸"),
+  {
+    ...makeUpload(999, 100, "*"),
+    formType: "input",
+    label: "结构图纸",
+    required: true,
+    name: "structureChart",
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    }
+  },
+];
+
+export const electricalDiagramForm = [
+  makeTitle("电气图纸"),
+  {
+    ...makeUpload(999, 100, "*"),
+    formType: "input",
+    label: "电气图纸",
+    required: true,
+    name: "electricalDiagram",
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    }
+  },
+];
+
+export const billMaterials = [
+  makeTitle("物料清单"),
+  {
+    label: "(BOM) 物料清单",
+    name: "materialList",
+    ...makeUpload(999, 100, "*"),
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    }
+  },
+  {
+    formType: "input",
+    inputAlign: 'center',
+    inlineForm: [
+      {
+        slot: 'input',
+        text: '只保存物料清单',
+        formType: 'button',
+        className: 'bg-yellow text-white h-8 w-[30%] rounded-2xl van-haptics-feedback',
+        click: (...args) => {
+          console.log(3333)
+          // const src = getlongPressUrl();
+          // console.log(src);
+        },
+      }
+    ]
+  }
+];

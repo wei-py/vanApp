@@ -92,7 +92,7 @@ export const lessorInfo = [
     },
     async backfill(data) {
       const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
-      const value = data.houseAddr.areaCode || data.houseAddr.cityCode;
+      const value = data.houseAddr?.areaCode || data.houseAddr?.cityCode;
       cascader.options = await getArea();
       setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
       const tree = searchTree(cascader.options, (n) => n.value == value);
@@ -155,7 +155,7 @@ export const lessorInfo = [
       delete params.detailedAddress;
     },
     backfill(data) {
-      this.value = data.houseAddr.detailedAddress;
+      this.value = data.houseAddr?.detailedAddress;
     },
     // clickRightIcon() {
     //   showToast("扫码功能开发中");

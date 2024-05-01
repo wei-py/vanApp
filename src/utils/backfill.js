@@ -6,32 +6,26 @@
  * @Desc: 回填数据
  */
 
-
-
 /**
  * 回填数据
  * @param {Array[Object]} _ 表单数据
  * @param {*} data 后端接口请求数据
  */
 export default function backfill(_, data) {
+  const dom = useDom();
+  dom.imgDoms = [];
   forForm((item) => {
     if (lo.isFunction(item.backfill)) {
       item.backfill(data);
       return;
     }
     if (lo.has(data, item.name)) {
-      // setItem(item.name, 'value', data[item.name])
       item.value = data[item.name];
     }
-    
   });
 
-  const dom = useDom();
-  dom.imgDoms = [];
-  gets(data, "*", (v) => {
-    if (lo.isString(v) && isImg(v)) {
-      dom.imgDoms.push(sToUrl(v));
-    }
+  wait(1000).then(() => {
+    dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
   });
 
   onLongPressImg();

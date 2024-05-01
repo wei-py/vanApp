@@ -24,6 +24,10 @@ function setRef(el, item) {
   }
 }
 
+onMounted(() => {
+  // console.log(props);
+});
+
 function getFunction(item, func, ...args) {
   return lo.isFunction(item[func]) ? item[func](...args) : () => {};
 }
@@ -49,12 +53,28 @@ function getFunction(item, func, ...args) {
       @confirm="(...args) => getFunction(item, 'confirm', ...args)"
       @input="(...args) => getFunction(item, 'input', ...args)"
       @blur="(...args) => getFunction(item, 'blur', ...args)"
+      @select="(...args) => getFunction(item, 'select', ...args)"
       @clickPreview="(...args) => getFunction(item, 'clickPreview', ...args)"
       @update:model-value="(...args) => getFunction(item, 'updateValue', ...args)"
     >
-          <!-- @touchstart.stop="(...args) => getFunction(item, 'touchstart', ...args)" -->
+      <!-- @touchstart.stop="(...args) => getFunction(item, 'touchstart', ...args)" -->
       <template v-for="slot of get(item, 'inlineForm', [])" #[slot.slot] :key="now">
         <recuDynComponent :form="slot" />
+      </template>
+
+      <!-- vant 文件显示处理 -->
+      <template #preview-cover="slot">
+        <template v-if="!$isImg(slot.url)">
+          <van-image src="./background/pdf.png" class="w-[78px] h-[78px] bg-[#f7f8fa]" fit="contain" />
+        </template>
+        <template v-else>
+          <van-image lazy-load  :src="slot.url" class="w-[78px] h-[78px] bg-[#f7f8fa]" fit="cover">
+            <template v-slot:error>加载失败</template>
+            <template v-slot:loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
+        </template>
       </template>
     </component>
   </template>

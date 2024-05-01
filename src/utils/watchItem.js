@@ -8,7 +8,8 @@ export default function watchItem(name, pathOrCallback, callback = () => {}) {
         } else {
           callback(value);
         }
-      }
+      },
+      { debounce: 500, maxWait: 1000 }
     );
     // computedAsync(() => {
     //   const value = getItem(name, "realValue") || getItem(name, "value");

@@ -47,12 +47,10 @@ export const certificate = [
     },
     isLink: true,
     readonly: true,
-    click() {
-      this.inlineForm[0].show = true;
-    },
+
     inlineForm: [
       {
-        slot: "extra",
+        slot: "right-icon",
         formType: "popup",
         name: "recordCertificateIdPop",
         show: false,
@@ -74,25 +72,102 @@ export const certificate = [
         ],
       },
       {
-        slot: "right-icon",
+        slot: "button",
         name: "recordCertificateIdRightIcon",
+        formType: "popover",
+        show: false,
+        placement: "bottom-end",
+        actions: [],
+        style: { width: "250px", height: "40vh" },
+        select(action) {
+          console.log(action);
+        },
       },
     ],
+    onMounted() {},
     backfill(data) {
+      console.log(this.inlineForm[1].ref);
       watchItem(["companyId", "recordType"], async ([companyId, recordType]) => {
         const { data } = await http.post("record/list?isAuth=false", { recordType, companyId });
         if (recordType == 1) {
+          this.value = "";
+          this.readonly = true;
+          this.isLink = true;
+          this.click = () => {
+            this.inlineForm[0].show = true;
+          };
+          // this.inlineForm[0].inlineForm[0].columns = columns;
           // this.inlineForm[0].inlineForm[0].columns.length = 0
           // this.inlineForm[0].inlineForm[0].columns = [];
           // console.log(recordType, 3333)
           // console.log(data)
         } else {
-          // this.inlineForm[0].inlineForm[0].columns = [];
-          const columns = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
-          this.inlineForm[0].inlineForm[0].columns = columns;
+          const actions = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
+          this.updateValue = (value) => {
+            const filterActions = actions.filter((n) => n.value.includes(value));
+            this.inlineForm[1].show = new Boolean(filterActions.length || value.length);
+            this.inlineForm[1].actions = filterActions;
+          };
+          this.value = "";
+          this.readonly = false;
+          this.isLink = false;
+          this.click = () => {};
         }
       });
-
-    }
+    },
+  },
+  {
+    formType: "input",
+    label: "备案证容量",
+    name: "recordCertificateCapacity",
+    value: "",
+    required: true,
+    ...makeUnit("kW"),
+  },
+  {
+    formType: "input",
+    label: "本项目拟安装容量",
+    required: true,
+    readonly: true,
+    name: "installedCapacityReckon",
+    value: "",
+    realValue: '',
+    ...makeUnit("kW"),
+    backfill(data) {
+      this.realValue = data.installedCapacityReckon
+      this.value = divide(data.installedCapacityReckon * 1, 1000);
+    },
+  },
+  {
+    formType: "input",
+    label: "剩余备案容量",
+    name: "surplusCapacity",
+    placeholder: "自动计算",
+    readonly: true,
+    value: "",
+    ...makeUnit("kW"),
+    backfill(data) {
+      this.realValue = data.surplusCapacity
+      this.value = divide(data.surplusCapacity * 1, 1000);
+      watchItem(["recordCertificateCapacity", "installedCapacityReckon"], ([recordCertificateCapacity, installedCapacityReckon]) => {
+        this.realValue = subtract(recordCertificateCapacity, installedCapacityReckon);
+        this.value = divide(this.realValue * 1, 1000);
+      });
+    },
+  },
+  {
+    ...makeUpload(1, 100),
+    label: "备案证附件",
+    name: "accessory",
+    required: true,
+  },
+  {
+    ...makeUpload(999, 100),
+    label: "房屋权属证明",
+    name: "propertyCertificate",
+    required: true,
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
   },
 ];

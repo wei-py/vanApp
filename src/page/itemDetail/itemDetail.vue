@@ -75,6 +75,7 @@ async function getData() {
 
       forForm((val) => {
         if (val.title == title && val.isLink) {
+        
           val.value = value;
           const color = statusColor(value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
@@ -107,8 +108,8 @@ async function getData() {
           </template>
           <template #value>
             <div class="flex justify-end items-end w-full">
-              <plainButton class="!h-[24px] shadow-inner" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
-              <plainButton class="!h-[24px] shadow-inner !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
+              <plainButton class="!h-[24px] " @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
+              <plainButton class="!h-[24px]  !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
             </div>
           </template>
         </van-cell>

@@ -12,19 +12,20 @@ export const formType = {
   switch: van.Switch,
   cell: van.Cell,
   popup: van.Popup,
+  popover: van.Popover,
   cascader: van.Cascader,
   pick: van.Picker,
   button: van.Button,
   upload: van.Uploader,
   numberKeyboard: van.NumberKeyboard,
   icon: van.Icon,
-  div: createElementBlock('div')
+  date: van.DatePicker
 };
 
 export function reform(item) {
 
   let labelClass = lo.get(item, "labelClass", "");
-  labelClass += " !min-w-[50%]";
+  labelClass += " !min-w-[30%]";
   // labelClass += ' flex-1'
   labelClass = lo.uniq(labelClass.split(" ")).join(" ")
   lo.set(item, "labelClass", labelClass);
@@ -37,7 +38,7 @@ export function reform(item) {
     reformInput(item);
   }
 
-  return formType[item.formType];
+  return formType[item.formType] || item.formType;
 }
 
 function reformInput(item) {

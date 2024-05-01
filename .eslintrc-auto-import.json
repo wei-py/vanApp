@@ -425,6 +425,8 @@
     "watchItem": true,
     "makeUpload": true,
     "isImg": true,
-    "baseURLDic": true
+    "baseURLDic": true,
+    "makeImgs": true,
+    "makeUnit": true
   }
 }
