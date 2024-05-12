@@ -57,7 +57,7 @@ export const lessorInfo = [
     value: "",
     hidden: isZZD_ORG(),
     ...backSelect(),
-    ...makeSelect("maritalStatus", [
+    ...makeSelect("educationalBackground", [
       { text: "初等教育", value: "初等教育" },
       { text: "中等教育", value: "中等教育" },
       { text: "高等教育", value: "高等教育" },
@@ -103,7 +103,7 @@ export const lessorInfo = [
     value: "",
     hidden: isZZD_ORG(),
     ...backSelect(),
-    ...makeSelect("economy", arrayToVantColumns(["健康", "亚健康", "疾病"])),
+    ...makeSelect("health", arrayToVantColumns(["健康", "亚健康", "疾病"])),
   },
   {
     formType: "input",
@@ -117,7 +117,8 @@ export const lessorInfo = [
     placeholder: "请选择所在地区",
     middle: { value: [], provinceCode: "", cityCode: "", areaCode: "" },
     clickRightIcon() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     getParam(param) {
       const [provinceCode, cityCode, areaCode] = this.middle.value;
@@ -204,7 +205,8 @@ export const bankInfo = [
     // type: "digit",
     value: "",
     // click() {
-    //   this.inlineForm[0].show = true;
+    //   const flag = useFlag()
+      // this.inlineForm[0].show = flag.btns.canEdit;
     // },
     input(e) {
       const value = e.target.value.replace(/ /g, "");
@@ -225,8 +227,13 @@ export const bankInfo = [
     readonly: true,
     isLink: true,
     click() {
-      this.inlineForm[0].show = true;
-      this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue("");
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
+      this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue(this.value);
+    },
+    backfill(data) {
+      this.value = data[this.name];
+      setItem("accountOpeningBranch", "inlineForm.0.inlineForm.0.inlineForm.0.value", this.value);
     },
     inlineForm: [
       {
@@ -280,8 +287,12 @@ export const bankInfo = [
     readonly: true,
     isLink: true,
     click() {
-      this.inlineForm[0].show = true;
-      this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue("");
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
+      setItem("bankName", (v) => {
+        this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue(v.value);
+      });
+      // this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue("");
     },
     inlineForm: [
       {
@@ -302,7 +313,7 @@ export const bankInfo = [
             value: "",
             finish(result) {
               const val = result.selectedOptions[0];
-              setItem("accountOpeningBranch", "realValue", val.value);
+              setItem("accountOpeningBranch", "realValue", val.text);
               setItem("accountOpeningBranch", val.text);
               setItem("accountOpeningBranch", "inlineForm.0.show", false);
             },

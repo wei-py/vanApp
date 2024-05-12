@@ -12,16 +12,22 @@ async function getData() {
   backfill(_, data);
 }
 
-async function submit() {
-  await validate();
-  const result = getParam();
-  console.log(result);
+async function saveData() {
+  const params = getParam();
+  const { data } = await http.post("order/put-construction", params);
 }
+
+async function submitData(params) {
+  params.taskId = "TASK_SGXX";
+  const { data } = await http.post(queryUrl("/approval/put-approval/bto/construction", params));
+}
+
+async function approvalData() {}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
   <vantForm :form="_.build" class="pt-3" group-class="shadowC"> </vantForm>
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
+  <vBtn></vBtn>
 </template>

@@ -9,7 +9,8 @@ export const gridConnectedMessageForm = [
     readonly: true,
     realValue: "",
     click() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
       this.value = data[this.name]?.replace(" 00:00:00", "");
@@ -46,7 +47,8 @@ export const gridConnectedMessageForm = [
     readonly: true,
     realValue: "",
     click() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
       this.value = data[this.name]?.replace(" 00:00:00", "");
@@ -146,7 +148,8 @@ export const propertyInsuranceForm = [
     readonly: true,
     realValue: "",
     click() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
       this.value = data[this.name]?.replace(" 00:00:00", "");
@@ -183,7 +186,8 @@ export const propertyInsuranceForm = [
     readonly: true,
     realValue: "",
     click() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
       this.value = data[this.name]?.replace(" 00:00:00", "");

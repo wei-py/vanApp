@@ -34,12 +34,12 @@ let _ = makeForm({
 
 let query = getQuery(); // 路由参数
 const statusDic = getStatusDic(); // 阶段状态字典
+const isDLS = ref(false);
 
 onMounted(() => {
   // query = getQuery(); // 路由参数
   runTime(getData, "itemDetail - getData");
   // getData();
-
 });
 
 async function getData() {
@@ -48,6 +48,7 @@ async function getData() {
   gets(data, "list.0", (v) => {
     _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
     _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
+    isDLS.value = v?.company?.type == "DLS";
   });
 
   gets(data, "*.currentOrderState.0", (v) => {
@@ -65,7 +66,7 @@ async function getData() {
   });
 
   let htqyFlag = false; // 合同签约是否起租
-  await gets(data, "*.orderStates", (val) => {
+  await gets(data, "*.orderStates", async (val) => {
     concurr(val, (v) => {
       const taskId = v?.taskId;
       const stateId = v?.stateId;
@@ -75,7 +76,6 @@ async function getData() {
 
       forForm((val) => {
         if (val.title == title && val.isLink) {
-        
           val.value = value;
           const color = statusColor(value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
@@ -90,6 +90,9 @@ async function getData() {
         }
       });
     });
+    if (_.initReview[1].value.includes("通过")) {
+      _.initReview[2].value = "可变更";
+    }
   });
 }
 
@@ -108,8 +111,8 @@ async function getData() {
           </template>
           <template #value>
             <div class="flex justify-end items-end w-full">
-              <plainButton class="!h-[24px] " @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
-              <plainButton class="!h-[24px]  !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
+              <plainButton class="!h-[24px]" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
+              <plainButton class="!h-[24px] !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
             </div>
           </template>
         </van-cell>
@@ -124,6 +127,10 @@ async function getData() {
     <vantForm :form="_.build" group-class="itemDetailGrop" />
     <vantForm :form="_.grid" group-class="itemDetailGrop" />
     <vantForm :form="_.electricityContract" group-class="itemDetailGrop" />
+
+    <vantForm v-if="!isDLS" :form="_.ZYsettlement" group-class="itemDetailGrop" />
+    <vantForm v-if="isDLS" :form="_.DLSsettlement" group-class="itemDetailGrop" />
+
     <vantForm :form="_.income" group-class="itemDetailGrop" />
   </div>
 </template>

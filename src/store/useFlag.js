@@ -3,10 +3,13 @@ export const useFlag = defineStore(
   () => {
     const orderId = ref("");
     const statusDic = ref({});
-    const headers = ref({Biztype: 'ZZD', Version: '2.4.17'})
-    const overlayShow = ref(true)
-
-    return { orderId, statusDic, headers, overlayShow };
+    const headers = ref({ Biztype: "ZZD", Version: "2.4.17" });
+    const overlayShow = ref(true);
+    const saveFlag = ref([]);
+    const btns = ref({});
+    const orderState = ref({});
+    // const stopWatch = ref([])
+    return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState };
   },
   {
     persist: {

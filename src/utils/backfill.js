@@ -12,21 +12,30 @@
  * @param {*} data 后端接口请求数据
  */
 export default function backfill(_, data) {
+  const flag = useFlag();
   const dom = useDom();
+  const event = useEvent();
   dom.imgDoms = [];
+
   forForm((item) => {
     if (lo.isFunction(item.backfill)) {
       item.backfill(data);
       return;
     }
     if (lo.has(data, item.name)) {
-      item.value = data[item.name];
+      item.value = data[item.name] || item.value;
     }
   });
 
-  wait(1000).then(() => {
-    dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
-  });
+  if (!lo.isUndefined(data.btns)) {
+    flag.btns = data.btns;
+  }
+
+  flag.orderState = data.orderState;
+
+  if (lo.isFunction(event.approvalBackfill)) {
+    event.approvalBackfill();
+  }
 
   onLongPressImg();
 }

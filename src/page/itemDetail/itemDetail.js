@@ -172,19 +172,19 @@ export const initReview = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { orderId: getQuery().orderId, title: this.title } });
     },
   },
   {
     formType: "cell",
-    name: "/inquiry",
+    name: "/InitialReview",
     title: "设计变更信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { orderId: getQuery().orderId, title: this.title } });
     },
   },
 ];
@@ -209,7 +209,7 @@ export const build = [
   },
   {
     formType: "cell",
-    name: "/deviceInfo",
+    name: "/DeviceInfo",
     title: "设备信息",
     valueClass: "mr-[10px] text-gray",
     titleClass,
@@ -252,8 +252,38 @@ export const grid = [
     },
   },
 ];
-export const ZYsettlement = [];
-export const DLSsettlement = [];
+
+export const ZYsettlement = [
+  {
+    formType: "cell",
+    title: "直营结算",
+    titleClass: itemDetailTitleClass,
+    class: "!p-0 h-[50px]",
+  },
+  {
+    formType: "cell",
+    name: "/settlement",
+    title: "直营结算信息",
+    valueClass: "mr-[10px] text-gray",
+    titleClass,
+    isLink: true,
+    value: "未开启",
+    click() {
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+    },
+  }
+];
+
+export const DLSsettlement = [
+  {
+    formType: "cell",
+    title: "供应商结算",
+    titleClass: itemDetailTitleClass,
+    class: "!p-0 h-[50px]",
+  },
+
+];
+
 export const electricityContract = [
   {
     formType: "cell",
@@ -283,7 +313,7 @@ export const income = [
   },
   {
     formType: "cell",
-    name: "屋顶业主收益查询",
+    name: "/income",
     title: "屋顶业主收益查询",
     valueClass: "mr-[10px] text-gray",
     titleClass,

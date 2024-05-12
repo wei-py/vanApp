@@ -8,9 +8,10 @@ function onClickLeft() {
 }
 
 async function onRefresh() {
+  // location.reload()
   // 下拉刷新事件
-  const event = useEvent();
-  await event.getData();
+  // const event = useEvent();
+  // await event.getData();
   loading.value = false;
 }
 
@@ -60,7 +61,7 @@ async function login() {
         </transition>
       </router-view> -->
       <Suspense>
-        <div class="flex-1 bg-[#f3f3f3]">
+        <div class="flex-1 bg-[#f3f3f3] flex flex-col">
           <router-view :key="$route.fullPath"></router-view>
         </div>
       </Suspense>
@@ -72,7 +73,7 @@ async function login() {
         </transition>
       </router-view> -->
       <Suspense>
-        <div class="flex-1">
+        <div class="flex-1 flex flex-col">
           <router-view :key="$route.fullPath"></router-view>
         </div>
       </Suspense>
@@ -136,6 +137,22 @@ async function login() {
 </style>
 
 <style>
+/* .van-field__control:disabled {
+  color: #323232 !important;
+  -webkit-text-fill-color: #323232 !important;
+} */
+
+.van-field--disabled .van-field__label {
+  label {
+    color: #323232 !important;
+    -webkit-text-fill-color: #323232 !important;
+  }
+}
+
+.van-uploader__input {
+  width: 80px !important;
+  height: 80px !important;
+}
 .van-cell__right-icon {
   margin: auto 0;
 }
@@ -143,10 +160,16 @@ label {
   /* margin: auto; */
 }
 .van-uploader__preview {
-  margin: 4px !important;
+  /* margin-top: 8px !important; */
+  margin: 8px 8px 0 !important;
+}
+
+.van-uploader__wrapper--disabled {
+  opacity: 1 !important;
 }
 .van-uploader__wrapper {
   margin: 0 !important;
+  min-height: 98px !important;
   justify-content: center;
   /* height: 100px;
   width: 100px;
@@ -191,8 +214,29 @@ label {
   /* border-radius: 8px !important;
   border: 1px dashed #dee0e2; */
 }
+
 .van-field__label {
   margin: auto;
+}
+.van-field__error-message {
+  margin: auto !important;
+  text-align: center !important;
+}
+
+.van-picker-column__item {
+  .van-ellipsis {
+    overflow: none;
+    white-space: wrap;
+    text-align: center;
+  }
+}
+
+.\!w-\[50\%\] {
+  width: 50% !important;
+}
+
+.\!w-\[100\%\] {
+  width: 100% !important;
 }
 </style>
 

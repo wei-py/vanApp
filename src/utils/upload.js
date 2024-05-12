@@ -1,3 +1,4 @@
+import axios from "axios";
 let qiniuToken = "";
 /**
  *
@@ -16,8 +17,9 @@ export async function upload(file, orderId = getQuery()?.orderId, fileType = "im
   body.append("file", file, file.name); //通过append向form对象添加数据
   body.append("token", qiniuToken);
 
-  const { data } = await http.post(url, body);
-  return data.src;
+  const { data } = await axios.post(url, body);
+  //  http.post(url, body);
+  return data.src || data.data.src;
 }
 
 export function toSrcs(arr) {

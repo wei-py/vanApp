@@ -1,4 +1,5 @@
 <script setup name="recuDynComponent">
+import isImg, { isImgSlot } from "@/utils/isImg";
 import { get } from "lodash";
 import { formType } from "@/utils/formType";
 
@@ -12,20 +13,33 @@ const props = defineProps({
 });
 
 function omitItem(item) {
-  return lo.omit(item, ["formType", "inlineForm"]);
+  const func = [];
+  // lo.forIn(item, (value, key) => {
+  //   const excludes = ["beforeRead", 'beforeDelete']
+  //   if (lo.isFunction(value) && !excludes.includes(key)) {
+  //     func.push(key);
+  //   }
+
+  // });
+  return lo.omit(item, ["formType", "inlineForm", "realValue", ...func]);
 }
 
-function setRef(el, item) {
-  item.ref = el;
-  if (item.longPress) {
-    onLongPress(el, (e) => {
-      item.longPress = e.target.src;
-    });
-  }
-}
+// function setRef(el, item) {
+//   item.ref = el;
+//   if (item.longPress) {
+//     onLongPress(el, (e) => {
+//       item.longPress = e.target.src;
+//     });
+//   }
+// }
 
-onMounted(() => {
-  // console.log(props);
+onMounted(() => {});
+
+onBeforeUnmount(() => {
+  // gets(props.form, "*", (val, p, k) => {
+  // console.log(k)
+  // lo.set(props.form, k, null);
+  // })
 });
 
 function getFunction(item, func, ...args) {
@@ -34,16 +48,16 @@ function getFunction(item, func, ...args) {
 </script>
 
 <template>
-  <template v-for="(item, i) of [props.form].flat()" :key="item.name + '' + i">
+  <template v-for="(item, i) of [props.form].flat()" :key="i">
     <slot :name="item.customSlot"></slot>
     <!-- {{  formType[item.formType]}} -->
+    <!-- :ref="(el) => setRef(el, item)" -->
     <component
       v-if="!item.hidden"
       :is="formType[item.formType]"
       v-model="item.value"
       v-model:show="item.show"
       v-bind="omitItem(item)"
-      :ref="(el) => setRef(el, item)"
       @click.stop="(...args) => getFunction(item, 'click', ...args)"
       @close="(...args) => getFunction(item, 'close', ...args)"
       @finish="(...args) => getFunction(item, 'finish', ...args)"
@@ -64,13 +78,14 @@ function getFunction(item, func, ...args) {
 
       <!-- vant 文件显示处理 -->
       <template #preview-cover="slot">
-        <template v-if="!$isImg(slot.url)">
-          <van-image src="./background/pdf.png" class="w-[78px] h-[78px] bg-[#f7f8fa]" fit="contain" />
+        <template v-if="!isImgSlot(slot)">
+          <van-image src="./background/pdf.png" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
         </template>
         <template v-else>
-          <van-image lazy-load  :src="slot.url" class="w-[78px] h-[78px] bg-[#f7f8fa]" fit="cover">
-            <template v-slot:error>加载失败</template>
-            <template v-slot:loading>
+          <van-image  :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">
+            <!-- lazy-load -->
+            <template #error>加载失败</template>
+            <template #loading>
               <van-loading type="spinner" size="20" />
             </template>
           </van-image>

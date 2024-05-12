@@ -15,7 +15,7 @@ export const reconnaissanceUserForm = [
         return { ...item, text: item.name, value: item.userId };
       });
       watchItem("userId", (v) => {
-        setItem("phone", "value", lo.find(columns, ["value", v])?.phone || '');
+        setItem("phone", "value", lo.find(columns, ["value", v])?.phone || "");
       });
       this.makeSelect(bData[this.name], columns);
     },
@@ -45,8 +45,11 @@ export const reconnaissanceUserForm = [
         size: "small",
         type: "primary",
         class: " !py-1 !bg-[#ffab30] text-white !border-0 w-[30%]",
-        click() {
-          console.log(33333);
+        async click() {
+          const userId = getItem("userId", "realValue");
+          const query = getQuery();
+          const { data } = await http.post(queryUrl(`appoint/jskc`, { ...query, userId }));
+          location.reload();
         },
       },
     ],
@@ -57,6 +60,9 @@ export const reconnaissanceUserForm = [
       if (stageId == "KAN_CHA") {
         this.inlineForm[0].text = stateId == "WAITING_APPOINT" ? "指派" : "重新指派";
       }
+      watchItem("userId", (v) => {
+        this.inlineForm[0].disabled = !new Boolean(v).valueOf();
+      });
       // this.inlineForm[0].disabled = !(orderBaseUserId == userId || userId == util._.name('userId').value) || !util._.btns.canSave
     },
   },
@@ -73,7 +79,7 @@ export const basicMessageForm = [
     ...makeSelect("inverterBrand", [], "dymatic"),
 
     async backfill(bData) {
-      const { data } = await http.post("sto/device-args/list?option=manufacturerShortName", { deviceType: "NBQ" });
+      const { data } = await http.post("/sto/device-args/list?option=manufacturerShortName", { deviceType: "NBQ" });
       this.makeSelect(bData[this.name], arrayToVantColumns(data));
     },
   },
@@ -121,19 +127,19 @@ export const basicMessageForm = [
 export const aerophotographForm = [
   makeTitle("屋顶无人机航拍图"),
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, "", true),
     label: "无人机全景俯视图(必填)",
     required: true,
     name: "aerophotographWhole",
   },
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, "", true),
     label: "无人机(西北角往东南拍)(必填)",
     required: true,
     name: "aerophotographNorthwest",
   },
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, "", true),
     label: "无人机(东北角往西南拍)(必填)",
     name: "aerophotographNortheast",
     required: true,
@@ -143,7 +149,7 @@ export const aerophotographForm = [
 export const inverterPositionForm = [
   makeTitle("逆变器安装位置"),
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, "", true),
     label: "逆变器安装位置",
     name: "inverterPosition",
     required: true,
@@ -153,7 +159,7 @@ export const inverterPositionForm = [
 export const distributionBoxPositionForm = [
   makeTitle("配电箱安装位置"),
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, "", true),
     label: "配电箱安装位置",
     name: "distributionBoxPosition",
     required: true,
@@ -177,7 +183,6 @@ export const junctionLocationForm = [
     ...backSelect(),
     ...makeSelect("allowCrane", arrayToVantColumns(["能", "不能", "不确定"])),
   },
-  
 ];
 
 // export const multiConfluence = [

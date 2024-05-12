@@ -3,23 +3,48 @@ import { basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagram
 
 const _ = makeForm({ basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagramForm, billMaterials });
 const query = getQuery();
+let completeNbqPv = false;
 
 onMounted(() => {
-  runTime(getData)
+  runTime(getData);
+  useTitle(query.title)
   // getData();
 });
 
+function openEdit() {
+  const flag = useFlag()
+  // flag.btns.canApproval = true
+}
+
 async function getData() {
-  const url = queryUrl("order/get-design", { times: 0, ...query });
+  const url = queryUrl("order/get-design", { times: query.title == '初设评审信息' ? 0 : 100, ...query });
   const { data } = await http.get(url);
+  completeNbqPv = data.completeNbqPv;
   backfill(_, data);
 }
 
-async function submit() {
-  await validate();
-  const result = getParam();
-  console.log(result);
+async function saveData() {
+  const params = getParam();
+  setItem("saveMaterial", (v) => {
+    v.inlineForm[0].click(false);
+  });
+  const { data } = await http.post("order/put-design", params);
 }
+
+async function submitData(params) {
+  params.completeNbqPv = completeNbqPv;
+  if (!completeNbqPv) {
+    showFailToast("设计组串数量中DC1和DC2是必填、是非零项");
+    return;
+  }
+  const { data } = await http.post(queryUrl("approval/put-approval/bto/design", params));
+}
+
+async function approvalData(params) {
+  const { data } = await http.post('approval/do-approval/bto/design', params)
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
@@ -58,9 +83,7 @@ async function submit() {
   <vantForm :form="_.electricalDiagramForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.billMaterials" class="pt-3" group-class="shadowC"> </vantForm>
 
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
+  <vBtn></vBtn>
 </template>
 
 <style>

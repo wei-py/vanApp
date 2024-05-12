@@ -3,6 +3,37 @@ import { actionSheetProps } from "vant";
 export const basicInfoForm = [
   makeTitle("基本信息"),
   {
+    formType: "",
+    name: "completeNbqPv",
+    value: false,
+    backfill(data) {
+      this.value = data[this.name];
+    },
+    getParam(param) {
+      param[this.name] = this.value;
+    },
+  },
+  {
+    name: "id",
+    value: "",
+    backfill(data) {
+      this.value = data.id;
+    },
+    getParam(param) {
+      param.id = this.value;
+    },
+  },
+  {
+    name: "designIdByPv",
+    value: "",
+    backfill(data) {
+      this.value = data.designIdByPv;
+    },
+    getParam(param) {
+      param.designIdByPv = this.value;
+    },
+  },
+  {
     formType: "input",
     label: "设计类型",
     required: true,
@@ -11,8 +42,11 @@ export const basicInfoForm = [
     ...backSelect(),
     ...makeSelect("designType", arrayToVantColumns(["一字型", "人字型", "阵列式", "一字型+人字型", "一字型+阵列式", "人字型+阵列式"])),
     backfill(data) {
-      this.value = data.designType;
-      this.realValue = data.designType;
+      this.value = data.designType || "";
+      this.realValue = data.designType || "";
+    },
+    getParam(params) {
+      params.designType = "";
     },
   },
   {
@@ -20,6 +54,7 @@ export const basicInfoForm = [
     label: "南坡组件数量",
     value: "",
     type: "number",
+    placeholder: "请输入",
     name: "southModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
   },
@@ -28,6 +63,7 @@ export const basicInfoForm = [
     label: "北坡组件数量",
     value: "",
     type: "number",
+    placeholder: "请输入",
     name: "northModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
   },
@@ -36,6 +72,7 @@ export const basicInfoForm = [
     label: "东坡组件数量",
     value: "",
     type: "number",
+    placeholder: "请输入",
     name: "eastModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
   },
@@ -44,6 +81,7 @@ export const basicInfoForm = [
     label: "西坡组件数量",
     value: "",
     type: "number",
+    placeholder: "请输入",
     name: "westModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
   },
@@ -109,6 +147,10 @@ export const zj = [
     name: "deviceSpec",
     required: true,
     ...makeUnit("W"),
+    backfill(data) {
+      const value = lo.find(data.designDevice, ["deviceType", "ZUJIAN"]);
+      this.value = lo.get(value, this.name);
+    },
   },
   {
     formType: "input",
@@ -118,6 +160,10 @@ export const zj = [
     type: "number",
     name: "quantity",
     ...makeUnit("块"),
+    backfill(data) {
+      const value = lo.find(data.designDevice, ["deviceType", "ZUJIAN"]);
+      this.value = lo.get(value, this.name);
+    },
   },
   {
     formType: "input",
@@ -128,7 +174,16 @@ export const zj = [
     readonly: true,
     type: "digit",
     name: "installedCapacityDesign",
-    ...makeUnit("W"),
+    ...makeUnit("W", "dynamic"),
+    backfill() {
+      watchItem(["deviceSpec", "quantity"], ([deviceSpec, quantity]) => {
+        const value = multiply(deviceSpec, quantity);
+        this.realValue = value;
+        const result = unitConver(value);
+        this.value = result.value;
+        this.makeUnit(result.unit);
+      });
+    },
   },
   {
     formType: "input",
@@ -138,6 +193,10 @@ export const zj = [
     name: "moduleBaseType",
     ...backSelect(),
     ...makeSelect("moduleBaseType", arrayToVantColumns(["N型组件", "P型组件"])),
+    // backfill(data) {
+    //   const value = lo.find(data.designDevice, ['deviceType', "ZUJIAN"])
+    //   this.value =lo.get(value, this.name)
+    // },
   },
   {
     formType: "input",
@@ -147,6 +206,28 @@ export const zj = [
     name: "moduleBackPlateType",
     ...backSelect(),
     ...makeSelect("moduleBackPlateType", arrayToVantColumns(["双玻双面", "单玻单面"])),
+  },
+  {
+    name: "zj",
+    getParam(params) {
+      if (!lo.isArray(params.designDevice)) {
+        params.designDevice = [];
+      }
+      const result = {
+        deviceSpec: params.deviceSpec,
+        quantity: params.quantity,
+        deviceType: "ZUJIAN",
+        // ...lo.pick(params, ["installedCapacityDesign", "moduleBaseType", "moduleBackPlateType"]),
+      };
+      if (params.deviceSpec && params.quantity) {
+        params.designDevice.push(result);
+      }
+      delete params.deviceSpec;
+      delete params.quantity;
+      // delete params.installedCapacityDesign;
+      // delete params.moduleBaseType;
+      // delete params.moduleBackPlateType;
+    },
   },
 ];
 
@@ -169,14 +250,17 @@ export const nbq = [
     ...makeUnit("个"),
   },
   {
-    formType: "input",
+    formType: "cell",
     inputAlign: "center",
+    titleClass: "xCenter",
+    valueClass: "xCenter",
+    name: "button-nbq",
     inlineForm: [
       {
-        slot: "input",
+        slot: "title",
         text: "添加",
         formType: "button",
-        className: "bg-[#ddd] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        className: "bg-[#ddd] text-white h-8 w-[60%] rounded-2xl van-haptics-feedback ",
         disabled: true,
         click() {
           const deviceSpec = getItem("deviceSpec-nbq").value;
@@ -190,18 +274,39 @@ export const nbq = [
               result.push({ deviceSpec: key, quantity: val });
             });
             v.value = result;
-
             setItem("deviceSpec-nbq", "value", "");
             setItem("quantity-nbq", "value", "");
+          });
+        },
+      },
+      {
+        slot: "value",
+        text: "设计组串数量",
+        formType: "button",
+        className: "bg-[#ddd] text-white h-8 w-[60%] rounded-2xl van-haptics-feedback ",
+        click() {
+          const param = getParam();
+          const query = lo.pick(param, ["id", "orderId", "designIdByPv"]);
+          const table = lo.filter(param.designDevice, ["deviceType", "NBQ"]);
+          const tableQ = table.reduce((pre, cur) => {
+            cur = `${cur.deviceSpec}*${cur.quantity} `;
+            pre += cur;
+            return pre;
+          }, "");
+
+          router.push({
+            path: "/designGroup",
+            query: {
+              ...query,
+              table: tableQ,
+            },
           });
         },
       },
     ],
     backfill() {
       watchItem(["deviceSpec-nbq", "quantity-nbq"], ([deviceSpec, quantity]) => {
-        // console.log(deviceSpec, quantity, 3333)
         const flag = new Boolean(deviceSpec?.length && quantity?.length).valueOf();
-        console.log(flag);
         const color = flag ? "yellow" : "disabled";
         this.inlineForm[0].disabled = !flag;
         this.inlineForm[0].className = this.inlineForm[0].className.replace(/bg-[^ ]+/, `bg-${color}`);
@@ -214,14 +319,39 @@ export const nbq = [
     name: "table-nbq",
     value: [],
     backfill(data) {
-      this.value = data.designDevice.filter((n) => n.deviceType == "NBQ");
+      this.value = (data.designDevice || []).filter((n) => n.deviceType == "NBQ");
       this.value.forEach((n) => {
         n.deviceSpec = n.deviceSpec + " kW";
       });
+      computedAsync(() => {
+        const v = this.value;
+        const flag = new Boolean(v?.length).valueOf();
+        const color = flag ? "yellow" : "disabled";
+        setItem("button-nbq", (v) => {
+          v.inlineForm[1].className = v.inlineForm[1].className.replace(/bg-[^ ]+/, `bg-${color}`);
+        });
+        return this.value;
+      });
+    },
+
+    getParam(params) {
+      if (!lo.isArray(params.designDevice)) {
+        params.designDevice = [];
+      }
+      const result = this.value.map((v) => {
+        const val = lo.clone(v);
+        val.deviceSpec = val.deviceSpec.replace(/(\d+).*/, "$1");
+        val.deviceType = "NBQ";
+        delete val._X_ROW_KEY;
+        return val;
+      });
+      params.designDevice.push(...result);
+      delete params["deviceSpec-nbq"];
+      delete params["quantity-nbq"];
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceSpec == row.deviceSpec);
-      this.value.splice(index, 1)
+      this.value.splice(index, 1);
     },
   },
 ];
@@ -236,14 +366,29 @@ export const cjq = [
     required: true,
     value: "",
     ...makeUnit("个"),
+    backfill(data) {
+      const value = lo.find(data.designDevice, ["deviceType", "CJQ"]);
+      this.value = lo.get(value, 'quantity');
+    },
+    getParam(params) {
+      if (!lo.isArray(params.designDevice)) {
+        params.designDevice = [];
+      }
+      const result = {
+        quantity: this.value,
+        deviceType: "CJQ",
+      };
+      params.designDevice.push(result);
+      delete params["deviceSpec-cjq"];
+    },
   },
 ];
 
 export const pdx = [
-  makeTitle("逆变器"),
+  makeTitle("配电箱"),
   {
     formType: "input",
-    label: "逆变器规格型号",
+    label: "配电箱规格型号",
     type: "number",
     name: "deviceSpec-pdx",
     value: "",
@@ -251,7 +396,7 @@ export const pdx = [
   },
   {
     formType: "input",
-    label: "逆变器个数",
+    label: "配电箱个数",
     type: "number",
     name: "quantity-pdx",
     value: "",
@@ -288,9 +433,7 @@ export const pdx = [
     ],
     backfill() {
       watchItem(["deviceSpec-pdx", "quantity-pdx"], ([deviceSpec, quantity]) => {
-        // console.log(deviceSpec, quantity, 3333)
         const flag = new Boolean(deviceSpec?.length && quantity?.length).valueOf();
-        console.log(flag);
         const color = flag ? "yellow" : "disabled";
         this.inlineForm[0].disabled = !flag;
         this.inlineForm[0].className = this.inlineForm[0].className.replace(/bg-[^ ]+/, `bg-${color}`);
@@ -303,14 +446,29 @@ export const pdx = [
     name: "table-pdx",
     value: [],
     backfill(data) {
-      this.value = data.designDevice.filter((n) => n.deviceType == "PDX");
+      this.value = (data.designDevice || []).filter((n) => n.deviceType == "PDX");
       this.value.forEach((n) => {
         n.deviceSpec = n.deviceSpec + " kW";
       });
     },
+    getParam(params) {
+      if (!lo.isArray(params.designDevice)) {
+        params.designDevice = [];
+      }
+      const result = this.value.map((v) => {
+        const val = lo.clone(v);
+        val.deviceSpec = val.deviceSpec.replace(/(\d+).*/, "$1");
+        val.deviceType = "PDX";
+        delete val._X_ROW_KEY;
+        return val;
+      });
+      params.designDevice.push(...result);
+      delete params["deviceSpec-pdx"];
+      delete params["quantity-pdx"];
+    },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceSpec == row.deviceSpec);
-      this.value.splice(index, 1)
+      this.value.splice(index, 1);
     },
   },
 ];
@@ -325,7 +483,10 @@ export const structureChartForm = [
     name: "structureChart",
     backfill(data) {
       lo.bind(makeImgs, this)(data);
-    }
+    },
+    getParam(param) {
+      param[this.name] = JSON.stringify(param[this.name].map((n) => getUploadUrl(n)));
+    },
   },
 ];
 
@@ -339,7 +500,10 @@ export const electricalDiagramForm = [
     name: "electricalDiagram",
     backfill(data) {
       lo.bind(makeImgs, this)(data);
-    }
+    },
+    getParam(param) {
+      param[this.name] = JSON.stringify(param[this.name].map((n) => getUploadUrl(n)));
+    },
   },
 ];
 
@@ -348,26 +512,32 @@ export const billMaterials = [
   {
     label: "(BOM) 物料清单",
     name: "materialList",
-    ...makeUpload(999, 100, "*"),
+    ...makeUpload(999, 100, "*", false, false),
     backfill(data) {
       lo.bind(makeImgs, this)(data);
-    }
+    },
+    getParam(param) {
+      param[this.name] = param[this.name].map((n) => getUploadUrl(n));
+    },
   },
   {
     formType: "input",
-    inputAlign: 'center',
+    inputAlign: "center",
+    name: "saveMaterial",
     inlineForm: [
       {
-        slot: 'input',
-        text: '只保存物料清单',
-        formType: 'button',
-        className: 'bg-yellow text-white h-8 w-[30%] rounded-2xl van-haptics-feedback',
-        click: (...args) => {
-          console.log(3333)
-          // const src = getlongPressUrl();
-          // console.log(src);
+        slot: "input",
+        text: "只保存物料清单",
+        formType: "button",
+        className: "bg-yellow text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        async click(show = true) {
+          const param = lo.pick(getParam(), ["id", "orderId", "materialList"]);
+          const data = await http.post("design/update-material", param);
+          if (data.code == 200 && show) {
+            showSuccessToast("保存物料清单成功");
+          }
         },
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];

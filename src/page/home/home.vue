@@ -51,6 +51,8 @@ async function onChangeTab(val) {
     const result = { ...task, count: lo.get(cTask, "count", 0) };
     return result;
   });
+
+  tasks.value[2].task[1].count = dataTask.WAITING_APPROVAL_INNER[0].count
 }
 </script>
 

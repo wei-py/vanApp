@@ -31,13 +31,24 @@ async function getData() {
   backfill(_, data);
 }
 
-async function submit() {
-  await validate();
-  const result = getParam();
-  console.log(result);
+async function saveData(){
+  const params = getParam()
+  const url = '/order/put-construction-images'
+  const { data } = await http.post(url, params)
 }
 
-eventManage({ getData });
+async function submitData(params) {
+  params.taskId = 'TASK_SGYXJXX'
+  const { data } = await http.post(queryUrl('approval/put-approval/bto/construction', params))
+  console.log(params, 333333)
+}
+
+async function approvalData(params) {
+  params.taskId = 'TASK_SGYXJXX'
+  const { data } = await http.post('approval/do-approval/bto/construction', params)
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
@@ -49,9 +60,7 @@ eventManage({ getData });
   <vantForm :form="_.inverterDistributionBoxForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.completionInspectionForm" class="pt-3" group-class="shadowC"> </vantForm>
 
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
+  <vBtn></vBtn>
 </template>
 
 <style scoped></style>

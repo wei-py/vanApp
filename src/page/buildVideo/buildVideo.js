@@ -7,8 +7,24 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(999, 100, "*"),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName == this.imageName)?.imageList || [];
+      const value = data?.electricStationMaterial?.find((n) => n.imageName == this.imageName)?.imageList || [];
       this.inlineForm[0].value = value.map((n) => ({ url: sToUrl(n.imageAddr) }));
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageList: this.inlineForm[0].value.map((n) => {
+          return {
+            imageAddr: getUploadUrl(n),
+            imageName: this.name
+          }
+        }),
+        imageName: this.name,
+      });
     },
   },
   {
@@ -18,8 +34,19 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -29,8 +56,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -40,8 +79,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -51,8 +102,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -62,8 +125,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -73,8 +148,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -84,8 +171,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -95,8 +194,20 @@ export const electricStationMaterialForm = [
     required: true,
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.electricStationMaterial?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -106,8 +217,25 @@ export const electricStationMaterialForm = [
     imageName: "特殊说明",
     name: "特殊说明",
     backfill(data) {
-      const value = data.electricStationMaterial.find((n) => n.imageName == this.imageName)?.imageList || [];
+      const value = data?.electricStationMaterial?.find((n) => n.imageName == this.imageName)?.imageList || [];
       this.inlineForm[0].value = value.map((n) => ({ url: sToUrl(n.imageAddr) }));
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.electricStationMaterial)) {
+        params.electricStationMaterial = [];
+      }
+      params.electricStationMaterial.push({
+        imageList: this.inlineForm[0].value.map((n) => {
+          return {
+            imageAddr: getUploadUrl(n),
+            imageName: this.name
+          }
+        }),
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -120,8 +248,20 @@ export const trestleDistributionBoxForm = [
     imageName: "立柱与斜梁焊接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -130,8 +270,20 @@ export const trestleDistributionBoxForm = [
     name: "斜梁与横梁焊接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -140,8 +292,20 @@ export const trestleDistributionBoxForm = [
     name: "人字形顶焊接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -150,8 +314,20 @@ export const trestleDistributionBoxForm = [
     name: "立柱东西间距",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -160,8 +336,20 @@ export const trestleDistributionBoxForm = [
     name: "立柱南北间距",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -170,8 +358,20 @@ export const trestleDistributionBoxForm = [
     name: "西北角拍东南支架",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -180,8 +380,20 @@ export const trestleDistributionBoxForm = [
     name: "东北角拍西南支架",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -190,8 +402,20 @@ export const trestleDistributionBoxForm = [
     name: "西南角拍东北支架",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -200,8 +424,20 @@ export const trestleDistributionBoxForm = [
     name: "东南角拍西北支架",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -210,8 +446,20 @@ export const trestleDistributionBoxForm = [
     name: "辅槽与横向集水槽搭接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 
@@ -221,8 +469,20 @@ export const trestleDistributionBoxForm = [
     name: "横向与竖向集水槽搭接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -231,8 +491,20 @@ export const trestleDistributionBoxForm = [
     name: "纵向集水槽与天沟搭接",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -241,8 +513,20 @@ export const trestleDistributionBoxForm = [
     name: "横屏拍摄水槽托架",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -251,18 +535,42 @@ export const trestleDistributionBoxForm = [
     name: "下水管接至楼面下水口或接至一楼",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
     label: "横排时M型水槽",
     imageName: "横排时M型水槽",
     name: "横排时M型水槽",
-    ...makeUpload(1, 50),
+    ...makeUpload(1, 100),
     backfill(data) {
-      const value = data.trestleDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.trestleDistributionBox)) {
+        params.trestleDistributionBox = [];
+      }
+      params.trestleDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -275,8 +583,20 @@ export const componentInstallationForm = [
     imageName: "组件铭牌",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -285,8 +605,20 @@ export const componentInstallationForm = [
     name: "组件方位角",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -295,8 +627,20 @@ export const componentInstallationForm = [
     name: "组件倾角",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -305,8 +649,20 @@ export const componentInstallationForm = [
     name: "组件接地",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -315,8 +671,20 @@ export const componentInstallationForm = [
     name: "航拍俯视近景",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -325,8 +693,20 @@ export const componentInstallationForm = [
     name: "航拍坐北朝南远景",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.componentInstallation.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.componentInstallation)) {
+        params.componentInstallation = [];
+      }
+      params.componentInstallation.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -339,8 +719,20 @@ export const wireRiggingForm = [
     name: "线缆品牌与型号",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.wireRigging.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.wireRigging)) {
+        params.wireRigging = [];
+      }
+      params.wireRigging.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -349,18 +741,42 @@ export const wireRiggingForm = [
     name: "线缆屋面走线管照片",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.wireRigging.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.wireRigging)) {
+        params.wireRigging = [];
+      }
+      params.wireRigging.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
     label: "线缆下墙走线管照片",
     imageName: "线缆下墙走线管照片",
     name: "线缆下墙走线管照片",
-    ...makeUpload(1, 50),
+    ...makeUpload(1, 100),
     backfill(data) {
-      const value = data.wireRigging.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.wireRigging)) {
+        params.wireRigging = [];
+      }
+      params.wireRigging.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -373,8 +789,20 @@ export const groundingSystemForm = [
     name: "支架与接地扁铁",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.groundingSystem.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.groundingSystem?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.groundingSystem)) {
+        params.groundingSystem = [];
+      }
+      params.groundingSystem.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -383,8 +811,20 @@ export const groundingSystemForm = [
     name: "接地扁铁与接地极",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.groundingSystem.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.groundingSystem?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.groundingSystem)) {
+        params.groundingSystem = [];
+      }
+      params.groundingSystem.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -397,8 +837,20 @@ export const inverterDistributionBoxForm = [
     name: "逆变器和配电箱整体照",
     ...makeUpload(1, 100),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || '';
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -407,8 +859,20 @@ export const inverterDistributionBoxForm = [
     name: "配电箱内部照",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -417,8 +881,20 @@ export const inverterDistributionBoxForm = [
     name: "逆变器铭牌照",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -427,8 +903,20 @@ export const inverterDistributionBoxForm = [
     name: "光精灵或采集器二维码",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -437,8 +925,20 @@ export const inverterDistributionBoxForm = [
     name: "支架系统接地阻",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -447,8 +947,20 @@ export const inverterDistributionBoxForm = [
     name: "电气系统接地阻值",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -457,8 +969,20 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片1",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -467,8 +991,20 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片2",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -477,8 +1013,20 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片3",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -487,8 +1035,20 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片4",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
   {
@@ -497,8 +1057,20 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片",
     ...makeUpload(1, 50),
     backfill(data) {
-      const value = data.inverterDistributionBox.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.inverterDistributionBox)) {
+        params.inverterDistributionBox = [];
+      }
+      params.inverterDistributionBox.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];
@@ -511,9 +1083,20 @@ export const completionInspectionForm = [
     name: "施工自检单",
     ...makeUpload(1, 100),
     backfill(data) {
-      const value = data.completionInspection.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
+      const value = data?.completionInspection?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
-      
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
+    },
+    getParam(params) {
+      delete params[this.name]
+      if (!lo.isArray(params.completionInspection)) {
+        params.completionInspection = [];
+      }
+      params.completionInspection.push({
+        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageName: this.name,
+      });
     },
   },
 ];

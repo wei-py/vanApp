@@ -87,12 +87,25 @@ async function onChangeTab() {
 }
 
 async function onSearch() {
-  page.value.pageNum = 1;
-  page.value.pageSize = 10;
-  list.value.length = 0;
-  finished.value = false;
-  getDataThrottle();
+  if (query.title == "预审") {
+    router.push('/inquiry')
+  } else {
+    page.value.pageNum = 1;
+    page.value.pageSize = 10;
+    list.value.length = 0;
+    finished.value = false;
+    getDataThrottle();
+  }
 }
+
+// onUnmounted(() => {
+//   gets(root[0], "*", (val, p, k) => {
+//     lo.set(root[0], k, null);
+//   });
+//   root[0] = null;
+//   root.pop();
+//   root.length = 0;
+// });
 
 eventManage({ getData: getDataThrottle });
 </script>
@@ -103,7 +116,7 @@ eventManage({ getData: getDataThrottle });
       <template #action>
         <div class="yCenter">
           <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
-            搜索
+            {{ query.title == "预审" ? "新增" : "搜索" }}
           </van-button>
         </div>
       </template>

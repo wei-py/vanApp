@@ -8,7 +8,7 @@ import {
   roofWholeForm,
   dimensionalDrawingForm,
   explorationTableForm,
-  otherImagesForm
+  otherImagesForm,
 } from "./businessReconnaissance.js";
 const _ = makeForm({
   businessReconnaissanceForm,
@@ -19,18 +19,35 @@ const _ = makeForm({
   roofWholeForm,
   dimensionalDrawingForm,
   explorationTableForm,
-  otherImagesForm
+  otherImagesForm,
 });
 
 onMounted(() => {
-  getData()
-})
+  getData();
+});
 
 async function getData() {
-  const url = queryUrl('order/get-takan', { orderId: getQuery()?.orderId})
-  const { data } = await http.get(url)
-  backfill(_, data)
+  const url = queryUrl("order/get-takan", { orderId: getQuery()?.orderId });
+  const { data } = await http.get(url);
+  backfill(_, data);
 }
+
+async function saveData() {
+  const params = getParam();
+  const url = "order/put-takan";
+  const { data } = await http.post(url, params);
+}
+
+async function submitData(params) {
+  const { data } = await http.post(queryUrl("approval/put-approval/pre/takan", params));
+}
+
+async function approvalData(params) {
+  const url = params.approvalType == "APPROVAL_BTO" ? "approval/do-approval/bto/takan" : "approval/do-approval/pre/takan";
+  const { data } = await http.post(url, params);
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
@@ -46,8 +63,20 @@ async function getData() {
       </van-cell>
     </template>
     <template #location="{ slot }">
-      <van-cell title="经纬度">
-        <template #value> 123123123 </template>
+      <van-cell title="经纬度" value-class="!text-[#323232] !w-[80%] !flex-none" title-class="!w-[20%] !flex-none my-auto">
+        <template #value>
+          <div>{{ slot.address || "定位地理位置(自动获取)" }}</div>
+          <div>纬度: {{ slot.lat || "未获取" }} 经度: {{ slot.lng || "未获取" }}</div>
+          <van-button
+            @click="() => slot.getLocation()"
+            :loading="slot.loading"
+            class="!w-[100px] !py-3 !bg-[#ffab30] !text-[white] !border-0 !text-[14px]"
+            round
+            size="mini"
+          >
+            获取定位
+          </van-button>
+        </template>
       </van-cell>
     </template>
   </vantForm>
@@ -59,4 +88,5 @@ async function getData() {
   <vantForm :form="_.dimensionalDrawingForm" group-class="shadowC" class="pt-3" />
   <vantForm :form="_.explorationTableForm" group-class="shadowC" class="pt-3" />
   <vantForm :form="_.otherImagesForm" group-class="shadowC" class="py-3" />
+  <vBtn></vBtn>
 </template>

@@ -1,5 +1,6 @@
 ## 二级域名
 > https://domain.xiaohhh.xyz/
+> https://www.site.ac/
 
 ## 3x-xui
 > https://blog.misaka.rest/2024/04/03/3xui-panel/

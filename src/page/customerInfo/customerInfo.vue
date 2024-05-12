@@ -1,6 +1,6 @@
 <script setup>
-import { lessorInfo, bankInfo,certificateType, lesseeInfo, productWithArea } from "./customerInfo";
-const _ = makeForm({ lessorInfo, bankInfo,certificateType,lesseeInfo, productWithArea });
+import { lessorInfo, bankInfo, certificateType, lesseeInfo, productWithArea } from "./customerInfo";
+const _ = makeForm({ lessorInfo, bankInfo, certificateType, lesseeInfo, productWithArea });
 const query = getQuery();
 
 onMounted(() => {
@@ -30,11 +30,23 @@ async function getData() {
   // })
 }
 
-async function submit() {
-  // await validate();
-  const result = getParam();
-  console.log(result);
+async function saveData() {
+  const params = getParam();
+  console.log(params);
+  const url = isZZD_ORG().value ? "order/org/put-customer-info" : "order/put-customer-info";
+  const { data } = await http.post(url, params);
 }
+
+async function submitData() {
+  await validate();
+  const { data } = await http.post(queryUrl('approval/put-approval/bto/customer', query));
+}
+
+async function approvalData(params) {
+  const { data } = await http.post('approval/do-approval/bto/customer', params)
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
@@ -43,10 +55,6 @@ async function submit() {
   <vantForm :form="_.certificateType" group-class="shadowC" class="pt-3"> </vantForm>
   <vantForm :form="_.lesseeInfo" group-class="shadowC" class="pt-3"> </vantForm>
   <vantForm :form="_.productWithArea" group-class="shadowC" class="pt-3"> </vantForm>
-  
-  
 
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
+  <vBtn></vBtn>
 </template>

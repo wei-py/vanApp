@@ -3,37 +3,44 @@ import { certificate } from "./certificate";
 const _ = makeForm({ certificate });
 
 onMounted(() => {
-  runTime(getData)
+  runTime(getData);
   // ();
 });
 
-async function submit() {
-  await validate();
-  const result = getParam();
-  console.log(result);
-}
-
 async function getData() {
   const url = queryUrl("order/get-record", { orderId: getQuery()?.orderId });
-  const {data} = await http.get(url)
-  backfill(_, data)
+  const { data } = await http.get(url);
+  backfill(_, data);
 }
+
+async function saveData() {
+  const params = getParam();
+  const { data } = await http.post("order/put-record", params);
+}
+
+async function submitData(params) {
+  const { data } = await http.post(queryUrl("approval/put-approval/bto/record", params));
+}
+
+async function approvalData(params) {
+  const { data } = await http.post('approval/do-approval/bto/record', params)
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
   <vantForm :form="_.certificate" class="pt-3" group-class="shadowC"> </vantForm>
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
-</template>
 
+  <vBtn></vBtn>
+</template>
 
 <style>
 :root {
   --van-popover-action-width: 250px !important;
 }
 
-.van-popover__action{
+.van-popover__action {
   width: auto !important;
 }
 

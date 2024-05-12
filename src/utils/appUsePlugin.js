@@ -1,3 +1,5 @@
+import {get} from "lodash"
+
 function createInstall(callback, fname) {
   return {
     install(app) {
@@ -13,6 +15,7 @@ export default function appUsePlugin(app) {
   app.use(createInstall(openWeb, "openWeb"));
   app.use(createInstall(log, "log"));
   app.use(createInstall(isImg, "isImg"));
+  app.use(createInstall(get, "get"));
 
   window.goBack = () => {
     const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");

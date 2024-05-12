@@ -5,6 +5,39 @@ export const businessReconnaissanceForm = [
   },
   {
     customSlot: "location",
+    address: "",
+    lat: "",
+    lng: "",
+    loading: autoResetRef(false, 5000),
+    getLocation() {
+      const hasMsg = postMsg({ func: "location" });
+      this.loading = hasMsg;
+
+      window.getLocation = async (coords, error) => {
+        if (error) showToast(error);
+        else {
+          const message = JSON.parse(coords);
+          this.loading = false;
+
+          const { latitude, longitude } = message;
+          this.lng = longitude;
+          this.lat = latitude;
+          const address = await getCity(this.lng, this.lat);
+          this.address = address.regeocode.formatted_address;
+          showSuccessToast("定位成功");
+        }
+      };
+    },
+    backfill(data) {
+      this.lat = data.lat
+      this.lng = data.lng
+      this.address = data.latLngAddress
+    },
+    getParam(param) {
+      param.lat = this.lat
+      param.lng = this.lng
+      param.latLngAddress = this.address
+    }
   },
 ];
 
@@ -51,7 +84,10 @@ export const roofForm = [
     label: "站东南角往西北拍",
     name: "roofSoutheast",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = JSON.stringify(this.inlineForm[0].value.map((n) => getUploadUrl(n)));
     },
   },
   {
@@ -60,7 +96,10 @@ export const roofForm = [
     label: "站北往正南拍",
     name: "roofNorth",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = JSON.stringify(this.inlineForm[0].value.map((n) => getUploadUrl(n)));
     },
   },
   {
@@ -69,7 +108,10 @@ export const roofForm = [
     label: "站西南角往东北拍",
     name: "roofSouthwest",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = JSON.stringify(this.inlineForm[0].value.map((n) => getUploadUrl(n)));
     },
   },
   {
@@ -78,7 +120,10 @@ export const roofForm = [
     label: "站东北角往西南拍",
     name: "roofDBToXN",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = this.inlineForm[0].value.map((n) => getUploadUrl(n));
     },
   },
   {
@@ -87,7 +132,10 @@ export const roofForm = [
     label: "站南往正北拍",
     name: "roofNToB",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = this.inlineForm[0].value.map((n) => getUploadUrl(n));
     },
   },
   {
@@ -96,7 +144,10 @@ export const roofForm = [
     label: "站西北角往东南拍",
     name: "roofXBToDN",
     backfill(data) {
-      lo.bind(makeImgs, this)(data)
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = this.inlineForm[0].value.map((n) => getUploadUrl(n));
     },
   },
 ];
@@ -120,6 +171,11 @@ export const dimensionalDrawingForm = [
     name: "floorThickness",
     backfill(data) {
       this.inlineForm[0].value = data[this.name] ? data[this.name].map((n) => ({ url: sToUrl(n) })) : [];
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => getUploadUrl(n)));
+    },
+    getParam(param) {
+      param[this.name] = this.inlineForm[0].value.map((n) => getUploadUrl(n));
     },
   },
 ];
@@ -134,6 +190,12 @@ export const explorationTableForm = [
     backfill(data) {
       const imgs = lo.get(data, `explorationTable.${this.name}`);
       this.inlineForm[0].value = imgs ? [{ url: sToUrl(imgs) }] : [];
+      const dom = useDom();
+      pushImg(sToUrl(imgs));
+    },
+    getParam(param) {
+      delete param.front;
+      lo.set(param, "explorationTable.front", getUploadUrl(this.inlineForm[0].value[0]) || "");
     },
   },
   {
@@ -144,6 +206,12 @@ export const explorationTableForm = [
     backfill(data) {
       const imgs = lo.get(data, `explorationTable.${this.name}`);
       this.inlineForm[0].value = imgs ? [{ url: sToUrl(imgs) }] : [];
+      const dom = useDom();
+      pushImg(sToUrl(imgs));
+    },
+    getParam(param) {
+      delete param.back;
+      lo.set(param, "explorationTable.back", getUploadUrl(this.inlineForm[0].value[0]) || "");
     },
   },
 ];
@@ -156,8 +224,18 @@ export const otherImagesForm = [
     name: "imageAddr",
     required: true,
     backfill(data) {
-      const imgs = data.otherImages.imageAddr;
+      const imgs = data.otherImages?.imageAddr || [];
       this.inlineForm[0].value = imgs.map((n) => ({ url: sToUrl(n) }));
+      const dom = useDom();
+      pushImg(...this.inlineForm[0].value.map((n) => getUploadUrl(n)));
+    },
+    getParam(param) {
+      delete param.imageAddr;
+      lo.set(
+        param,
+        "otherImages.imageAddr",
+        this.inlineForm[0].value.map((n) => getUploadUrl(n))
+      );
     },
   },
 ];

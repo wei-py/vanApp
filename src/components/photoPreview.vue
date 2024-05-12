@@ -34,7 +34,7 @@ function downloadMethod({ src }) {
 
 <template>
   <div class="hidden">
-    <template v-for="src in imgList" :key="src">
+    <template v-for="(src, index) in imgList" :key="index">
       <img :src="src" @click="changeImg(src)" class="view-box" />
       <!-- <template v-if="!isVideoFile(src)">
         <img :src="src" @click="() => {}" class="view-box" />

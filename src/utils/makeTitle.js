@@ -10,6 +10,7 @@ export default function makeTitle(title) {
 export function makeUnit(unit) {
   return {
     makeUnit(u) {
+      // 调用 this.makeUnit('参数') 即可修改单位
       this.inlineForm[0].text = u
     },
     inlineForm: [
@@ -18,7 +19,7 @@ export function makeUnit(unit) {
         formType: 'button',
         size: 'mini',
         className: 'border-0 p-0 yCenter',
-        text: unit
+        text: unit // 单位
       }
     ]
   }

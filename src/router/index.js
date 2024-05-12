@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
+const orderh5 = "";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      redirect: "/orderh5/login",
+      redirect: orderh5 + "/login",
     },
     {
       path: "/login",
@@ -122,6 +123,16 @@ const router = createRouter({
       },
     },
     {
+      path: "/designGroup",
+      name: "designGroup",
+      component: () => import("../page/InitialReview/designGroup.vue"),
+      meta: {
+        title: "设计组串数量",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
       path: "/build",
       name: "build",
       component: () => import("../page/build/build.vue"),
@@ -132,7 +143,7 @@ const router = createRouter({
       },
     },
     {
-      path: "/deviceInfo",
+      path: "/DeviceInfo",
       name: "deviceInfo",
       component: () => import("../page/deviceInfo/deviceInfo.vue"),
       meta: {
@@ -171,11 +182,32 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/settlement",
+      name: "settlement",
+      component: () => import("../page/settlement/settlement.vue"),
+      meta: {
+        title: "施工影像件信息",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/income",
+      name: "income",
+      component: () => import("../page/income/income.vue"),
+      meta: {
+        title: "收益查询",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    
     // 
   ].map((n) => {
     return {
       ...n,
-      path: "/orderh5" + n.path,
+      path: orderh5 + n.path,
     };
   }),
 });
@@ -183,13 +215,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const flag = useFlag();
   flag.overlayShow = false;
-  if (!to.path.startsWith("/orderh5")) {
-    to.path = "/orderh5" + to.path;
-    to.fullPath = "/orderh5" + to.fullPath;
-    to.href = "/orderh5" + to.href;
-    router.push(to)
-  }
-  next()
+  // if (!to.path.startsWith('/orderh5')) {
+  //   to.path = orderh5 + to.path;
+  //   to.fullPath = orderh5 + to.fullPath;
+  //   to.href = orderh5 + to.href;
+  //   router.push(to)
+  // }
+  next();
 });
 
 router.afterEach((to, from, next) => {

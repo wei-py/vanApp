@@ -4,13 +4,14 @@ import vue from "@vitejs/plugin-vue";
 import { VantResolver } from "@vant/auto-import-resolver";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import viteCompression from 'vite-plugin-compression'
 
 import mkcert from "vite-plugin-mkcert";
 import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/orderh5",
+  // base: '/orderh5',
   publicDir: "./public",
   plugins: [
     vue(),
@@ -27,13 +28,12 @@ export default defineConfig({
         {
           vant: [["*", "van"]],
         },
+        {
+          dayjs: [['default', 'dayjs']]
+        },
         // {
         //   'xe-utils': [['*', 'xe']]
         // },
-        // {
-        //   dayjs: [['default', 'dayjs']]
-        // },
-
         // {
         //   rxjs: [['*', 'rx']]
         // },
@@ -110,25 +110,52 @@ export default defineConfig({
         changeOrigin: true,
       },
       "/sit": {
-        target: "http://192.168.150.250:30600/order",
+        target: "http://192.168.150.250:30600",
         rewrite: (path) => path.replace(/^\/sit/, ""),
         changeOrigin: true,
       },
     },
   },
 
-  config: {
-    output: {
-      // 最小化拆分包
-      manualChunks(id) {
-        if (id.includes("node_modules")) {
-          return id.toString().split("node_modules/")[1].split("/")[0].toString();
-        }
+   build: {
+      target: 'es2020',
+      // minify: 'terser',
+      // rollup 配置
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'js/[name]-[hash].js', // 引入文件名的名称
+          entryFileNames: 'js/[name]-[hash].js', // 包的入口文件名称
+          assetFileNames: '[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
+          manualChunks(id) {
+            const exList = ['@climblee', '@dcloudio']
+            if (id.includes('node_modules') && !exList.some((i) => id.includes(i))) {
+              // return 'vendor'
+              return id.toString().split('node_modules/')[1].split('/')[0].toString()
+            }
+          }
+        },
+        //  告诉打包工具 在external配置的 都是外部依赖项  不需要打包
+        // external: ['vue'],
+        plugins: [
+          // externalGlobals({
+          //   vue: 'Vue'
+          // }),
+          viteCompression({
+            verbose: true, // 是否在控制台中输出压缩结果
+            disable: false,
+            threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b，体积过小时请不要压缩，以免适得其反
+            algorithm: 'gzip', // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
+            ext: '.gz',
+            deleteOriginFile: false // 源文件压缩后是否删除
+          })
+        ]
       },
-    },
-  },
-  esbuild: {
-    pure: [], // 删除 console.log
-    drop: [], // 删除 debugger
-  },
+      terserOptions: {
+        compress: {
+          // 生产环境时移除console
+          drop_console: true,
+          drop_debugger: true
+        }
+      }
+    }
 });

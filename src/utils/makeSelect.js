@@ -4,15 +4,17 @@ export function makeSelect(name, columns, type = "static") {
     readonly: true,
     realValue: "",
     getParam(param) {
-      param[name] = this.realValue;
+      param[name] = this.realValue || "";
     },
     isLink: true,
     click() {
-      this.inlineForm[0].show = true;
+      const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
     },
     // rightIcon: "arrow",
     // clickRightIcon() {
-    //   this.inlineForm[0].show = true;
+    //   const flag = useFlag()
+      // this.inlineForm[0].show = flag.btns.canEdit;
     // },
     inlineForm: [
       {
@@ -57,9 +59,10 @@ export function makeSelect(name, columns, type = "static") {
 export function backSelect() {
   return {
     backfill(data) {
-      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text;
+      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text || this.value;
+      const realValue = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.text == text)?.value;
       this.value = text;
-      this.realValue = data[this.name];
+      this.realValue = data[this.name] || realValue;
     },
   };
 }

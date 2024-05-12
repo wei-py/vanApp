@@ -4,6 +4,7 @@ export const certificate = [
     formType: "input",
     label: "备案证类型",
     name: "recordType",
+    required: true,
     ...backSelect(),
     ...makeSelect("recordType", [
       { text: "大备案证", value: 1 },
@@ -14,6 +15,7 @@ export const certificate = [
     formType: "input",
     label: "项目公司",
     name: "companyId",
+    required: true,
     ...backSelect(),
     ...makeSelect("companyId", [], "dynamic"),
     async backfill(bData) {
@@ -33,6 +35,7 @@ export const certificate = [
           value: item.code,
         }));
         this.makeSelect(bData.companyId, columns);
+        this.click = () => {}; // 无需选择
         // this.columns.push(...columns)
       }
     },
@@ -42,12 +45,13 @@ export const certificate = [
     name: "recordCertificateId",
     label: "备案证编码",
     realValue: "",
+    required: true,
     getParam(param) {
-      param[name] = this.realValue;
+      param[this.name] = this.realValue || this.value;
     },
     isLink: true,
     readonly: true,
-
+    placeholder: "请选择直接输入或选择",
     inlineForm: [
       {
         slot: "right-icon",
@@ -66,6 +70,8 @@ export const certificate = [
               setItem("recordCertificateId", "value", val.selectedOptions[0].text);
               setItem("recordCertificateId", "realValue", val.selectedOptions[0].value);
               setItem("recordCertificateId", "inlineForm.0.show", false);
+              setItem("accessory", "inlineForm.0.value", [{ url: sToUrl(val.selectedOptions[0].accessory) }]);
+              setItem("recordCertificateCapacity", "value", divide(val.selectedOptions[0].recordCertificateCapacity, 1000));
             },
             columns: [],
           },
@@ -80,27 +86,29 @@ export const certificate = [
         actions: [],
         style: { width: "250px", height: "40vh" },
         select(action) {
-          console.log(action);
+          setItem("recordCertificateId", "value", action.value);
+          setItem("recordCertificateCapacity", "value", divide(action.recordCertificateCapacity, 1000));
+          setItem("accessory", "inlineForm.0.value", [{ url: sToUrl(action.accessory) }]);
         },
       },
     ],
-    onMounted() {},
-    backfill(data) {
-      console.log(this.inlineForm[1].ref);
+
+    async backfill(bData) {
       watchItem(["companyId", "recordType"], async ([companyId, recordType]) => {
         const { data } = await http.post("record/list?isAuth=false", { recordType, companyId });
         if (recordType == 1) {
+          // 大备案
           this.value = "";
           this.readonly = true;
           this.isLink = true;
           this.click = () => {
-            this.inlineForm[0].show = true;
+            const flag = useFlag()
+      this.inlineForm[0].show = flag.btns.canEdit;
           };
-          // this.inlineForm[0].inlineForm[0].columns = columns;
-          // this.inlineForm[0].inlineForm[0].columns.length = 0
-          // this.inlineForm[0].inlineForm[0].columns = [];
-          // console.log(recordType, 3333)
-          // console.log(data)
+          const columns = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
+          this.inlineForm[0].inlineForm[0].columns = columns;
+          setItem("surplusCapacity", "hidden", false);
+          setItem("recordCertificateCapacity", "readonly", true);
         } else {
           const actions = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
           this.updateValue = (value) => {
@@ -112,8 +120,13 @@ export const certificate = [
           this.readonly = false;
           this.isLink = false;
           this.click = () => {};
+          setItem("surplusCapacity", "hidden", true);
+          setItem("recordCertificateCapacity", "readonly", false);
         }
       });
+      await wait(2000);
+      setItem('recordCertificateId', 'value', bData.recordCertificateId);
+      setItem('recordCertificateId', 'realValue', bData.recordCertificateId);
     },
   },
   {
@@ -123,6 +136,12 @@ export const certificate = [
     value: "",
     required: true,
     ...makeUnit("kW"),
+    getParam(param) {
+      param[this.name] = multiply(param[this.name], 1000);
+    },
+    backfill(data) {
+      this.value = divide(data.recordCertificateCapacity * 1, 1000);
+    },
   },
   {
     formType: "input",
@@ -131,11 +150,12 @@ export const certificate = [
     readonly: true,
     name: "installedCapacityReckon",
     value: "",
-    realValue: '',
     ...makeUnit("kW"),
     backfill(data) {
-      this.realValue = data.installedCapacityReckon
       this.value = divide(data.installedCapacityReckon * 1, 1000);
+    },
+    getParam(param) {
+      param[this.name] = multiply(param[this.name], 1000);
     },
   },
   {
@@ -147,12 +167,15 @@ export const certificate = [
     value: "",
     ...makeUnit("kW"),
     backfill(data) {
-      this.realValue = data.surplusCapacity
+      this.realValue = data.surplusCapacity;
       this.value = divide(data.surplusCapacity * 1, 1000);
       watchItem(["recordCertificateCapacity", "installedCapacityReckon"], ([recordCertificateCapacity, installedCapacityReckon]) => {
         this.realValue = subtract(recordCertificateCapacity, installedCapacityReckon);
-        this.value = divide(this.realValue * 1, 1000);
+        this.value = this.realValue * 1;
       });
+    },
+    getParam(param) {
+      param[this.name] = multiply(param[this.name], 1000);
     },
   },
   {

@@ -29,9 +29,7 @@ eventManage({ getData });
   <vantForm :form="_.contractForm" class="pt-3" group-class="shadowC"> </vantForm>
   
 
-  <div class="flex justify-center mt-2">
-    <van-button round block type="primary" @click="submit" class="!w-[100px]"> 提交 </van-button>
-  </div>
+  <vBtn></vBtn>
 </template>
 
 <style scoped></style>

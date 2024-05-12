@@ -1,4 +1,12 @@
-export default function makeUpload(maxCount = 999, width = 100, accept = "") {
+export default function makeUpload(maxCount = 999, width = 100, accept = "", required = false, disabledFlag) {
+  const flag = useFlag();
+  const canEdit = computed(() => flag.btns.canEdit);
+  let deletable = canEdit
+  let disabled = computed(() => !canEdit.value);
+  if (!lo.isUndefined(disabledFlag)) {
+    disabled = disabledFlag;
+    deletable = !disabledFlag
+  }
   return {
     formType: "input",
     // label,
@@ -13,14 +21,17 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "") {
         formType: "upload",
         maxCount,
         accept,
+        required,
+        deletable: deletable,
+        disabled: disabled,
         previewFullImage: false,
         clickPreview(img) {
-          if (!isImg(img.url)) {
-            console.log('这不是一张图片', img)
+          if (!isImgSlot(img)) {
+            console.log("这不是一张图片", img);
             return;
           } else {
             const dom = useDom();
-            dom.imgIndex = dom.imgDoms.findIndex((n) => n == img.url);
+            dom.imgIndex = dom.imgDoms.findIndex((n) => n == getUploadUrl(img));
             dom.showPreviewImg = true;
           }
         },
@@ -28,15 +39,22 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "") {
         uploadIcon: "plus",
         class: "mx-auto mt-2",
         beforeDelete(img) {
-          if (!isImg(img.url)) return;
+          if (!isImgSlot(img)) return true;
           const dom = useDom();
-          const index = dom.imgDoms.findIndex((n) => n == img.url);
+          const index = dom.imgDoms.findIndex((n) => n == getUploadUrl(img));
           dom.imgDoms.splice(index, 1);
           return true;
         },
         beforeRead: (img) => {
-          upload(img);
-          return true;
+          return new Promise(async (resolve, reject) => {
+            const src = await upload(img);
+            img.src = src;
+            img.url = src;
+            await wait(500);
+            // const dom = useDom();
+            // dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
+            resolve(img);
+          });
         },
         menuRight: [
           {
@@ -47,48 +65,45 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "") {
             },
           },
         ],
-        inlineForm: [
-          {
-            // slot: 'preview-cover',
-            // formType: '',
-            // formType: 'button',
-            // onMounted() {
-              // console.log(this, 333)
-
-            // }
-          }
-        ]
       },
     ],
     backfill(data) {
       this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
+      const dom = useDom();
+      pushImg(sToUrl(data[this.name]));
+    },
+    onMounted() {
+      this.inlineForm[0].value.length = 0;
     },
     getParam(param) {
-      param[this.name] = this.inlineForm[0].value[0].url;
+      const url = lo.get(this, "inlineForm.0.value.0.file.url") || lo.get(this, "inlineForm.0.value.0.url", "");
+      param[this.name] = url;
     },
   };
 }
 
 export function makeImgs(data) {
+  const dom = useDom();
   if (lo.isArray(data[this.name])) {
     this.inlineForm[0].value = data[this.name].map((n) => ({ url: sToUrl(n) }));
+    pushImg(...this.inlineForm[0].value.map((n) => n.url));
   } else if (lo.isString(data[this.name])) {
     if (data[this.name].startsWith("[")) {
       this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n), ...pickImgName(n) }));
+      pushImg(...this.inlineForm[0].value.map((n) => n.url));
       // file: new File([], '123123')
-    } else {
+    } else if (isImg(data[this.name])) {
       this.inlineForm[0].value = [{ url: sToUrl(data[this.name]) }];
+      pushImg(sToUrl(data[this.name]));
     }
   }
 }
 
-
-
-function pickImgName(url, type = 'object') {
+function pickImgName(url, type = "object") {
   // const name = url.split('/').pop();
-  if (type == 'object') {
+  if (type == "object") {
     return {
       // file : new File([],  url)
-    }
+    };
   }
 }

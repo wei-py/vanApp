@@ -21,7 +21,7 @@ http.interceptors.request.use(
     const headerInfo = getHeaderInfo();
     const flag = useFlag();
     flag.overlayShow = true;
-    converBaseUrl(config)
+    converBaseUrl(config);
 
     if (!lo.isUndefined(headerInfo.Uid)) {
       lo.merge(config.headers, headerInfo);
@@ -31,8 +31,7 @@ http.interceptors.request.use(
     return config;
   },
   (error) => {
-    const flag = useFlag();
-    flag.overlayShow = false;
+    toggleOverlay(false);
     showToast(JSON.stringify(error));
     return Promise.reject(new Error(error));
   }
@@ -50,24 +49,44 @@ http.interceptors.response.use(
         message: data.msg || `接口错误:${data.code}`,
         className: "!bg-red-500",
       });
+      toggleOverlay(false);
       throw new Error(data.msg);
     }
-    const flag = useFlag();
-    flag.overlayShow = false;
+    toggleOverlay(false);
     return response.data;
   },
   (error) => {
-    const flag = useFlag();
-    flag.overlayShow = false;
+    toggleOverlay(false);
     return Promise.reject(new Error(error));
   }
 );
 
 function converBaseUrl(config) {
-  if (config.url.startsWith('sto')) {
-    config.baseURL = config.baseURL.replace('/order', 'Sto')
-    config.url = config.url.replace('sto', '')
+  if (!config.baseURL.includes("prod")) {
+    config.url = "/order/" + config.url;
+    config.url = config.url.replace(/\/\//g, "/");
   }
+
+
+  if (config.url.includes("order/sto")) {
+    config.baseURL += "Sto";
+    config.url = config.url.replace("/order/sto", "");
+    config.url = config.url.replace(/\/\//g, "/");
+  }
+
+  if (config.baseURL.startsWith('/prod') && config.url.startsWith('/sto')) {
+    config.baseURL = config.baseURL.replace('/prod/order', '/prodSto')
+    config.url = config.url.replace("/sto", "");
+    config.url = config.url.replace(/\/\//g, "/");
+  }
+
+  // console.log(config.url);
+  config.url = config.url.replace(/\/\//g, "/");
+}
+
+function toggleOverlay(bool) {
+  const flag = useFlag();
+  flag.overlayShow = bool;
 }
 
 export default http;

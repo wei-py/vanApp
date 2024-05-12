@@ -51,7 +51,7 @@ const commonTask = [
   {
     text: "收益查询",
     icon: "incomeStatistics",
-    path: "/income/income",
+    path: "/income",
     query: {
       id: 1,
       name: "134",

@@ -1,17 +1,35 @@
 export const useDom = defineStore("dom", () => {
+  const approvalDoms = ref({});
   const submitDoms = ref([]);
-  const longPressDom = ref(null)
+  const imgDoms = ref([]);
 
-  const imgDoms = ref([])
-  const showPreviewImg = ref(false)
-  const imgIndex = ref(0)
-  return { submitDoms, longPressDom, imgDoms, showPreviewImg, imgIndex };
+  const longPressDom = ref(null);
+  const showPreviewImg = ref(false);
+  const imgIndex = ref(0);
+  return { submitDoms, longPressDom, imgDoms, showPreviewImg, approvalDoms, imgIndex };
 });
 
+// export const approvalDoms = {};
+// export const submitDoms = [];
+// export const imgDoms = [];
+// export const longPressDom = null;
+// export const showPreviewImg = false;
+// export const imgIndex = 0;
+
+// export function useDom() {
+//   return {
+//     approvalDoms,
+//     submitDoms,
+//     imgDoms,
+//     longPressDom,
+//     showPreviewImg,
+//     imgIndex,
+//   };
+// }
 
 /**
  * 获取每个表单的参数 未聚合
- * @returns 
+ * @returns
  */
 export function getParamList() {
   const gl = useDom();
@@ -20,24 +38,29 @@ export function getParamList() {
   });
 }
 
+export function pushImg(...imgs) {
+  const dom = useDom();
+  dom.imgDoms.push(...imgs.filter((n) => isImg(n)));
+}
+
 export function getLongDom() {
   const gl = useDom();
-  return gl.longPressDom
+  return gl.longPressDom;
 }
 
 export function getlongPressUrl() {
   const gl = useDom();
-  const src = lo.get(gl, 'longPressDom.src', '')
+  const src = lo.get(gl, "longPressDom.src", "");
   if (src) {
-    return src
+    return src;
   } else {
-    showToast('图片路径还在加载中，请稍后2s后再试')
+    showToast("图片路径还在加载中，请稍后2s后再试");
   }
 }
 
 /**
  * 执行表单校验
- * @returns 
+ * @returns
  */
 export async function validate() {
   const gl = useDom();
@@ -49,26 +72,37 @@ export async function validate() {
 }
 
 /**
+ *
+ */
+export function onSave() {
+  forForm((item) => {
+    if (lo.isFunction(item.onSave)) {
+      item.onSave();
+    }
+  });
+}
+
+/**
  * 获取接口所需参数 已聚合
- * @returns 
+ * @returns
  */
 export function getParam() {
   const paramList = getParamList();
   const params = paramList.reduce((pre, cur) => {
     return { ...pre, ...cur };
   }, {});
+  params.orderId = getQuery()?.orderId;
 
-  forForm(item => {
+  forForm((item) => {
     if (!lo.isUndefined(item.realValue)) {
       item.getParam = (params) => {
-        params[item.name] = item.realValue
-      }
+        params[item.name] = item.realValue;
+      };
     }
     if (lo.isFunction(item.getParam)) {
-      item.getParam(params)
+      item.getParam(params);
     }
-    
-  })
+  });
 
-  return params
+  return params;
 }

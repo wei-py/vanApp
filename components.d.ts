@@ -36,12 +36,15 @@ declare module 'vue' {
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanSearch: typeof import('vant/es')['Search']
     VanStep: typeof import('vant/es')['Step']
+    VanStepper: typeof import('vant/es')['Stepper']
     VanSteps: typeof import('vant/es')['Steps']
+    VanSticky: typeof import('vant/es')['Sticky']
     VanTab: typeof import('vant/es')['Tab']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     VantForm: typeof import('./src/components/vantForm.vue')['default']
+    VBtn: typeof import('./src/components/vBtn/vBtn.vue')['default']
     VButton: typeof import('./src/components/vButton.vue')['default']
   }
 }
