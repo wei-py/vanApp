@@ -82,7 +82,7 @@ function getFunction(item, func, ...args) {
           <van-image src="./background/pdf.png" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
         </template>
         <template v-else>
-          <van-image  :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">
+          <van-image :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">
             <!-- lazy-load -->
             <template #error>加载失败</template>
             <template #loading>

@@ -65,8 +65,8 @@ https://v2.tailwindcss.com/docs/guides/vue-3-vite
 - backTop ✅
 
 
-## 审核模块
+## 审核模块 ✅
 ## 图片预览模块
-## 扫码模块
+## 扫码模块 ✅
 ## pdf 模块
 ## 

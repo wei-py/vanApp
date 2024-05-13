@@ -29,11 +29,15 @@ async function saveData() {
 }
 
 async function submitData(params) {
-  params.taskId = `TASK_SBXX_${lo.upperCase(active.value.name)}`
-  console.log(params, 333)
+  params.taskId = `TASK_SBXX_${lo.upperCase(active.value)}`;
+  const { data } = await http.post(queryUrl(`/approval/put-approval/bto/construction`, params));
 }
 
-async function approvalData() {}
+async function approvalData(params) {
+  params.taskId = `TASK_SBXX_${lo.upperCase(active.value)}`;
+  console.log(params, 333);
+  const { data } = await http.post("approval/do-approval/bto/construction", params);
+}
 
 function changeTab(tab) {
   active.value = tab;
@@ -81,7 +85,6 @@ eventManage({ getData, saveData, submitData, approvalData });
     <van-tab title="支架" name="ZHIJIA"> 支架 </van-tab>
   </van-tabs>
 </template>
-
 
 <style scoped>
 :deep(.van-tabs__content) {

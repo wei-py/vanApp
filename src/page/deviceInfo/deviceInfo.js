@@ -105,7 +105,7 @@ export const zujian = [
     backfill(data) {
       const tableData = lo.get(data, "ZUJIAN.checkDeviceValidRes.deviceVos") || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", 'deviceType']);
       });
     },
     getParam(param) {
@@ -136,6 +136,24 @@ export const nbq = [
     value: "",
     name: "deviceNumber-nbq",
     rightIcon: "scan",
+    clickRightIcon() {
+      openCode((deviceNumber) => {
+        setItem("table-nbq", (v) => {
+          if (v.value.length == getItem("ysgs-nbq", "value")) {
+            showFailToast("超出应收个数了");
+          } else {
+            v.value.unshift({
+              deviceType: "NBQ",
+              deviceNumber,
+              orderId: getQuery().orderId,
+              createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+            });
+          }
+
+          setItem("deviceNumber-nbq", "value", "");
+        });
+      });
+    },
   },
   {
     formType: "input",
@@ -143,15 +161,20 @@ export const nbq = [
     name: "ssgs",
     value: "0",
     ...makeUnit("块"),
+    backfill() {
+      watchItem("table-nbq", (v) => {
+        this.value = v.length;
+      });
+    },
   },
   {
     formType: "input",
     label: "应收块数",
-    name: "ysgs",
+    name: "ysgs-nbq",
     value: "",
     ...makeUnit("块"),
     backfill(data) {
-      const designDevice = lo.get(data, "ZUJIAN.designDevice");
+      const designDevice = lo.get(data, "NBQ.designDevice");
       this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
     },
   },
@@ -164,6 +187,27 @@ export const nbq = [
         formType: "button",
         text: "添加",
         className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        click() {
+          const deviceNumber = getItem("deviceNumber-nbq", "value");
+          if (!deviceNumber.length) {
+            showFailToast("请先输入组件编号");
+            return;
+          }
+          setItem("table-nbq", (v) => {
+            if (v.value.length == getItem("ysgs-nbq", "value")) {
+              showFailToast("超出应收个数了");
+            } else {
+              v.value.unshift({
+                deviceType: "NBQ",
+                deviceNumber,
+                orderId: getQuery().orderId,
+                createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+              });
+            }
+
+            setItem("deviceNumber-nbq", "value", "");
+          });
+        },
       },
     ],
   },
@@ -174,8 +218,21 @@ export const nbq = [
     backfill(data) {
       const tableData = lo.get(data, "NBQ.checkDeviceValidRes.deviceVos", []) || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", 'deviceType']);
       });
+    },
+    getParam(param) {
+      delete param["deviceNumber-cjq"];
+      delete param.ssgs;
+      delete param["ysgs-cjq"];
+      param.deviceType = "CJQ";
+      const devices = this.value.map((v) => {
+        v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
+        v.orderId = getQuery().orderId;
+        // delete v._X_ROW_KEY;
+        return v;
+      });
+      param.devices = devices;
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
@@ -192,6 +249,24 @@ export const cjq = [
     value: "",
     name: "deviceNumber-cjq",
     rightIcon: "scan",
+    clickRightIcon() {
+      openCode((deviceNumber) => {
+        setItem("table-cjq", (v) => {
+          if (v.value.length == getItem("ysgs-cjq", "value")) {
+            showFailToast("超出应收个数了");
+          } else {
+            v.value.unshift({
+              deviceType: "CJQ",
+              deviceNumber,
+              orderId: getQuery().orderId,
+              createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+            });
+          }
+
+          setItem("deviceNumber-cjq", "value", "");
+        });
+      });
+    },
   },
   {
     formType: "input",
@@ -221,6 +296,11 @@ export const cjq = [
     name: "ssgs",
     value: "0",
     ...makeUnit("块"),
+    backfill() {
+      watchItem("table-cjq", (v) => {
+        this.value = v.length;
+      });
+    },
   },
   {
     formType: "input",
@@ -228,6 +308,10 @@ export const cjq = [
     name: "ysgs",
     value: "",
     ...makeUnit("块"),
+    backfill(data) {
+      const designDevice = lo.get(data, "CJQ.designDevice");
+      this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
+    },
   },
   {
     formType: "input",
@@ -238,6 +322,27 @@ export const cjq = [
         formType: "button",
         text: "添加",
         className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        click() {
+          const deviceNumber = getItem("deviceNumber-cjq", "value");
+          if (!deviceNumber.length) {
+            showFailToast("请先输入组件编号");
+            return;
+          }
+          setItem("table-cjq", (v) => {
+            if (v.value.length == getItem("ysgs-cjq", "value")) {
+              showFailToast("超出应收个数了");
+            } else {
+              v.value.unshift({
+                deviceType: "CJQ",
+                deviceNumber,
+                orderId: getQuery().orderId,
+                createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+              });
+            }
+
+            setItem("deviceNumber-cjq", "value", "");
+          });
+        },
       },
     ],
   },
@@ -250,6 +355,19 @@ export const cjq = [
       this.value = tableData.map((n) => {
         return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
       });
+    },
+    getParam(param) {
+      delete param["deviceNumber-cjq"];
+      delete param.ssgs;
+      delete param["ysgs-cjq"];
+      param.deviceType = "CJQ";
+      const devices = this.value.map((v) => {
+        v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
+        v.orderId = getQuery().orderId;
+        // delete v._X_ROW_KEY;
+        return v;
+      });
+      param.devices = devices;
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
@@ -266,6 +384,24 @@ export const pdx = [
     value: "",
     name: "deviceNumber-pdx",
     rightIcon: "scan",
+    clickRightIcon() {
+      openCode((deviceNumber) => {
+        setItem("table-pdx", (v) => {
+          if (v.value.length == getItem("ysgs-pdx", "value")) {
+            showFailToast("超出应收个数了");
+          } else {
+            v.value.unshift({
+              deviceType: "PDX",
+              deviceNumber,
+              orderId: getQuery().orderId,
+              createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+            });
+          }
+
+          setItem("deviceNumber-pdx", "value", "");
+        });
+      });
+    },
   },
   {
     formType: "input",
@@ -273,6 +409,11 @@ export const pdx = [
     name: "ssgs",
     value: "0",
     ...makeUnit("块"),
+    backfill() {
+      watchItem("table-pdx", (v) => {
+        this.value = v.length;
+      });
+    },
   },
   {
     formType: "input",
@@ -280,6 +421,10 @@ export const pdx = [
     name: "ysgs",
     value: "",
     ...makeUnit("块"),
+    backfill(data) {
+      const designDevice = lo.get(data, "CJQ.designDevice");
+      this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
+    },
   },
   {
     formType: "input",
@@ -290,6 +435,27 @@ export const pdx = [
         formType: "button",
         text: "添加",
         className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        click() {
+          const deviceNumber = getItem("deviceNumber-pdx", "value");
+          if (!deviceNumber.length) {
+            showFailToast("请先输入组件编号");
+            return;
+          }
+          setItem("table-pdx", (v) => {
+            if (v.value.length == getItem("ysgs-pdx", "value")) {
+              showFailToast("超出应收个数了");
+            } else {
+              v.value.unshift({
+                deviceType: "PDX",
+                deviceNumber,
+                orderId: getQuery().orderId,
+                createTime: dayjs().format("YYYY-MM-DD HH:MM:ss"),
+              });
+            }
+
+            setItem("deviceNumber-pdx", "value", "");
+          });
+        },
       },
     ],
   },
@@ -302,6 +468,19 @@ export const pdx = [
       this.value = tableData.map((n) => {
         return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
       });
+    },
+    getParam(param) {
+      delete param["deviceNumber-pdx"];
+      delete param.ssgs;
+      delete param["ysgs-pdx"];
+      param.deviceType = "PDX";
+      const devices = this.value.map((v) => {
+        v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
+        v.orderId = getQuery().orderId;
+        // delete v._X_ROW_KEY;
+        return v;
+      });
+      param.devices = devices;
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);

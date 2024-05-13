@@ -1,5 +1,5 @@
 export default async function runTime(callback, name = 'runTime') {
-  // console.time(name)
+  console.time(name)
   await callback()
-  // console.timeEnd(name)
+  console.timeEnd(name)
 }

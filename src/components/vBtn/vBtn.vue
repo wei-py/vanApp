@@ -101,12 +101,12 @@ async function approvalData() {
 
 <template>
   <vantForm
+    v-if="showApprovalModule"
     :readonly="!canApproval"
     :disabled="!canApproval"
     :show-error-message="canApproval"
-    approval-name="approval"
-    v-if="showApprovalModule"
     :form="_.rejectReason"
+    approval-name="approval"
     class="pt-3"
     group-class="shadowC"
   >

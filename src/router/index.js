@@ -33,7 +33,6 @@ const router = createRouter({
         hiddenLeftArrow: true,
       },
     },
-
     {
       path: "/realLease",
       name: "realLease",
@@ -202,8 +201,6 @@ const router = createRouter({
         // tabbar: true,
       },
     },
-    
-    // 
   ].map((n) => {
     return {
       ...n,

@@ -2,7 +2,7 @@
 const userStore = useUser();
 const user = reactive({
   username: "superadmin",
-  password: "CMJBG06#",
+  password: "123456",
   code: "",
 
   usernameList: [],
