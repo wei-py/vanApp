@@ -23,7 +23,7 @@ const commonTask = [
   {
     text: "设计变更",
     icon: "designChange",
-    path: "/designChange/designChange",
+    path: "/designChange",
     query: {
       id: 1,
       name: "134",
@@ -32,7 +32,7 @@ const commonTask = [
   {
     text: "供应链",
     icon: "supplyChain",
-    path: "/supplyChain/supplyChain",
+    path: "/supplyChain",
     query: {
       id: 1,
       name: "134",
@@ -40,8 +40,9 @@ const commonTask = [
   },
   {
     text: "备案统计",
+    realText: "备案证列表",
     icon: "recordStatistics",
-    path: "/recordList/recordList",
+    path: "/recordList",
     // query: { stageId: 'BAZING', stateId: '', taskId: 'TASK_BAZXX' }
     query: {
       id: 1,
@@ -88,7 +89,7 @@ const commonTask = [
     from: "常见数据",
     icon: `./icons/realLeaseTop/${n.icon}.png`,
     tap() {
-      router.push({ path: n.path, query: { ...n.query, from: "cysj", title: n.text } });
+      router.push({ path: n.path, query: { ...n.query, from: "cysj", title: n.realText || n.text } });
       // router.push({path :n.path, query: { ...n.query, from: 'cysj', title: n.text }})
     },
   };

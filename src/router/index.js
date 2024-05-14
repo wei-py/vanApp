@@ -233,6 +233,16 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/recordList",
+      name: "recordList",
+      component: () => import("../page/recordList/recordList.vue"),
+      meta: {
+        title: "备案证列表",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
   ].map((n) => {
     return {
       ...n,
@@ -244,6 +254,8 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const flag = useFlag();
   flag.overlayShow = false;
+  useTitle(to.meta.title)
+  // console.log(to)
   // if (!to.path.startsWith('/orderh5')) {
   //   to.path = orderh5 + to.path;
   //   to.fullPath = orderh5 + to.fullPath;

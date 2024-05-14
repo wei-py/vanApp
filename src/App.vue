@@ -1,6 +1,7 @@
 <script setup>
 import overlay from "@/components/overlay.vue";
 const loading = ref(false); // 下拉刷新加载
+const flag = useFlag();
 
 function onClickLeft() {
   // 返回事件
@@ -16,6 +17,8 @@ async function onRefresh() {
 }
 
 onMounted(async () => {
+  // title.value = useTitle()
+  // console.log(useTitle(), 3333333)
   // login();
 });
 
@@ -37,7 +40,7 @@ async function login() {
 
   const resp = await http.get("order-state/dic");
   const statusDic = resp.data;
-  const flag = useFlag();
+  // const flag = useFlag();
   flag.statusDic = { ...statusDic.state, ...statusDic.stage, ...statusDic.task };
 }
 </script>
