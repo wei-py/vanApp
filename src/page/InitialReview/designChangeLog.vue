@@ -1,5 +1,4 @@
 <script setup>
-import designGroup from "./designGroup.vue";
 const activeNames = ref(["1"]);
 const query = getQuery();
 const tableData = ref([]);
@@ -30,8 +29,8 @@ async function getData() {
 async function showDesignGroup(t) {
   const { data } = await http.get(queryUrl("design/get-design-nbq-pv", { designId: t.id || t.designIdByPv }));
   if (!data.length) {
-    showFailToast('没有数据')
-    return
+    showFailToast("没有数据");
+    return;
   }
   data.forEach((n) => {
     const result = [];
@@ -83,7 +82,7 @@ async function showDesignGroup(t) {
             <van-tabs v-model:active="t.active">
               <van-tab v-for="n of t.nbqName" :title="n">
                 <vxe-table :data="t[n]" align="center" header-align="center" max-height="400">
-                  <vxe-column type="seq"  title="PV"></vxe-column>
+                  <vxe-column type="seq" title="PV" />
                   <vxe-column field="dc1" title="DC1" />
                   <vxe-column field="dc2" title="DC2" />
                   <vxe-column field="dc3" title="DC3" />

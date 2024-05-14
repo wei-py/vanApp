@@ -457,6 +457,7 @@
     "longPressDom": true,
     "showPreviewImg": true,
     "submitDoms": true,
-    "makeImgsDesign": true
+    "makeImgsDesign": true,
+    "openBtns": true
   }
 }

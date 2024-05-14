@@ -89,7 +89,6 @@ async function submitData() {
   onSave();
   event.saveData();
   const result = await validate();
-  console.log(result, 3333)
 
   const param = getParam();
   const query = lo.pick(param, ["id", "orderId"]);

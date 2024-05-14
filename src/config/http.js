@@ -12,7 +12,7 @@ export const baseURLDic = {
 };
 
 const http = axios.create({
-  baseURL: baseURLDic.mingjie.web,
+  baseURL: baseURLDic.prod.web,
   timeout: 30000,
 });
 

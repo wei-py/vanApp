@@ -175,6 +175,7 @@ declare global {
   const onStartTyping: typeof import('@vueuse/core')['onStartTyping']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const openBtns: typeof import('./store/useFlag.js')['openBtns']
   const openCode: typeof import('./utils/openCode.js')['default']
   const openUrl: typeof import('./utils/openUrl.js')['default']
   const openWeb: typeof import('./utils/openWeb.js')['default']

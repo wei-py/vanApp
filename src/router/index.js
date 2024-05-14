@@ -243,6 +243,16 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/recordDetail",
+      name: "recordDetail",
+      component: () => import("../page/recordDetail/recordDetail.vue"),
+      meta: {
+        title: "备案证详情",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
   ].map((n) => {
     return {
       ...n,

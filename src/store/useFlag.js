@@ -8,7 +8,7 @@ export const useFlag = defineStore(
     const saveFlag = ref([]);
     const btns = ref({});
     const orderState = ref({});
-    const deviceInfoType = ref('ZUJIAN');
+    const deviceInfoType = ref("ZUJIAN");
     // const stopWatch = ref([])
     return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState, deviceInfoType };
   },
@@ -16,6 +16,7 @@ export const useFlag = defineStore(
     persist: {
       enabled: true,
       strategies: [{ storage: localStorage }],
+      paths: ["orderId", "statusDic", "overlayShow", "saveFlag", "orderState", "deviceInfoType"],
     },
   }
 );
@@ -23,4 +24,12 @@ export const useFlag = defineStore(
 export function getStatusDic() {
   const flag = useFlag();
   return flag.statusDic;
+}
+
+export function openBtns() {
+  const flag = useFlag();
+  flag.btns = {
+    canEdit: true,
+    canApproval: true,
+  };
 }

@@ -60,7 +60,17 @@ async function getData() {
 
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
     <template v-for="(item, i) in list" :key="i">
-      <van-cell-group inset class="p-1 !mb-2 shadowC !rounded-xl van-haptics-feedback" :border="false" @click.stop="() => {}">
+      <van-cell-group
+        inset
+        class="p-1 !mb-2 shadowC !rounded-xl van-haptics-feedback"
+        :border="false"
+        @click.stop="
+          $router.push({
+            path: '/recordDetail',
+            query: { recordCertificateId: item.recordCertificateId },
+          })
+        "
+      >
         <van-cell title="备案证编码" class="!py-1" :border="false" valueClass="!text-left !text-[#323232]" titleClass="!w-[130px] !flex-none">
           <template #value>
             <div class="flex justify-between">
@@ -79,16 +89,17 @@ async function getData() {
         />
         <van-cell
           title="备案证容量"
-          :value="item.recordCertificateCapacity + 'W'"
+          :value="$unitConver(item.recordCertificateCapacity).result"
           class="!py-1"
           :border="false"
           valueClass="!text-left !text-[#323232]"
           titleClass="!w-[130px] !flex-none"
         />
+        <!-- (item.surplusCapacity || '-') + 'W' -->
         <van-cell
           v-show="recordType == 0"
           title="备案证剩余容量"
-          :value="(item.surplusCapacity || '-') + 'W'"
+          :value="$unitConver(item.surplusCapacity).result"
           class="!py-1"
           :border="false"
           valueClass="!text-left !text-[#323232]"
