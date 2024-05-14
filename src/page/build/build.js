@@ -165,7 +165,6 @@ export const build = [
     ...makeUnit("W"),
     backfill(data) {
       watchItem(["modulePower", "moduleNumberReality"], ([power, number]) => {
-        console.log(power, number);
         const capacity = multiply(power * 1, number * 1);
         const result = unitConver(capacity);
         this.value = result.value;

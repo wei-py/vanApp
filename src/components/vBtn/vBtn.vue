@@ -3,40 +3,56 @@ import rejectReason from "./vBtn";
 const event = useEvent();
 const flag = useFlag();
 const doms = useDom();
-const hasEditBtn = computed(() => flag.btns.hasEditBtn);
-const canEdit = computed(() => flag.btns.canEdit);
-const canSave = computed(() => flag.btns.canSave);
-const hasApprovalBtn = computed(() => flag.btns.hasApprovalBtn);
-const canApproval = computed(() => flag.btns.canApproval);
-const showApprovalModule = computed(() => flag.btns.rejectReason && flag.btns.hasApprovalModule);
-const _ = makeForm({ rejectReason }, false);
-const disabled = computedAsync(() => hasApprovalBtn.value && !canEdit.value && !canApproval.value);
+let hasEditBtn = computed(() => flag.btns.hasEditBtn);
+let canEdit = computed(() => flag.btns.canEdit);
+let canSave = computed(() => flag.btns.canSave);
+let hasApprovalBtn = computed(() => flag.btns.hasApprovalBtn);
+let canApproval = computed(() => flag.btns.canApproval);
+let showApprovalModule = computed(() => flag.btns.rejectReason && flag.btns.hasApprovalModule);
+let _ = makeForm({ rejectReason }, false);
+// let disabled = computed(() => hasApprovalBtn.value && !canEdit.value && !canApproval.value);
+let disabled = ref(false);
 
-const notSave = computedAsync(() => !(hasEditBtn.value && canEdit.value && canSave.value) && !canEdit.value);
+const notSave = computed(() => !(hasEditBtn.value && canEdit.value && canSave.value) && !canEdit.value);
+
+function approvalBackfill() {
+  for (let i = 0; i < _.rejectReason.length; i++) {
+    const name = _.rejectReason[i].name;
+    if (lo.isFunction(_.rejectReason[i].backfill)) {
+      _.rejectReason[i].backfill(flag.btns.rejectReason);
+    } else {
+      _.rejectReason[i].value = flag.btns.rejectReason[name];
+    }
+
+    if (lo.isFunction(_.rejectReason[i].onMounted) && i == 3) {
+      _.rejectReason[i].onMounted();
+    }
+
+    disabled.value = flag.btns.hasApprovalBtn && !flag.btns.canEdit && !flag.btns.canApproval;
+
+    if (disabled.value) {
+      _.rejectReason[i].readonly = true;
+      _.rejectReason[i].click = () => {};
+      _.rejectReason[5].inlineForm[0].readonly = true;
+      _.rejectReason[5].inlineForm[0].disabled = true;
+    } else {
+      _.rejectReason[i].readonly = false;
+      _.rejectReason[i].click = function () {
+        this.inlineForm[0].show = flag.btns.canApproval;
+      };
+      _.rejectReason[5].inlineForm[0].readonly = false;
+      _.rejectReason[5].inlineForm[0].disabled = false;
+    }
+  }
+}
+
+eventManage({
+  approvalBackfill,
+});
+defineExpose({ approvalBackfill });
+
 onMounted(async () => {
-  eventManage({
-    approvalBackfill: async () => {
-      for (let i = 0; i < _.rejectReason.length; i++) {
-        const name = _.rejectReason[i].name;
-        if (lo.isFunction(_.rejectReason[i].backfill)) {
-          _.rejectReason[i].backfill(flag.btns.rejectReason);
-        } else {
-          _.rejectReason[i].value = flag.btns.rejectReason[name];
-        }
-
-        if (lo.isFunction(_.rejectReason[i].onMounted) && i == 3) {
-          _.rejectReason[i].onMounted();
-        }
-
-        if (disabled.value) {
-          _.rejectReason[i].readonly = true;
-          _.rejectReason[i].click = () => {};
-          _.rejectReason[5].inlineForm[0].readonly = true;
-          _.rejectReason[5].inlineForm[0].disabled = true;
-        }
-      }
-    },
-  });
+  event.approvalBackfill();
 
   // await wait(2000);
   if (!notSave.value) {
@@ -60,8 +76,13 @@ onMounted(async () => {
 
 function saveData() {
   onSave();
-  event.saveData();
-  showSuccessToast("保存成功");
+  try {
+
+    event.saveData();
+  } catch {
+    showSuccessToast("保存成功");
+
+  }
 }
 
 async function submitData() {
@@ -95,7 +116,11 @@ async function approvalData() {
   });
   await event.approvalData(val);
   await wait(2000);
-  location.reload();
+  if (router.currentRoute.value.name == 'deviceInfo') {
+
+  } else {
+    location.reload();
+  }
 }
 </script>
 

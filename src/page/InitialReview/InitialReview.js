@@ -1,7 +1,15 @@
 import { actionSheetProps } from "vant";
 
-export const basicInfoForm = [
-  makeTitle("基本信息"),
+export const show = [
+  {
+    formType: "",
+    name: "designGroupShow",
+    value: false,
+    backfill(data) {this.value = false},
+    getParam(param) {
+      delete param[this.name]
+    }
+  },
   {
     formType: "",
     name: "completeNbqPv",
@@ -33,6 +41,26 @@ export const basicInfoForm = [
       param.designIdByPv = this.value;
     },
   },
+];
+
+export const basicInfoForm = [
+  {
+    customSlot: "title",
+    title: "基本信息",
+    show: false,
+    click() {
+      router.push({
+        path: '/designChangeLog',
+        query: {
+          orderId: getQuery().orderId
+        }
+      })
+    },
+    onMounted() {
+      this.show = getQuery().title == '设计变更信息'
+    }
+  },
+  // makeTitle("基本信息"),
   {
     formType: "input",
     label: "设计类型",
@@ -276,6 +304,7 @@ export const nbq = [
             v.value = result;
             setItem("deviceSpec-nbq", "value", "");
             setItem("quantity-nbq", "value", "");
+            setItem("completeNbqPv", "value", false);
           });
         },
       },
@@ -285,6 +314,7 @@ export const nbq = [
         formType: "button",
         className: "bg-[#ddd] text-white h-8 w-[60%] rounded-2xl van-haptics-feedback ",
         click() {
+          setItem("designGroupShow", "value", true);
           const param = getParam();
           const query = lo.pick(param, ["id", "orderId", "designIdByPv"]);
           const table = lo.filter(param.designDevice, ["deviceType", "NBQ"]);
@@ -293,14 +323,15 @@ export const nbq = [
             pre += cur;
             return pre;
           }, "");
+          setItem("designGroupShow", "query", { ...query, table: tableQ });
 
-          router.push({
-            path: "/designGroup",
-            query: {
-              ...query,
-              table: tableQ,
-            },
-          });
+          // router.push({
+          //   path: "/designGroup",
+          //   query: {
+          //     ...query,
+          //     table: tableQ,
+          //   },
+          // });
         },
       },
     ],
@@ -352,6 +383,7 @@ export const nbq = [
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceSpec == row.deviceSpec);
       this.value.splice(index, 1);
+      setItem("completeNbqPv", "value", false);
     },
   },
 ];
@@ -368,7 +400,7 @@ export const cjq = [
     ...makeUnit("个"),
     backfill(data) {
       const value = lo.find(data.designDevice, ["deviceType", "CJQ"]);
-      this.value = lo.get(value, 'quantity');
+      this.value = lo.get(value, "quantity");
     },
     getParam(params) {
       if (!lo.isArray(params.designDevice)) {
@@ -392,7 +424,7 @@ export const pdx = [
     type: "number",
     name: "deviceSpec-pdx",
     value: "",
-    ...makeUnit("kW"),
+    ...makeUnit("A"),
   },
   {
     formType: "input",
@@ -416,7 +448,7 @@ export const pdx = [
           const deviceSpec = getItem("deviceSpec-pdx").value;
           const quantity = getItem("quantity-pdx").value;
           setItem("table-pdx", (v) => {
-            v.value.push({ deviceSpec: deviceSpec + " kW", quantity });
+            v.value.push({ deviceSpec: deviceSpec + " A", quantity });
             const group = lo.groupBy(v.value, "deviceSpec");
             const sums = lo.mapValues(group, (n) => lo.sumBy(n, (o) => o.quantity * 1));
             const result = [];
@@ -448,7 +480,7 @@ export const pdx = [
     backfill(data) {
       this.value = (data.designDevice || []).filter((n) => n.deviceType == "PDX");
       this.value.forEach((n) => {
-        n.deviceSpec = n.deviceSpec + " kW";
+        n.deviceSpec = n.deviceSpec + " A";
       });
     },
     getParam(params) {

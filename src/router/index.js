@@ -186,7 +186,7 @@ const router = createRouter({
       name: "settlement",
       component: () => import("../page/settlement/settlement.vue"),
       meta: {
-        title: "施工影像件信息",
+        title: "直营结算",
         refresh: true,
         // tabbar: true,
       },
@@ -201,6 +201,27 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/designChangeLog",
+      name: "designChangeLog",
+      component: () => import("../page/InitialReview/designChangeLog.vue"),
+      meta: {
+        title: "设计变更记录",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/gridConnectedAccount",
+      name: "gridConnectedAccount",
+      component: () => import("../page/gridConnectedAccount/gridConnectedAccount.vue"),
+      meta: {
+        title: "并网信息结算",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    
   ].map((n) => {
     return {
       ...n,

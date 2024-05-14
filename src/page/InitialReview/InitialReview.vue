@@ -1,25 +1,27 @@
 <script setup>
-import { basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagramForm, billMaterials } from "./InitialReview";
+import designGroup from "./designGroup.vue";
+import { basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagramForm, billMaterials, show } from "./InitialReview";
 
-const _ = makeForm({ basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagramForm, billMaterials });
+const _ = makeForm({ basicInfoForm, zj, nbq, cjq, pdx, structureChartForm, electricalDiagramForm, billMaterials, show });
 const query = getQuery();
-let completeNbqPv = false;
+const designGroupDom = ref(null);
+// let completeNbqPv = false;
 
 onMounted(() => {
   runTime(getData);
-  useTitle(query.title)
+  useTitle(query.title);
   // getData();
 });
 
 function openEdit() {
-  const flag = useFlag()
+  const flag = useFlag();
   // flag.btns.canApproval = true
 }
 
 async function getData() {
-  const url = queryUrl("order/get-design", { times: query.title == '初设评审信息' ? 0 : 100, ...query });
+  const url = queryUrl("order/get-design", { times: query.title == "初设评审信息" ? 0 : 100, ...query });
   const { data } = await http.get(url);
-  completeNbqPv = data.completeNbqPv;
+  // completeNbqPv = data.completeNbqPv;
   backfill(_, data);
 }
 
@@ -32,8 +34,8 @@ async function saveData() {
 }
 
 async function submitData(params) {
-  params.completeNbqPv = completeNbqPv;
-  if (!completeNbqPv) {
+  params.completeNbqPv = getItem("completeNbqPv", "value");
+  if (!params.completeNbqPv) {
     showFailToast("设计组串数量中DC1和DC2是必填、是非零项");
     return;
   }
@@ -41,14 +43,36 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  const { data } = await http.post('approval/do-approval/bto/design', params)
+  const { data } = await http.post("approval/do-approval/bto/design", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
-  <vantForm :form="_.basicInfoForm" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.basicInfoForm" class="pt-3" group-class="shadowC">
+    <template #title="{ slot }">
+      <van-cell title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white" class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]">
+        <template #title>
+          {{ slot.title }}
+        </template>
+        <template #value>
+          <div class="flex justify-end">
+            <van-button
+              v-if="slot.show"
+              round
+              block
+              size="mini"
+              class="!text-[14px] !w-[120px] !py-3 !bg-[#f5f5f5] !border-0 !text-[#ffab30]"
+              @click="() => slot.click()"
+            >
+              设计变更记录
+            </van-button>
+          </div>
+        </template>
+      </van-cell>
+    </template>
+  </vantForm>
   <vantForm :form="_.zj" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.nbq" class="pt-3" group-class="shadowC pb-9">
     <template #table-nbq="{ slot }">
@@ -82,6 +106,11 @@ eventManage({ getData, saveData, submitData, approvalData });
   <vantForm :form="_.structureChartForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.electricalDiagramForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.billMaterials" class="pt-3" group-class="shadowC"> </vantForm>
+
+  <!-- :style="{ width: '100%', height: '100%' }" -->
+  <van-popup v-model:show="_.show[0].value" position="right" class="w-full h-full" closeable>
+    <designGroup ref="designGroupDom" :query="_.show[0].query" />
+  </van-popup>
 
   <vBtn></vBtn>
 </template>

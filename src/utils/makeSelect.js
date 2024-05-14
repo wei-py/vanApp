@@ -3,18 +3,18 @@ export function makeSelect(name, columns, type = "static") {
   const item = {
     readonly: true,
     realValue: "",
-    getParam(param) {
-      param[name] = this.realValue || "";
-    },
+    // getParam(param) {
+    //   param[name] = this.realValue || "";
+    // },
     isLink: true,
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     // rightIcon: "arrow",
     // clickRightIcon() {
     //   const flag = useFlag()
-      // this.inlineForm[0].show = flag.btns.canEdit;
+    // this.inlineForm[0].show = flag.btns.canEdit;
     // },
     inlineForm: [
       {
@@ -43,6 +43,9 @@ export function makeSelect(name, columns, type = "static") {
   };
 
   if (type == "static") {
+    item.getParam = function (param) {
+      param[name] = this.realValue || "";
+    };
     return item;
   } else {
     item.makeSelect = function (value, columns) {
@@ -51,6 +54,13 @@ export function makeSelect(name, columns, type = "static") {
       const text = columns.find((n) => n.value == value)?.text;
       this.realValue = this.value;
       this.value = text;
+      if (lo.isFunction(this.getParam)) {
+        item.getParam = this.getParam;
+      } else {
+        item.getParam = function (param) {
+          param[name] = this.realValue || "";
+        };
+      }
     };
     return item;
   }

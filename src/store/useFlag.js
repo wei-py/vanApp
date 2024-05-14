@@ -8,8 +8,9 @@ export const useFlag = defineStore(
     const saveFlag = ref([]);
     const btns = ref({});
     const orderState = ref({});
+    const deviceInfoType = ref('ZUJIAN');
     // const stopWatch = ref([])
-    return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState };
+    return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState, deviceInfoType };
   },
   {
     persist: {

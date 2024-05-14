@@ -231,6 +231,32 @@ export const build = [
       router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
   },
+  {
+    formType: "input",
+    inputAlign: "center",
+    name: "hasPutApprovalConstructBtn",
+    realValue: false,
+    inlineForm: [
+      {
+        slot: "input",
+        formType: "button",
+        text: " 提交施工审核 ",
+        className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        click() {
+          setItem("hasPutApprovalConstructBtn", async (v) => {
+            const resp = await http.post(queryUrl(`/approval/put-approval/bto/construction`, { orderId: getQuery().orderId, taskId: "CONSTRUCT" }));
+            if (resp.code == 200) {
+              showSuccessToast("提交成功");
+              location.reload();
+            } else {
+              const msg = lo.get(data, "data.msg", "提交失败");
+              showFailToast(msg);
+            }
+          });
+        },
+      },
+    ],
+  },
 ];
 export const grid = [
   {
@@ -271,7 +297,7 @@ export const ZYsettlement = [
     click() {
       router.push({ path: this.name, query: { orderId: getQuery().orderId } });
     },
-  }
+  },
 ];
 
 export const DLSsettlement = [
@@ -281,7 +307,30 @@ export const DLSsettlement = [
     titleClass: itemDetailTitleClass,
     class: "!p-0 h-[50px]",
   },
-
+  {
+    formType: "cell",
+    name: "/gridConnectedAccount",
+    title: "并网结算信息",
+    valueClass: "mr-[10px] text-gray",
+    titleClass,
+    isLink: true,
+    value: "未开启",
+    click() {
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+    },
+  },
+  {
+    formType: "cell",
+    name: "/gridSettlement",
+    title: "资料结算信息",
+    valueClass: "mr-[10px] text-gray",
+    titleClass,
+    isLink: true,
+    value: "未开启",
+    click() {
+      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+    },
+  },
 ];
 
 export const electricityContract = [

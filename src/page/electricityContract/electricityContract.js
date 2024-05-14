@@ -10,6 +10,9 @@ export const electricityContractForm = [
     realValue: "",
     click() {
       const flag = useFlag()
+      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY").split("-");
+      }
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
@@ -62,6 +65,10 @@ export const contractForm = [
     name: "contract",
     backfill(data) {
       lo.bind(makeImgs, this)(data);
+    },
+    getParam(params) {
+      params.contract = params.contract.map(n => getUploadUrl(n))
+      params.contract = JSON.stringify(params.contract)
     }
   },
 ];

@@ -456,6 +456,7 @@
     "imgIndex": true,
     "longPressDom": true,
     "showPreviewImg": true,
-    "submitDoms": true
+    "submitDoms": true,
+    "makeImgsDesign": true
   }
 }

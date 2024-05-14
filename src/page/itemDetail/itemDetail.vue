@@ -48,7 +48,9 @@ async function getData() {
   gets(data, "list.0", (v) => {
     _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
     _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
+    console.log();
     isDLS.value = v?.company?.type == "DLS";
+    setItem("hasPutApprovalConstructBtn", "realValue", v.hasPutApprovalConstructBtn);
   });
 
   gets(data, "*.currentOrderState.0", (v) => {
@@ -73,6 +75,7 @@ async function getData() {
       const stageId = v?.stageId;
       const value = statusDic[stateId] || "未开启";
       const title = statusDic[taskId] || statusDic[stageId] || "";
+      // console.log(title, value)
 
       forForm((val) => {
         if (val.title == title && val.isLink) {
@@ -88,15 +91,22 @@ async function getData() {
           const color = statusColor(val.value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
         }
+        if (val.title?.includes('结算信息') && title == '结算') {
+          val.value = value;
+          const color = statusColor(value);
+          val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
+        }
       });
     });
-    if (_.initReview[1].value.includes("通过")) {
-      _.initReview[2].value = "可变更";
-    }
   });
+  if (_.initReview[1].value.includes("通过")) {
+    _.initReview[2].value = "可变更";
+  }
+  if (_.grid[1].value?.includes("待")) {
+    _.initReview[2].value = "不可变更";
+    _.initReview[2].valueClass = _.initReview[2].valueClass.replace(/text-[^ ]+/, "text-gray");
+  }
 }
-
-
 </script>
 
 <template>

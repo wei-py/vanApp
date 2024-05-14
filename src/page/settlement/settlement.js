@@ -1,17 +1,22 @@
 export const settlementForm = [
-  makeTitle('直营结算'),
+  makeTitle("直营结算"),
   {
     formType: "input",
     label: "结算类型",
     value: 1,
     required: true,
-    placeholder: "请输入",
+    readonly: true,
     name: "settlementType",
-    dictionary: {
-      1: "直营结算信息",
-      2: "供应商并网结算",
-      3: "供应商资料结算",
-    },
+    ...backSelect(),
+    ...makeSelect("settlementType", [
+      { text: "直营结算信息", value: 1 },
+      { text: "供应商并网结算", value: 2 },
+      { text: "供应商资料结算", value: 3 },
+    ]),
+    onMounted() {
+      this.click = () => {}
+      this.isLink = false
+    }
   },
   {
     formType: "input",
@@ -21,6 +26,6 @@ export const settlementForm = [
     type: "digit",
     placeholder: "请输入",
     name: "settlementAmount",
-    ...makeUnit('元')
+    ...makeUnit("元"),
   },
 ];

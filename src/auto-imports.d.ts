@@ -138,6 +138,7 @@ declare global {
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const makeForm: typeof import('./utils/makeForm.js')['makeForm']
   const makeImgs: typeof import('./utils/makeUpload.js')['makeImgs']
+  const makeImgsDesign: typeof import('./utils/makeUpload.js')['makeImgsDesign']
   const makeSelect: typeof import('./utils/makeSelect.js')['makeSelect']
   const makeTitle: typeof import('./utils/makeTitle.js')['default']
   const makeUnit: typeof import('./utils/makeTitle.js')['makeUnit']

@@ -1,11 +1,11 @@
 export default function makeUpload(maxCount = 999, width = 100, accept = "", required = false, disabledFlag) {
   const flag = useFlag();
   const canEdit = computed(() => flag.btns.canEdit);
-  let deletable = canEdit
+  let deletable = canEdit;
   let disabled = computed(() => !canEdit.value);
   if (!lo.isUndefined(disabledFlag)) {
     disabled = disabledFlag;
-    deletable = !disabledFlag
+    deletable = !disabledFlag;
   }
   return {
     formType: "input",
@@ -83,7 +83,6 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
 }
 
 export function makeImgs(data) {
-  const dom = useDom();
   if (lo.isArray(data[this.name])) {
     this.inlineForm[0].value = data[this.name].map((n) => ({ url: sToUrl(n) }));
     pushImg(...this.inlineForm[0].value.map((n) => n.url));
@@ -97,6 +96,25 @@ export function makeImgs(data) {
       pushImg(sToUrl(data[this.name]));
     }
   }
+}
+
+export function makeImgsDesign(data) {
+  let result = [];
+  if (lo.isArray(data)) {
+    result = data.map((n) => ({ url: sToUrl(n) }));
+    // pushImg(...this.inlineForm[0].value.map((n) => n.url));
+  } else if (lo.isString(data)) {
+    if (data.startsWith("[")) {
+      result = JSON.parse(data).map((n) => ({ url: sToUrl(n), ...pickImgName(n) }));
+      // pushImg(...this.inlineForm[0].value.map((n) => n.url));
+      // file: new File([], '123123')
+    } else if (isImg(data)) {
+      result = [{ url: sToUrl(data) }];
+      // pushImg(sToUrl(data));
+    }
+  }
+  pushImg(...result.map((n) => n.url));
+  return result
 }
 
 function pickImgName(url, type = "object") {

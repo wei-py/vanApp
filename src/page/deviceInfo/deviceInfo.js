@@ -105,21 +105,24 @@ export const zujian = [
     backfill(data) {
       const tableData = lo.get(data, "ZUJIAN.checkDeviceValidRes.deviceVos") || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", 'deviceType']);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", "deviceType"]);
       });
     },
     getParam(param) {
       delete param["deviceNumber-zujian"];
       delete param.ssgs;
       delete param["ysgs-zujian"];
-      param.deviceType = "ZUJIAN";
       const devices = this.value.map((v) => {
         v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
         v.orderId = getQuery().orderId;
         // delete v._X_ROW_KEY;
         return v;
       });
-      param.devices = devices;
+      const flag = useFlag();
+      if (flag.deviceInfoType == "ZUJIAN") {
+        param.deviceType = "ZUJIAN";
+        param.devices = devices;
+      }
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
@@ -218,21 +221,24 @@ export const nbq = [
     backfill(data) {
       const tableData = lo.get(data, "NBQ.checkDeviceValidRes.deviceVos", []) || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", 'deviceType']);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", "deviceType"]);
       });
     },
     getParam(param) {
-      delete param["deviceNumber-cjq"];
+      delete param["deviceNumber-nbq"];
       delete param.ssgs;
-      delete param["ysgs-cjq"];
-      param.deviceType = "CJQ";
+      delete param["ysgs-nbq"];
       const devices = this.value.map((v) => {
         v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
         v.orderId = getQuery().orderId;
         // delete v._X_ROW_KEY;
         return v;
       });
-      param.devices = devices;
+      const flag = useFlag();
+      if (flag.deviceInfoType == "NBQ") {
+        param.deviceType = "NBQ";
+        param.devices = devices;
+      }
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
@@ -278,6 +284,10 @@ export const cjq = [
       { text: "光精灵Mini", value: "光精灵Mini" },
       { text: "光精灵Pro", value: "光精灵Pro" },
     ]),
+    backfill(data) {
+      this.value = data.CJQ.cjqModel;
+      this.realValue = data.CJQ.cjqModel;
+    },
   },
   {
     formType: "input",
@@ -289,6 +299,11 @@ export const cjq = [
       { text: "否", value: 0 },
       { text: "是", value: 1 },
     ]),
+    backfill(data) {
+      this.realValue = data.CJQ.cjqShare;
+      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == this.realValue)?.text || this.value;
+      this.value = text;
+    },
   },
   {
     formType: "input",
@@ -305,7 +320,7 @@ export const cjq = [
   {
     formType: "input",
     label: "应收块数",
-    name: "ysgs",
+    name: "ysgs-cjq",
     value: "",
     ...makeUnit("块"),
     backfill(data) {
@@ -353,21 +368,24 @@ export const cjq = [
     backfill(data) {
       const tableData = lo.get(data, "CJQ.checkDeviceValidRes.deviceVos", []) || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", "deviceType"]);
       });
     },
     getParam(param) {
       delete param["deviceNumber-cjq"];
       delete param.ssgs;
       delete param["ysgs-cjq"];
-      param.deviceType = "CJQ";
       const devices = this.value.map((v) => {
         v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
         v.orderId = getQuery().orderId;
         // delete v._X_ROW_KEY;
         return v;
       });
-      param.devices = devices;
+      const flag = useFlag();
+      if (flag.deviceInfoType == "CJQ") {
+        param.deviceType = "CJQ";
+        param.devices = devices;
+      }
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
@@ -418,7 +436,7 @@ export const pdx = [
   {
     formType: "input",
     label: "应收块数",
-    name: "ysgs",
+    name: "ysgs-pdx",
     value: "",
     ...makeUnit("块"),
     backfill(data) {
@@ -473,18 +491,185 @@ export const pdx = [
       delete param["deviceNumber-pdx"];
       delete param.ssgs;
       delete param["ysgs-pdx"];
-      param.deviceType = "PDX";
       const devices = this.value.map((v) => {
         v.createTime = dayjs().format("YYYY-MM-DD HH:MM:ss");
         v.orderId = getQuery().orderId;
         // delete v._X_ROW_KEY;
         return v;
       });
-      param.devices = devices;
+      const flag = useFlag();
+      if (flag.deviceInfoType == "PDX") {
+        param.deviceType = "PDX";
+        param.devices = devices;
+      }
     },
     remove(row) {
       const index = this.value.findIndex((n) => n.deviceNumber == row.deviceNumber);
       this.value.splice(index, 1);
+    },
+  },
+];
+
+export const zldl = [
+  makeTitle("直流电缆"),
+  {
+    formType: "input",
+    name: "manufacturerZLDL",
+    label: "直流电缆厂家名称",
+    required: true,
+    getParam(param) {
+      if (!lo.isArray(param.devices)) {
+        param.devices = [{}];
+      }
+      const flag = useFlag();
+      if (flag.deviceInfoType == "ZLDL") {
+        param.devices[0].manufacturer = param["manufacturerZLDL"];
+        param.devices[0].deviceType = "ZLDL";
+        param.devices[0].specificationsModel = param["specificationsModelZLDL"];
+        param.devices[0].orderId = getQuery().orderId;
+      }
+    },
+    async backfill(bData) {
+      const { data } = await http.post("sto/device-args/list?option=manufacturer", { deviceType: "ZLDL" });
+      const actions = data.map((n) => ({ ...n, text: n.manufacturer, value: n.manufacturer }));
+      this.inlineForm[0].value = bData.manufacturer;
+      this.updateValue = (value) => {
+        const filterActions = actions.filter((n) => n.value.includes(value));
+        this.inlineForm[0].show = new Boolean(filterActions.length || value.length);
+        this.inlineForm[0].actions = filterActions;
+      };
+
+      const bValue = lo.get(bData, "ZLDL.checkDeviceValidRes.deviceVos[0].manufacturer", "");
+      this.value = bValue;
+    },
+    inlineForm: [
+      {
+        slot: "button",
+        name: "manufacturerZLDLRightIcon",
+        formType: "popover",
+        show: false,
+        placement: "bottom-end",
+        actions: [],
+        style: { width: "250px", height: "40vh" },
+        select(action) {
+          setItem("manufacturerZLDL", "value", action.value);
+        },
+      },
+    ],
+  },
+  {
+    ...backSelect(),
+    ...makeSelect("specificationsModelZLDL", [], "dynamic"),
+    formType: "input",
+    label: "直流电缆型号",
+    name: "specificationsModelZLDL",
+    required: true,
+    async backfill(bData) {
+      const { data } = await http.post("sto/device-args/list?option=specificationsModel", { deviceType: "ZLDL" });
+      const columns = data.map((n) => {
+        return {
+          text: n.specificationsModel,
+          value: n.specificationsModel,
+        };
+      });
+      this.makeSelect(bData.specificationsModel, columns);
+
+      const bValue = lo.get(bData, "ZLDL.checkDeviceValidRes.deviceVos[0].specificationsModel", "");
+      this.value = bValue;
+      this.realValue = bValue;
+    },
+  },
+];
+
+export const zhijia = [
+  makeTitle("支架"),
+  {
+    formType: "input",
+    name: "manufacturer-zhijia",
+    label: "支架厂家名称",
+    required: true,
+    getParam(param) {
+      console.log(99999999);
+      if (!lo.isArray(param.devices)) {
+        param.devices = [{}];
+      }
+      const flag = useFlag();
+      // param.deviceType = 'ZLDL'
+      if (flag.deviceInfoType == "ZHIJIA") {
+        param.devices[0].manufacturer = param["manufacturer-zhijia"];
+        param.devices[0].deviceType = "ZHIJIA";
+        param.devices[0].specificationsModel = param["specificationsModel-zhijia"];
+        param.devices[0].material = param["material-zhijia"];
+        param.devices[0].orderId = getQuery().orderId;
+      }
+      // delete param.manufacturer;
+    },
+    async backfill(bData) {
+      const { data } = await http.post("sto/device-args/list?option=manufacturer", { deviceType: "ZHIJIA" });
+      const actions = data.map((n) => ({ ...n, text: n.manufacturer, value: n.manufacturer }));
+      this.inlineForm[0].value = bData.manufacturer;
+      this.updateValue = (value) => {
+        const filterActions = actions.filter((n) => n.value.includes(value));
+        this.inlineForm[0].show = new Boolean(filterActions.length || value.length);
+        this.inlineForm[0].actions = filterActions;
+      };
+
+      const bValue = lo.get(bData, "ZHIJIA.checkDeviceValidRes.deviceVos[0].manufacturer", "");
+      this.value = bValue;
+    },
+    inlineForm: [
+      {
+        slot: "button",
+        name: "manufacturer-zhijiaRightIcon",
+        formType: "popover",
+        show: false,
+        placement: "bottom-end",
+        actions: [],
+        style: { width: "250px", height: "40vh" },
+        select(action) {
+          setItem("manufacturer-zhijia", "value", action.value);
+        },
+      },
+    ],
+  },
+  {
+    ...backSelect(),
+    ...makeSelect("specificationsModel-zhijia", [], "dynamic"),
+    formType: "input",
+    label: "支架型号",
+    name: "specificationsModel-zhijia",
+    required: true,
+    async backfill(bData) {
+      const { data } = await http.post("sto/device-args/list?option=specificationsModel", { deviceType: "ZHIJIA" });
+      const columns = data.map((n) => {
+        return {
+          text: n.specificationsModel,
+          value: n.specificationsModel,
+        };
+      });
+      this.makeSelect(bData.specificationsModel, columns);
+
+      const bValue = lo.get(bData, "ZHIJIA.checkDeviceValidRes.deviceVos[0].specificationsModel", "");
+      this.value = bValue;
+      this.realValue = bValue;
+    },
+  },
+  {
+    ...backSelect(),
+    ...makeSelect("material-zhijia", [], "dynamic"),
+    formType: "input",
+    label: "支架材质",
+    name: "material-zhijia",
+    required: true,
+    async backfill(bData) {
+      const { data } = await http.post("sto/device-args/list?option=material", { deviceType: "ZHIJIA" });
+      const columns = arrayToVantColumns(data);
+
+      this.makeSelect(bData.material, columns);
+
+      const bValue = lo.get(bData, "ZHIJIA.checkDeviceValidRes.deviceVos[0].material", "");
+      this.value = bValue;
+      this.realValue = bValue;
     },
   },
 ];

@@ -9,7 +9,10 @@ export const gridConnectedMessageForm = [
     readonly: true,
     realValue: "",
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
+      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+      }
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
@@ -47,7 +50,10 @@ export const gridConnectedMessageForm = [
     readonly: true,
     realValue: "",
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
+      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+      }
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
@@ -99,6 +105,12 @@ export const zlwOtherFile = [
     label: "补充/整改施工影像件(选填)",
     name: "zlwOtherFile",
     ...makeUpload(999, 100),
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
+    getParam(param) {
+      param[this.name] = param[this.name].map(n => getUploadUrl(n))
+    }
   },
 ];
 
@@ -112,6 +124,9 @@ export const monitorForm = [
     backfill(data) {
       lo.bind(makeImgs, this)(data);
     },
+    getParam(param) {
+      param.monitor = param.monitor.map(n => sToUrl(n.url))
+    }
   },
 ];
 
@@ -125,6 +140,9 @@ export const omnibearingShadowOcclusionForm = [
     backfill(data) {
       lo.bind(makeImgs, this)(data);
     },
+    getParam(param) {
+      param.omnibearingShadowOcclusion = param.omnibearingShadowOcclusion.map(n => sToUrl(n.url))
+    }
   },
   {
     label: "四周遮挡复核环绕视频",
@@ -134,6 +152,9 @@ export const omnibearingShadowOcclusionForm = [
     backfill(data) {
       lo.bind(makeImgs, this)(data);
     },
+    getParam(param) {
+      param.allAroundReviewSurroundVideo = param.allAroundReviewSurroundVideo.map(n => sToUrl(n.url))
+    }
   },
 ];
 
@@ -148,7 +169,10 @@ export const propertyInsuranceForm = [
     readonly: true,
     realValue: "",
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
+      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+      }
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
@@ -186,7 +210,10 @@ export const propertyInsuranceForm = [
     readonly: true,
     realValue: "",
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
+      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+      }
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     backfill(data) {
@@ -282,7 +309,27 @@ export const propertyInsuranceForm = [
     name: "insurancePolicyP",
     required: true,
     backfill(data) {
-      lo.bind(makeImgs, this)(data);
+      lo.bind(makeImgs, this)(data.insuranceList[0]);
+    },
+    getParam(param) {
+      if (!lo.isArray(param.insuranceList)) {
+        param.insuranceList = [{}];
+      }
+      const pickList = [
+        'startDate',
+        'endDate',
+        'insuranceCompany',
+        'insuranceNumber',
+        'insuranceType',
+        'insuredAmount',
+        'beneficiary',
+        'insurancePolicyP'
+      ]
+      const insurance = lo.pick(param, [...pickList, 'orderId'])
+      param.insurancePolicyP = param.insurancePolicyP.map(n => getUploadUrl(n))
+      insurance.insurancePolicyP = JSON.stringify(param.insurancePolicyP)
+      param.insuranceList = [insurance]
+      delete param.insurancePolicyP
     },
   },
 ];

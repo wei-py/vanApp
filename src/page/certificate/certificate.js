@@ -102,8 +102,8 @@ export const certificate = [
           this.readonly = true;
           this.isLink = true;
           this.click = () => {
-            const flag = useFlag()
-      this.inlineForm[0].show = flag.btns.canEdit;
+            const flag = useFlag();
+            this.inlineForm[0].show = flag.btns.canEdit;
           };
           const columns = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
           this.inlineForm[0].inlineForm[0].columns = columns;
@@ -125,8 +125,8 @@ export const certificate = [
         }
       });
       await wait(2000);
-      setItem('recordCertificateId', 'value', bData.recordCertificateId);
-      setItem('recordCertificateId', 'realValue', bData.recordCertificateId);
+      setItem("recordCertificateId", "value", bData.recordCertificateId);
+      setItem("recordCertificateId", "realValue", bData.recordCertificateId);
     },
   },
   {

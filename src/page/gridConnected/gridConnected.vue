@@ -14,13 +14,22 @@ async function getData() {
   backfill(_, { ...data, ...data.insuranceList[0] });
 }
 
-async function submit() {
-  await validate();
-  const result = getParam();
-  console.log(result);
+async function saveData() {
+  const params = getParam()
+  const { data } = await http.post('order/put-grid', params)
 }
 
-eventManage({ getData });
+async function submitData(params) {
+  params.taskId = 'TASK_BWXX'
+  const { data } = await http.post(queryUrl(`approval/put-approval/bto/grid`, params))
+}
+
+async function approvalData(params) {
+  params.taskId = 'TASK_BWXX'
+  const { data } = await http.post('approval/do-approval/bto/grid', params)
+}
+
+eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>

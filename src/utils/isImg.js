@@ -8,6 +8,7 @@ export function isImgSlot(file) {
 }
 
 export function getUploadUrl(file) {
+  console.log(sToUrl(lo.get(file, "file.url") || lo.get(file, "src") || lo.get(file, "url")))
   return sToUrl(lo.get(file, "file.url") || lo.get(file, "src") || lo.get(file, "url"));
 }
 

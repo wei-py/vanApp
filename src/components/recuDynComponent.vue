@@ -1,5 +1,5 @@
 <script setup name="recuDynComponent">
-import isImg, { isImgSlot } from "@/utils/isImg";
+import isImg, { isImgSlot, getUploadUrl } from "@/utils/isImg";
 import { get } from "lodash";
 import { formType } from "@/utils/formType";
 

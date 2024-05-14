@@ -1,13 +1,19 @@
 <script setup>
-const query = getQuery(); // 获取url参数
+const props = defineProps({ query: {
+  table: {},
+  id: {},
+  designIdByPv: {},
+  orderId: {}
+} });
+// const query = getQuery(); // 获取url参数
 const active = ref(0); // tab切换
 const tabData = ref({}); // tab数据
-const designId = computed(() => query.id || query.designIdByPv);
+const designId = computed(() => props.query.id || props.query.designIdByPv);
 // const container = ref(null)
 
 const tabs = computed(() => {
   // tab列表
-  const t = query.table.split(" ").filter((n) => n);
+  const t = props.query.table.split(" ").filter((n) => n);
   return t.reduce((pre, cur) => {
     const [nbq, quantity] = cur.split("*");
     for (let i = 1; i <= quantity; i++) {
@@ -20,10 +26,17 @@ const tabs = computed(() => {
 async function getData() {
   const { data } = await http.get(queryUrl("design/get-design-nbq-pv", { designId: designId.value }));
   if (data.length) {
-    tabData.value = data.reduce((pre, cur) => {
-      pre[cur.nbqName] = cur;
-      return pre;
-    }, {});
+    const dataByNbqName = lo.groupBy(data, 'nbqName')
+    for (const tab in tabData.value) {
+      if (dataByNbqName[tab]) {
+        tabData.value[tab] = dataByNbqName[tab][0]
+      }
+    }
+    // tabData.value = data.reduce((pre, cur) => {
+    //   pre[cur.nbqName] = cur;
+    //   return pre;
+    // }, {});
+    // console.log(tabData.value, 'tabData.value')
   }
 }
 
@@ -32,9 +45,9 @@ async function saveData() {
     designId: designId.value,
     designNbqPvList: Object.values(tabData.value),
   };
-  const data = await http.post('design/put-design-nbq-pv', params)
+  const data = await http.post("design/put-design-nbq-pv", params);
   if (data.code == 200) {
-    showSuccessToast('保存成功')
+    showSuccessToast("保存成功");
   }
 }
 
@@ -47,7 +60,7 @@ async function initTabData() {
     }
   }
   for (const key in tabData.value) {
-    tabData.value[key].nbqName = key
+    tabData.value[key].nbqName = key;
   }
 }
 
@@ -55,6 +68,8 @@ onMounted(() => {
   initTabData();
   getData();
 });
+
+defineExpose({ saveData, getData });
 </script>
 
 <template>
@@ -71,6 +86,7 @@ onMounted(() => {
               <van-grid-item v-for="j in 4" :key="j">
                 <van-field :label="`DC${j}`" :required="j == 1" labelClass="!w-[25%] !text-right">
                   <template #input>
+                    <!-- {{ $log(tabData[t]) }} -->
                     <van-stepper allow-empty v-model="tabData[t][`pv${i}`][`dc${j}`]" step="1" min="0" integer />
                   </template>
                 </van-field>
@@ -80,11 +96,11 @@ onMounted(() => {
         </van-tab>
       </template>
     </van-tabs>
-    <van-sticky :offset-bottom="20" position="bottom">
-      <div class="xCenter bg-opacity-100">
-        <van-button @click="saveData" className="bg-[#ffab30] text-white h-8 w-[50%] rounded-2xl van-haptics-feedback ">保存</van-button>
-      </div>
-    </van-sticky>
+    <!-- <van-sticky :offset-bottom="20" position="bottom"> -->
+    <div class="xCenter bg-opacity-100 pb-5">
+      <van-button @click="saveData" className="bg-[#ffab30] text-white h-8 w-[50%] rounded-2xl van-haptics-feedback ">保存</van-button>
+    </div>
+    <!-- </van-sticky> -->
   </div>
 </template>
 

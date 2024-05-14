@@ -15,7 +15,7 @@ export default function backfill(_, data) {
   const flag = useFlag();
   const dom = useDom();
   const event = useEvent();
-  dom.imgDoms = [];
+  dom.$reset()
 
   forForm((item) => {
     if (lo.isFunction(item.backfill)) {

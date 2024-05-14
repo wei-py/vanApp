@@ -22,7 +22,10 @@ async function submitData(params) {
   const { data } = await http.post(queryUrl("/approval/put-approval/bto/construction", params));
 }
 
-async function approvalData() {}
+async function approvalData(params) {
+  params.taskId = 'TASK_SGXX'
+  const { data } = await http.post('approval/do-approval/bto/construction', params)
+}
 
 eventManage({ getData, saveData, submitData, approvalData });
 </script>
