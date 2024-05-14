@@ -2,6 +2,7 @@
 import { get } from "lodash";
 import plainButton from "@/components/plainButton.vue";
 const props = defineProps(["item"]);
+const flag = useFlag()
 
 const statusDic = getStatusDic(); // 状态字典
 
@@ -13,8 +14,9 @@ function getStatus(i) { // 获取状态
 </script>
 
 <template>
-  <van-cell-group inset class="p-1 !mb-2 shadowC van-haptics-feedback !rounded-xl" >
-    <!-- header -->
+  <van-cell-group inset class="p-1 !mb-2 shadowC van-haptics-feedback !rounded-xl" v-skeleton="flag.overlayShow">
+    <div v-skeleton-item>
+       <!-- header -->
     <div class="flex h-auto items-center pt-[1px]">
       <div class="min-w-4 px-1 h-4 ml-2 text-sm shadowC flex items-center justify-center text-white rounded-full bg-[#ffab30]">{{ props.item.index }}</div>
       <div class="mx-2">
@@ -43,6 +45,9 @@ function getStatus(i) { // 获取状态
       详细地址: {{ get(props.item, "orderBase.installationAddress", "-") }} <br />
       订单创建时间: {{ get(props.item, "orderBase.createTime", "-") }} <br />
     </article>
+
+    </div>
+   
   </van-cell-group>
 </template>
 

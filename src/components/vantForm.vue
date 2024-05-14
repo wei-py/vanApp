@@ -25,8 +25,7 @@ const disabled = computed(() => {
 });
 const showErrorMessage = computed(() => {
   return !lo.isUndefined(props.showErrorMessage) ? props.showErrorMessage : flag.btns.canEdit;
-})
-
+});
 
 const slotDoms = [props.form]
   .flat()
@@ -53,8 +52,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <van-form :ref="setRef" :readonly="readonly" :disabled="disabled" :show-error-message="showErrorMessage">
-    <van-cell-group inset :class="props.groupClass" class="">
+  <van-form v-skeleton="flag.overlayShow" :ref="setRef" :readonly="readonly" :disabled="disabled" :show-error-message="showErrorMessage">
+    <van-cell-group inset :class="props.groupClass" class="" v-skeleton-item>
       <recuDynComponent :form="props.form">
         <template v-for="slot of slotDoms" #[slot] :key="slot">
           <slot :name="slot" :slot="getSlot(slot)" />

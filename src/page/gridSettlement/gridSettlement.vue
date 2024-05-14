@@ -1,6 +1,6 @@
 <script setup>
-import { gridConnectedAccount, receiptForm } from "./gridConnectedAccount.js";
-const _ = makeForm({ gridConnectedAccount, receiptForm });
+import { settlementForm, receiptForm } from "./gridSettlement.js";
+const _ = makeForm({ settlementForm, receiptForm });
 const query = getQuery();
 
 onMounted(() => {
@@ -8,8 +8,8 @@ onMounted(() => {
 });
 
 async function getData() {
-  let { data } = await http.get(queryUrl(`order/get-grid-settlement`, { orderId: query.orderId, type: 2 }));
-  data = { ...data, settlementType: 2, approvalType: "APPROVAL_BTO" };
+  let { data } = await http.get(queryUrl(`order/get-grid-settlement`, { orderId: query.orderId, type: 3 }));
+  data = { ...data, settlementType: 3, approvalType: "APPROVAL_BTO" };
   backfill(_, data);
 }
 
@@ -19,20 +19,20 @@ async function saveData() {
 }
 
 async function submitData(params) {
-  params.setType = 2;
+  params.setType = 3;
   const { data } = await http.post(queryUrl(`approval/put-approval/bto/settle`, params));
 }
 
 async function approvalData(params) {
-  params.setType = 2
-  const { data } = await http.post('approval/do-approval/bto/settle', params)
+  params.setType = 3;
+  const { data } = await http.post("approval/do-approval/bto/settle", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });
 </script>
 
 <template>
-  <vantForm :form="_.gridConnectedAccount" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.settlementForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.receiptForm" class="pt-3" group-class="shadowC"> </vantForm>
 
   <vBtn></vBtn>

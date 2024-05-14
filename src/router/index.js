@@ -220,8 +220,19 @@ const router = createRouter({
         refresh: true,
         // tabbar: true,
       },
+
+      //
     },
-    
+    {
+      path: "/gridSettlement",
+      name: "gridSettlement",
+      component: () => import("../page/gridSettlement/gridSettlement.vue"),
+      meta: {
+        title: "并网信息结算",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
   ].map((n) => {
     return {
       ...n,

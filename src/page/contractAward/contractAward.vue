@@ -1,6 +1,6 @@
 <script setup>
-import { contractAward, button } from "./contractAward";
-const _ = makeForm({ contractAward, button });
+import { contractAward, signedContractForm, signedSiteForm, button } from "./contractAward";
+const _ = makeForm({ contractAward,signedContractForm, signedSiteForm, button });
 const query = getQuery();
 
 onMounted(() => {
@@ -17,5 +17,7 @@ async function getData() {
 
 <template>
   <vantForm :form="_.contractAward" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.signedContractForm" class="pt-3" group-class="shadowC"> </vantForm>
+  <vantForm :form="_.signedSiteForm" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.button" class="pt-3" group-class="!bg-[#f8f8f8]"> </vantForm>
 </template>

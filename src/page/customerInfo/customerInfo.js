@@ -1,16 +1,22 @@
 export const lessorInfo = [
-  makeTitle("客户信息"),
+  {
+    ...makeTitle("客户信息"),
+    hidden: isZZD_ORG(),
+  },
+
   {
     formType: "input",
     label: "姓名",
     name: "name",
     value: "",
+    hidden: isZZD_ORG(),
     required: true,
     placeholder: "带过来的保存的信息",
   },
   {
     formType: "input",
     label: "证件号码",
+    hidden: isZZD_ORG(),
     name: "idNumber",
     value: "",
     required: true,
@@ -21,11 +27,12 @@ export const lessorInfo = [
     formType: "cell",
     title: "证件照片",
     name: "",
+    hidden: isZZD_ORG(),
     readonly: true,
     titleClass: "xCenter text-[16px]",
   },
-  { ...makeUpload(1, 50), required: true, label: "证件正面(头像面)", name: "idCardFront" },
-  { ...makeUpload(1, 50), required: true, label: "证件反面(国徽面)", name: "idCardBack" },
+  { ...makeUpload(1, 50), required: true, label: "证件正面(头像面)", name: "idCardFront", hidden: isZZD_ORG() },
+  { ...makeUpload(1, 50), required: true, label: "证件反面(国徽面)", name: "idCardBack", hidden: isZZD_ORG() },
   {
     formType: "input",
     label: "出租人电话",
@@ -105,6 +112,104 @@ export const lessorInfo = [
     ...backSelect(),
     ...makeSelect("health", arrayToVantColumns(["健康", "亚健康", "疾病"])),
   },
+
+  {
+    ...makeTitle("出租人信息"),
+    hidden: isZZD(),
+  },
+  {
+    formType: "input",
+    label: "组织全称",
+    name: "orgName",
+    value: "",
+    hidden: isZZD(),
+    required: true,
+    placeholder: "带过来的保存的信息",
+  },
+  {
+    formType: "input",
+    label: "登记注册码",
+    name: "regNo",
+    value: "",
+    hidden: isZZD(),
+    required: true,
+    placeholder: "带过来的保存的信息",
+  },
+  {
+    formType: "cell",
+    title: "法人证件照",
+    name: "",
+    hidden: isZZD(),
+    readonly: true,
+    titleClass: "xCenter text-[16px]",
+  },
+
+  {
+    ...makeUpload(1, 50),
+    name: "orgLegalIdCardFront",
+    label: "法人代表证件正面(头像面)",
+    hidden: isZZD(),
+    required: true,
+  },
+  {
+    ...makeUpload(1, 50),
+    name: "orgLegalIdCardBack",
+    label: "法人代表证件反面(国徽面)",
+    hidden: isZZD(),
+    required: true,
+  },
+  {
+    ...makeUpload(1, 100),
+    name: "orgLicense",
+    hidden: isZZD(),
+    label: "统一社会信用代码证/组织机构代码证/营业执照",
+    required: true,
+  },
+  {
+    ...makeUpload(999, 100),
+    name: "resolutionPaper",
+    hidden: isZZD(),
+    label: "村民代表大会决议书",
+    required: true,
+  },
+  {
+    ...makeUpload(999, 100),
+    name: "committeeRegulation",
+    hidden: isZZD(),
+    label: "村委议事章程(选填)",
+    required: false,
+  },
+  {
+    ...makeUpload(999, 100),
+    name: "orgLandUseCertificate",
+    hidden: isZZD(),
+    label: "集体土地使用证",
+    required: true,
+  },
+  {
+    ...makeUpload(999, 100),
+    name: "orgLandUseCertificateAuthFile",
+    hidden: isZZD(),
+    label: "产权证明",
+    required: true,
+    // errorMessage: "提示2: 支持不动产证书/不动产登记部门查册证明/国土资源管理部门确权文件(加盖村委章)/上一级政府证明(加盖村委章)",
+  },
+  {
+    formType: "cell",
+    value: "提示2: 支持不动产证书/不动产登记部门查册证明/国土资源管理部门确权文件(加盖村委章)/上一级政府证明(加盖村委章)",
+    valueClass: "text-red !text-center",
+    hidden: isZZD(),
+  },
+  {
+    formType: "input",
+    label: "法人代表手机号码",
+    name: "cellPhone",
+    value: "",
+    hidden: isZZD(),
+    required: true,
+    placeholder: "带过来的保存的信息",
+  },
+
   {
     formType: "input",
     label: "省市区",
@@ -117,7 +222,7 @@ export const lessorInfo = [
     placeholder: "请选择所在地区",
     middle: { value: [], provinceCode: "", cityCode: "", areaCode: "" },
     clickRightIcon() {
-      const flag = useFlag()
+      const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     getParam(param) {
@@ -175,16 +280,31 @@ export const lessorInfo = [
     name: "installationAddress",
     placeholder: "(从省/自治区/直辖市/特别行政区 开始写)",
     required: true,
-    hidden: isZZD_ORG(),
+    // hidden: isZZD_ORG(),
     value: "",
     inputAlign: "left",
-    errorMessage: "提示: 若无不动产权证/房产证/宅基地证, 需和村委开具的房屋权属证明地址完全一致(从省/自治区/直辖市/特别行政区 开始写)",
+    // errorMessage: "提示: 若无不动产权证/房产证/宅基地证, 需和村委开具的房屋权属证明地址完全一致(从省/自治区/直辖市/特别行政区 开始写)",
+  },
+
+  {
+    formType: "cell",
+    value: "提示: 若无不动产权证/房产证/宅基地证, 需和村委开具的房屋权属证明地址完全一致(从省/自治区/直辖市/特别行政区 开始写)",
+    valueClass: "text-red !text-center",
+    hidden: isZZD_ORG(),
+  },
+  {
+    formType: "cell",
+    value: "提示: 需对照不动产权证/集体土地使用证/查册证明/确权文件 上的建筑地址填写, 必须从省/自治区/直辖市/特别行政区 开始写",
+    valueClass: "text-red !text-center",
+    hidden: isZZD(),
   },
 ];
 
 export const bankInfo = [
   makeTitle("租金收益银行卡"),
-  { ...makeUpload(1, 100, "*"), required: true, label: "银行卡-卡号面", name: "bankCardFront" },
+  { ...makeUpload(1, 100, "*"), required: true, label: "银行卡-卡号面", name: "bankCardFront", hidden: isZZD_ORG() },
+  { ...makeUpload(999, 100), required: true, label: "对公账户信息(盖公章)", name: "publicAccountInformation", hidden: isZZD() },
+  { ...makeUpload(999, 100, '*'), required: true, label: "银行印鉴留样原件", name: "bankSealSample", hidden: isZZD() },
   {
     formType: "input",
     name: "bankAccount",
@@ -206,7 +326,7 @@ export const bankInfo = [
     value: "",
     // click() {
     //   const flag = useFlag()
-      // this.inlineForm[0].show = flag.btns.canEdit;
+    // this.inlineForm[0].show = flag.btns.canEdit;
     // },
     input(e) {
       const value = e.target.value.replace(/ /g, "");
@@ -227,7 +347,7 @@ export const bankInfo = [
     readonly: true,
     isLink: true,
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
       this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue(this.value);
     },
@@ -287,7 +407,7 @@ export const bankInfo = [
     readonly: true,
     isLink: true,
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
       setItem("bankName", (v) => {
         this.inlineForm[0].inlineForm[0].inlineForm[0].updateValue(v.value);
@@ -343,6 +463,18 @@ export const bankInfo = [
       },
     ],
   },
+  // 联行号
+  {
+    formType: 'input',
+    label: '联行号',
+    hidden: isZZD(),
+    required: true,
+    value: '',
+    readonly: true,
+    // disabled: true,
+    placeholder: '自动填充',
+    name: 'jointLineNumber'
+  }
 ];
 
 export const certificateType = [

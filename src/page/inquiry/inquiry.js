@@ -7,6 +7,7 @@ export const lessorInfo = [
     label: "姓名",
     name: "name",
     required: true,
+    hidden: isZZD_ORG(),
     value: "",
     rightIcon: "scan",
     onMounted() {
@@ -25,10 +26,12 @@ export const lessorInfo = [
       });
     },
   },
+
   {
     formType: "input",
     label: "证件类型",
     name: "idCardType",
+    hidden: isZZD_ORG(),
     required: true,
     // rightIcon: "arrow",
     readonly: true,
@@ -69,6 +72,7 @@ export const lessorInfo = [
     formType: "input",
     label: "出租人电话",
     name: "phone",
+    hidden: isZZD_ORG(),
     placeholder: "请输入出租人电话",
     type: "tel",
     required: true,
@@ -84,21 +88,136 @@ export const lessorInfo = [
 
   {
     formType: "input",
+    label: "组织名称",
+    name: "name",
+    required: true,
+    hidden: isZZD(),
+    value: "",
+    rightIcon: "scan",
+    onMounted() {
+      this.value = "";
+    },
+    onSave() {
+      if (!this.value) {
+        showFailToast("请输入组织名称");
+        // throw new Error('请输入姓名')
+      }
+    },
+    clickRightIcon() {
+      showToast({
+        message: "扫码功能开发中",
+        className: "shadowC",
+      });
+    },
+  },
+  {
+    formType: "input",
+    label: "登记注册码类型",
+    name: "regType",
+    hidden: isZZD(),
+    required: true,
+    // rightIcon: "arrow",
+    readonly: true,
+    value: "",
+    ...backSelect(),
+    ...makeSelect("regType", [
+      { text: "统一社会信用代码/营业执照", value: "07" },
+      { text: "组织机构代码", value: "30" },
+    ]),
+  },
+  {
+    formType: "input",
+    label: "登记注册码",
+    name: "regNo",
+    placeholder: "核对证件后, 手动输入",
+    hidden: isZZD(),
+    value: "",
+    // rules: [e => isChineseIdCard(e) || '身份证有误'],
+    required: true,
+  },
+  {
+    formType: "input",
+    ...backSelect(),
+    ...makeSelect("position", [{ value: "1", text: "法人代表/非法人组织负责人" }]),
+    label: "负责人类型",
+    name: "position",
+    placeholder: "请选择负责人类型",
+    required: true,
+    hidden: isZZD(),
+  },
+  {
+    formType: "input",
+    label: "负责人姓名",
+    name: "name",
+    placeholder: "请输入负责人姓名",
+    hidden: isZZD(),
+    value: "",
+    // rules: [e => isChineseIdCard(e) || '身份证有误'],
+    required: true,
+  },
+  {
+    formType: "input",
+    label: "证件类型",
+    name: "certType",
+    hidden: isZZD(),
+    required: true,
+    // rightIcon: "arrow",
+    readonly: true,
+    value: "身份证",
+    ...backSelect(),
+    ...makeSelect("certType", [
+      { text: "身份证", value: "ID_CARD" },
+      { text: "护照", value: "PASSPORT" },
+      { text: "军官证", value: "MILITARY_ID" },
+      { text: "户口簿", value: "RESIDENCE_BOOKLET" },
+      { text: "士兵证", value: "SOLDBUCH" },
+      { text: "港澳通行证", value: "HM_PASS" },
+      { text: "台湾同胞来往内地通行证", value: "TAIWAN_PASS" },
+      { text: "外国人居留证", value: "ALIEN_RESIDENCE_PERMIT" },
+      { text: "警官证", value: "POLICE_ID" },
+    ]),
+  },
+  {
+    formType: "input",
+    label: "负责人证件号码",
+    name: "certCode",
+    placeholder: "扫描证件号码或手动输入",
+    hidden: isZZD(),
+    value: "",
+    required: true,
+  },
+  {
+    formType: "input",
+    label: "法人代表手机号码",
+    name: "cellPhone",
+    placeholder: "请输入法人代表手机电话",
+    hidden: isZZD(),
+    value: "",
+    required: true,
+  },
+  {
+    formType: "input",
     label: "家庭住址区域",
     name: "houseAddr",
     readonly: true,
     required: true,
+    // hidden: isZZD_ORG(),
     placeholder: "请选择所在地区",
     middle: { value: [], provinceCode: "", cityCode: "", areaCode: "" },
     isLink: true,
+    onMounted() {
+      if (isZZD_ORG().value) {
+        this.label = "注册地址区域";
+      }
+    },
     click() {
-      const flag = useFlag()
+      const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
     },
     // rightIcon: "arrow",
     // clickRightIcon() {
     //   const flag = useFlag()
-      // this.inlineForm[0].show = flag.btns.canEdit;
+    // this.inlineForm[0].show = flag.btns.canEdit;
     // },
     getParam(param) {
       const [provinceCode, cityCode, areaCode] = this.middle.value;
@@ -152,6 +271,29 @@ export const lessorInfo = [
         ],
       },
     ],
+  },
+  {
+    formType: "input",
+    label: "工商注册地址",
+    name: "detailedAddress",
+    placeholder:
+      "提示: 此地址是法人组织的工商登记注册地址, 可能和拟安装光伏的建筑详细地址不一致, 需按统一社会信用代码/组织机构代码证/营业执照上的地址填写",
+    required: true,
+    hidden: isZZD(),
+    value: "",
+    inputAlign: "left",
+    errorMessage:
+      "提示: 此地址是法人组织的工商登记注册地址, 可能和拟安装光伏的建筑详细地址不一致, 需按统一社会信用代码/组织机构代码证/营业执照上的地址填写",
+    getParam(params) {
+      params.houseAddr.detailedAddress = this.value;
+      delete params.detailedAddress;
+    },
+    backfill(data) {
+      this.value = data.houseAddr?.detailedAddress || "";
+    },
+    // clickRightIcon() {
+    //   showToast("扫码功能开发中");
+    // },
   },
 
   {
@@ -233,7 +375,10 @@ export const salespersonInfo = [
 ];
 
 export const guarantor = [
-  makeTitle("保证人"),
+  {
+    ...makeTitle("保证人"),
+    hidden: isZZD_ORG(),
+  },
   {
     formType: "input",
     label: "是否有保证人",
@@ -255,6 +400,7 @@ export const signInfo = [
   {
     customSlot: "title",
     title: "授权协议签署",
+    hidden: isZZD_ORG(),
     click() {
       // 重签按钮
       setItem("fddSignTaskId", "value", "未签署");
@@ -266,6 +412,7 @@ export const signInfo = [
   // makeTitle("授权协议签署"),
   {
     formType: "input",
+    hidden: isZZD_ORG(),
     label: "信息使用授权协议",
     name: "fddSignTaskId",
     readonly: true,
@@ -280,6 +427,7 @@ export const signInfo = [
   {
     formType: "input",
     label: "签署方式",
+    hidden: isZZD_ORG(),
     value: "",
     name: "signeType",
     inlineForm: [
@@ -315,6 +463,7 @@ export const signInfo = [
     formType: "input",
     inputAlign: "center",
     name: "signeType",
+    hidden: isZZD_ORG(),
     inlineForm: [
       {
         slot: "input",
@@ -426,6 +575,7 @@ export const signInfo = [
     formType: "input",
     label: "已签署协议查看",
     required: true,
+    hidden: isZZD_ORG(),
     placeholder: "暂无数据",
     name: "authorizationLetter",
     hidden: isZZD_ORG(),

@@ -52,7 +52,7 @@ eventManage({ getData, saveData, submitData });
   <vantForm :form="_.guarantor" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.signInfo" class="pt-3" group-class="shadowC">
     <template #title="{ slot }">
-      <van-cell title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white" class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]">
+      <van-cell v-if="!slot.hidden" title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white" class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]">
         <template #title>
           {{ slot.title }}
         </template>

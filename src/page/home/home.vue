@@ -16,7 +16,6 @@ onMounted(() => {
   onChangeTab(active.value);
 });
 
-
 // 显示角标 切换
 async function onChangeTab(val) {
   flag.headers.Biztype = val ? "ZZD_ORG" : "ZZD";
@@ -52,15 +51,15 @@ async function onChangeTab(val) {
     return result;
   });
 
-  tasks.value[2].task[1].count = dataTask.WAITING_APPROVAL_INNER[0].count
+  tasks.value[2].task[1].count = dataTask.WAITING_APPROVAL_INNER[0].count;
 }
 </script>
 
 <template>
-  <div class="bg-[#f3f3f3] pb-1">
+  <div class="bg-[#f3f3f3] pb-1" v-skeleton="flag.overlayShow">
     <van-tabs v-model:active="active" background="#f3f3f3" line-width="80px" @change="onChangeTab" swipeable>
       <van-tab title="真租顶(自然人)">
-        <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title">
+        <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title" v-skeleton-item>
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
@@ -73,7 +72,7 @@ async function onChangeTab(val) {
         </van-cell-group>
       </van-tab>
       <van-tab title="真租顶(法人)">
-        <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title">
+        <van-cell-group inset class="!mt-2 shadowC" v-for="(item, i) in tasks" :key="item.title" v-skeleton-item>
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
