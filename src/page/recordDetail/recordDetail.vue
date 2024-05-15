@@ -12,6 +12,12 @@ async function getData() {
   openBtns();
   backfill(_, data);
 }
+
+async function saveData() {
+  await validate();
+  const params = getParam();
+  const { data } = await http.post('/record/update', params)
+}
 </script>
 
 <template>
@@ -63,4 +69,8 @@ async function getData() {
       </van-field>
     </template>
   </vantForm>
+  <div class="xCenter pt-2">
+    <van-button block type="warning" round size="small" class="!w-[100px] !bg-[#ffab30] !mr-8" @click="$router.back()">取消</van-button>
+    <van-button block type="warning" round size="small" class="!w-[100px] !bg-[#ffab30]" @click="saveData">保存</van-button>
+  </div>
 </template>

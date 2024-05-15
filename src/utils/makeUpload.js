@@ -1,4 +1,4 @@
-export default function makeUpload(maxCount = 999, width = 100, accept = "", required = false, disabledFlag) {
+export default function makeUpload(maxCount = 999, width = 100, accept = "", required = false, disabledFlag, orderId) {
   const flag = useFlag();
   const canEdit = computed(() => flag.btns.canEdit);
   let deletable = canEdit;
@@ -47,7 +47,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         },
         beforeRead: (img) => {
           return new Promise(async (resolve, reject) => {
-            const src = await upload(img);
+            const src = await upload(img, getQuery()?.orderId || orderId);
             img.src = src;
             img.url = src;
             await wait(500);

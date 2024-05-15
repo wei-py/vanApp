@@ -64,7 +64,7 @@ async function onChangeTab(val) {
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
               <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
-                <img :src="task.icon" class="!w-[4rem] !h-[4rem] bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
+                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
               </van-badge>
               <p class="text-center text-[14px]">{{ task.text }}</p>
             </van-grid-item>
@@ -77,7 +77,7 @@ async function onChangeTab(val) {
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
               <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
-                <img :src="task.icon" class="!w-[4rem] !h-[4rem] bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
+                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
               </van-badge>
               <p class="text-center text-[14px]">{{ task.text }}</p>
             </van-grid-item>

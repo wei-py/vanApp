@@ -25,4 +25,7 @@ async function submit() {
   padding: 13px 0px !important;
   border-bottom: 1px solid #dbdbda !important;
 }
+:deep(.van-field__control) {
+  width: 60% !important;
+}
 </style>

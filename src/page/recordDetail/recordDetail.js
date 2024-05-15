@@ -42,6 +42,11 @@ export const record = [
       this.checkColumns = lo.clone(this.middleColumns);
       this.checkColumns = lo.uniqBy(this.checkColumns, "value");
     },
+    getParam(params) {
+      params[this.name] = `[${this.checkColumns.map(n => n.value + '')}]`
+      JSON.stringify()
+      // .replace(/\//g, '')
+    },
     check(n) {
       if (n.checked) {
         this.middleColumns.push(n);
@@ -74,6 +79,50 @@ export const record = [
         this.middleColumns = [];
         this.checkColumns = [];
       });
+    },
+  },
+  {
+    formType: "input",
+    label: "备案证编码",
+    required: true,
+    value: "",
+    placeholder: "请输入",
+    name: "recordCertificateId",
+  },
+  {
+    formType: "input",
+    label: "备案证容量",
+    required: true,
+    value: "",
+    placeholder: "请输入",
+    name: "recordCertificateCapacity",
+    type: "digit",
+    ...makeUnit("kW"),
+    getParam(params) {
+      params.recordCertificateCapacity = multiply(params.recordCertificateCapacity, 1000);
+    },
+    backfill(data) {
+      this.value = divide(data.recordCertificateCapacity, 1000)
+    }
+  },
+  {
+    formType: "input",
+    label: "备案证剩余容量",
+    value: "",
+    placeholder: "请输入",
+    name: "surplusCapacity",
+    type: "digit",
+    hidden: computed(() => getItem("recordType", "realValue") != 1),
+    ...makeUnit("kW"),
+  },
+  {
+    ...makeUpload(1, 100, "*", true, undefined, "accessory"),
+    label: "备案证附件",
+    required: true,
+    name: "accessory",
+    getParam(params) {
+      params[this.name] = getUploadUrl(params[this.name][0])
+      // params.accessory = JSON.stringify(lo.get(params, 'accessory', []))
     },
   },
 ];

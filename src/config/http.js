@@ -3,7 +3,7 @@ import axios from "axios";
 export const baseURLDic = {
   boge: { app: "http://192.168.30.15:30600", web: "/dev" }, // 波哥
   bogeSto: { app: "http://192.168.30.15:30610", web: "/devSto" }, // 波哥 供应链
-  mingjie: { app: "http://192.168.30.11:30600", web: "/mj" }, // 铭杰
+  mingjie: { app: "http://192.168.30.11:30700", web: "/mj" }, // 铭杰
   mingjieSto: { app: "http://192.168.30.11:30610", web: "/mjSto" }, // 铭杰 供应链
   sit: { app: "http://192.168.150.252:30600", web: "/sit" }, // 测试
   uat: { app: "https://7k20s48526.zicp.fun", web: "/uat" }, // 打包测试环境
@@ -12,7 +12,7 @@ export const baseURLDic = {
 };
 
 const http = axios.create({
-  baseURL: baseURLDic.prod.web,
+  baseURL: baseURLDic.mingjie.web,
   timeout: 30000,
 });
 

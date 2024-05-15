@@ -22,6 +22,7 @@ export const income = [
     labelClass: "xCenter border-r border-[#dbdbda]",
     border: false,
     label: "类型",
+    rightIcon: 'arrow',
     required: true,
     value: "",
     name: "type",
@@ -41,6 +42,7 @@ export const income = [
     name: "startTime",
     isLink: true,
     readonly: true,
+    rightIcon: 'arrow',
     realValue: "",
     click() {
       const flag = useFlag()
@@ -79,6 +81,7 @@ export const income = [
     border: false,
     label: "结束时间",
     required: true,
+    rightIcon: 'arrow',
     name: "endTime",
     isLink: true,
     readonly: true,

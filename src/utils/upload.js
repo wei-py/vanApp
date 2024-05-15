@@ -11,6 +11,7 @@ export async function upload(file, orderId = getQuery()?.orderId, fileType = "im
     showFailToast("orderId 为空");
     return;
   }
+
   const url = "https://up-cn-east-2.qiniup.com";
   await getToken(orderId, fileType);
   const body = new FormData();

@@ -95,7 +95,7 @@ export default defineConfig({
         changeOrigin: true,
       },
       "/mj": {
-        target: "http://192.168.30.11:30600",
+        target: "http://192.168.30.11:30700",
         rewrite: (path) => path.replace(/^\/mj/, ""),
         changeOrigin: true,
       },
