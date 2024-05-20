@@ -1,4 +1,8 @@
+let area = [];
 export default async function getArea() {
+  if (area.length) {
+    return area;
+  }
   const { data } = await http.get("/area");
   const options = mapTree(
     data,
@@ -10,5 +14,6 @@ export default async function getArea() {
     },
     { children: "childList", mapChildren: "children" }
   );
-  return options
+  area = options;
+  return options;
 }

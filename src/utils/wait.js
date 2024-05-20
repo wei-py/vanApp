@@ -4,11 +4,12 @@
  * @returns {Void}
  */
 export function wait(time) {
-  const msg = `wait ${time / 1000} s`;
-  console.log(msg);
+  // const msg = `wait ${time / 1000} s`;
+  // console.log(msg);
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(msg);
+      // msg
+      resolve();
     }, time);
   });
 }

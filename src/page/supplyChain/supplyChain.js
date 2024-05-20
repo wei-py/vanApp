@@ -193,8 +193,11 @@ export const warehouseTask = [
   {
     text: "新增仓库",
     icon: "addANewWarehouse",
-    path: "/storeAdd",
-    query: {},
+    path: "/storeUpdate",
+    query: {
+      title: "仓库管理",
+      buttonText: "新增",
+    },
   },
   {
     text: "修改仓库",
@@ -205,8 +208,11 @@ export const warehouseTask = [
   {
     text: "删除仓库",
     icon: "deleteWarehouse",
-    path: "/storeDel",
-    query: {},
+    path: "/storeUpdate",
+    query: {
+      title: "仓库管理",
+      buttonText: "删除",
+    },
   },
 ].map((n) => {
   return {

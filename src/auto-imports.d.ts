@@ -219,6 +219,7 @@ declare global {
   const serialize: typeof import('./utils/xe.js')['serialize']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setForm: typeof import('./utils/makeForm.js')['setForm']
+  const setFormItem: typeof import('./utils/makeForm.js')['setFormItem']
   const setFormList: typeof import('./utils/makeForm.js')['setFormList']
   const setItem: typeof import('./store/useForm.js')['setItem']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']

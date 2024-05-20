@@ -49,10 +49,17 @@ async function onLogin(params) {
   // 选择组织
 
   // 跳转
-  router.push("/home");
+  // console.log(, 3333)
+
+  router.push({
+    path: "/home",
+    query: {
+      title: '当地组织： ' + data.userVo.curUserCompanyVo.company.name,
+    },
+  });
   showSuccessToast({
-    message: '登录成功',
-    className: 'shadowC'
+    message: "登录成功",
+    className: "shadowC",
   });
 }
 

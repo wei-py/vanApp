@@ -56,6 +56,7 @@ async function login() {
       :left-arrow="!$route.meta.hiddenLeftArrow || $route.query.hiddenLeftArrow"
       @click-left="onClickLeft"
       class="shadowC !sticky top-0 !z-10"
+      :class="[$route.meta.title == '首页' && 'homeClass']"
     />
     <van-pull-refresh v-if="$route.meta.refresh" class="flex-1 flex flex-col" v-model="loading" @refresh="onRefresh">
       <!-- <router-view v-slot="{ Component }" class="flex-1">
@@ -140,6 +141,15 @@ async function login() {
 
 .van-uploader__preview-delete-icon {
   font-size: 18px !important;
+}
+.homeClass {
+  @apply py-3;
+  // .van-nav-bar__content {
+  //   @apply w-[100vw];
+  // }
+  .van-nav-bar__title {
+    @apply m-0 ml-[24px] font-normal w-[100vw] overflow-visible;
+  }
 }
 </style>
 

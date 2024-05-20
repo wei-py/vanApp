@@ -12,7 +12,7 @@
  * @param {*} setItem
  * @returns
  */
-function setItem(item) {
+export function setFormItem(item) {
   if (item.required) {
     const label = item.label;
     item.rules = [...lo.get(item, "rules", []), (val) => val.length || `${label}必填`];
@@ -51,8 +51,8 @@ function setItem(item) {
     }
 
     if (key == "rules" && item.rules.length && !item.rulesFlag) {
-      item.rulesFlag = true
-      item.rules = [ ...convertRules(item[key])];
+      item.rulesFlag = true;
+      item.rules = [...convertRules(item[key])];
     }
 
     if (key == "onMounted") {
@@ -77,7 +77,7 @@ function setItem(item) {
  */
 function setForm(form) {
   for (let i = 0; i < form.length; i++) {
-    setItem(form[i]);
+    setFormItem(form[i]);
   }
 }
 
@@ -103,12 +103,12 @@ export function makeForm(formList, bindFlag = true) {
     root._ = result;
   }
   onBeforeUnmount(() => {
-    const dom = useDom()
-    dom.$reset()
-    const event = useEvent()
-    event.approvalBackfill = () => {}
-    event.$reset()
-  })
+    const dom = useDom();
+    dom.$reset();
+    const event = useEvent();
+    event.approvalBackfill = () => {};
+    event.$reset();
+  });
 
   // bindForm(bindFlag);
   // onLongPressImg()

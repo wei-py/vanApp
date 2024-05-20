@@ -1,5 +1,6 @@
 <script setup>
 import { commonTask, checkTask, phaseTask } from "./taskList";
+const query = getQuery();
 const flag = useFlag();
 /**
  * 跳转到订单列表

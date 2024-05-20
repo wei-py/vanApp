@@ -52,7 +52,7 @@ export function makeSelect(name, columns, type = "static") {
     item.makeSelect = function (value, columns) {
       this.value = value;
       this.inlineForm[0].inlineForm[0].columns = columns;
-      const text = columns.find((n) => n.value == value)?.text;
+      const text = (columns.value || columns).find((n) => n.value == value)?.text;
       this.realValue = this.value;
       this.value = text;
       if (lo.isFunction(this.getParam)) {

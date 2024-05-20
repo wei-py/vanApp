@@ -460,6 +460,7 @@
     "makeImgsDesign": true,
     "openBtns": true,
     "refreshImg": true,
-    "makeDate": true
+    "makeDate": true,
+    "setFormItem": true
   }
 }
