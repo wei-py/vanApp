@@ -17,15 +17,17 @@ const notSave = computed(() => !(hasEditBtn.value && canEdit.value && canSave.va
 
 function approvalBackfill() {
   for (let i = 0; i < _.rejectReason.length; i++) {
-    const name = _.rejectReason[i].name;
-    if (lo.isFunction(_.rejectReason[i].backfill)) {
-      _.rejectReason[i].backfill(flag.btns.rejectReason);
-    } else {
-      _.rejectReason[i].value = flag.btns.rejectReason[name];
-    }
+    if (flag.btns.rejectReason && flag.btns.hasApprovalModule) {
+      const name = _.rejectReason[i].name;
+      if (lo.isFunction(_.rejectReason[i].backfill)) {
+        _.rejectReason[i].backfill(flag.btns.rejectReason);
+      } else {
+        _.rejectReason[i].value = flag.btns.rejectReason[name];
+      }
 
-    if (lo.isFunction(_.rejectReason[i].onMounted) && i == 3) {
-      _.rejectReason[i].onMounted();
+      if (lo.isFunction(_.rejectReason[i].onMounted) && i == 3) {
+        _.rejectReason[i].onMounted();
+      }
     }
 
     disabled.value = flag.btns.hasApprovalBtn && !flag.btns.canEdit && !flag.btns.canApproval;
@@ -77,11 +79,9 @@ onMounted(async () => {
 function saveData() {
   onSave();
   try {
-
     event.saveData();
   } catch {
     showSuccessToast("保存成功");
-
   }
 }
 
@@ -117,8 +117,7 @@ async function approvalData() {
   });
   await event.approvalData(val);
   await wait(2000);
-  if (router.currentRoute.value.name == 'deviceInfo') {
-
+  if (router.currentRoute.value.name == "deviceInfo") {
   } else {
     location.reload();
   }

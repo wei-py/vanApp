@@ -300,6 +300,8 @@ export const lessorInfo = [
     formType: "input",
     label: "家庭住址",
     name: "detailedAddress",
+    labelAlign: 'top',
+    inputAlign: 'left',
     placeholder: "(此地址是屋顶业主本人现在的家庭住址, 所以可能和需要安装光伏的房屋地址不一致。从省/自治区/直辖市/特别行政区 开始写)",
     required: true,
     hidden: isZZD_ORG(),

@@ -1,87 +1,97 @@
 export const gridConnectedMessageForm = [
   makeTitle("并网信息"),
   {
-    formType: "input",
+    ...makeDate({ name: "startTime" }),
     label: "供电验收时间",
     required: true,
-    name: "startTime",
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      const flag = useFlag();
-      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
-        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
-      }
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "startTimePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("startTime", "value", value);
-              setItem("startTime", "realValue", value + " 00:00:00");
-              setItem("startTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
   {
-    formType: "input",
+    ...makeDate({ name: "checkAcceptTime" }),
     label: "并网合闸时间",
     required: true,
-    name: "checkAcceptTime",
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      const flag = useFlag();
-      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
-        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
-      }
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "checkAcceptTimePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("checkAcceptTime", "value", value);
-              setItem("checkAcceptTime", "realValue", value + " 00:00:00");
-              setItem("checkAcceptTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
+  // {
+  //   formType: "input",
+  //   label: "供电验收时间",
+  //   required: true,
+  //   name: "startTime",
+  //   isLink: true,
+  //   readonly: true,
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag();
+  //     if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+  //       this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+  //     }
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "startTimePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("startTime", "value", value);
+  //             setItem("startTime", "realValue", value + " 00:00:00");
+  //             setItem("startTime", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   formType: "input",
+  //   label: "并网合闸时间",
+  //   required: true,
+  //   name: "checkAcceptTime",
+  //   isLink: true,
+  //   readonly: true,
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag();
+  //     if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+  //       this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+  //     }
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "checkAcceptTimePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("checkAcceptTime", "value", value);
+  //             setItem("checkAcceptTime", "realValue", value + " 00:00:00");
+  //             setItem("checkAcceptTime", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     formType: "input",
     label: "电厂交易编号",
@@ -109,8 +119,8 @@ export const zlwOtherFile = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param[this.name] = param[this.name].map(n => getUploadUrl(n))
-    }
+      param[this.name] = param[this.name].map((n) => getUploadUrl(n));
+    },
   },
 ];
 
@@ -125,8 +135,8 @@ export const monitorForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.monitor = param.monitor.map(n => sToUrl(n.url))
-    }
+      param.monitor = param.monitor.map((n) => sToUrl(n.url));
+    },
   },
 ];
 
@@ -141,8 +151,8 @@ export const omnibearingShadowOcclusionForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.omnibearingShadowOcclusion = param.omnibearingShadowOcclusion.map(n => sToUrl(n.url))
-    }
+      param.omnibearingShadowOcclusion = param.omnibearingShadowOcclusion.map((n) => sToUrl(n.url));
+    },
   },
   {
     label: "四周遮挡复核环绕视频",
@@ -153,95 +163,105 @@ export const omnibearingShadowOcclusionForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.allAroundReviewSurroundVideo = param.allAroundReviewSurroundVideo.map(n => sToUrl(n.url))
-    }
+      param.allAroundReviewSurroundVideo = param.allAroundReviewSurroundVideo.map((n) => sToUrl(n.url));
+    },
   },
 ];
 
 export const propertyInsuranceForm = [
   makeTitle("财产险"),
   {
-    formType: "input",
-    name: "startDate",
+    ...makeDate({ name: "startDate" }),
     label: "保险开始日期",
     required: true,
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      const flag = useFlag();
-      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
-        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
-      }
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "startDatePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("startDate", "value", value);
-              setItem("startDate", "realValue", value + " 00:00:00");
-              setItem("startDate", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
   {
-    formType: "input",
-    name: "endDate",
+    ...makeDate({ name: "endDate" }),
     label: "保险结束日期",
     required: true,
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      const flag = useFlag();
-      if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
-        this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
-      }
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "endDatePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("endDate", "value", value);
-              setItem("endDate", "realValue", value + " 00:00:00");
-              setItem("endDate", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
+  // {
+  //   formType: "input",
+  //   name: "startDate",
+  //   label: "保险开始日期",
+  //   required: true,
+  //   isLink: true,
+  //   readonly: true,
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag();
+  //     if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+  //       this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+  //     }
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "startDatePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("startDate", "value", value);
+  //             setItem("startDate", "realValue", value + " 00:00:00");
+  //             setItem("startDate", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   formType: "input",
+  //   name: "endDate",
+  //   label: "保险结束日期",
+  //   required: true,
+  //   isLink: true,
+  //   readonly: true,
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag();
+  //     if (lo.isUndefined(this.inlineForm[0].inlineForm[0].value)) {
+  //       this.inlineForm[0].inlineForm[0].value = dayjs().format("YYYY-MM-DD").split("-");
+  //     }
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "endDatePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("endDate", "value", value);
+  //             setItem("endDate", "realValue", value + " 00:00:00");
+  //             setItem("endDate", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     formType: "input",
     label: "保险公司",
@@ -316,20 +336,20 @@ export const propertyInsuranceForm = [
         param.insuranceList = [{}];
       }
       const pickList = [
-        'startDate',
-        'endDate',
-        'insuranceCompany',
-        'insuranceNumber',
-        'insuranceType',
-        'insuredAmount',
-        'beneficiary',
-        'insurancePolicyP'
-      ]
-      const insurance = lo.pick(param, [...pickList, 'orderId'])
-      param.insurancePolicyP = param.insurancePolicyP.map(n => getUploadUrl(n))
-      insurance.insurancePolicyP = JSON.stringify(param.insurancePolicyP)
-      param.insuranceList = [insurance]
-      delete param.insurancePolicyP
+        "startDate",
+        "endDate",
+        "insuranceCompany",
+        "insuranceNumber",
+        "insuranceType",
+        "insuredAmount",
+        "beneficiary",
+        "insurancePolicyP",
+      ];
+      const insurance = lo.pick(param, [...pickList, "orderId"]);
+      param.insurancePolicyP = param.insurancePolicyP.map((n) => getUploadUrl(n));
+      insurance.insurancePolicyP = JSON.stringify(param.insurancePolicyP);
+      param.insuranceList = [insurance];
+      delete param.insurancePolicyP;
     },
   },
 ];

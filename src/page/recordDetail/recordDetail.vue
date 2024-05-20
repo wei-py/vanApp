@@ -4,7 +4,9 @@ const query = getQuery();
 const _ = makeForm({ record });
 
 onMounted(() => {
-  getData();
+  if (query.recordCertificateId) {
+    getData();
+  }
 });
 
 async function getData() {

@@ -39,7 +39,7 @@ const router = createRouter({
       component: () => import("../page/realLease/realLease.vue"),
       meta: {
         title: "订单列表",
-        refresh: true,
+        // refresh: true,
       },
     },
     {
@@ -253,6 +253,108 @@ const router = createRouter({
         // tabbar: true,
       },
     },
+    {
+      path: "/supplyChain",
+      name: "supplyChain",
+      component: () => import("../page/supplyChain/supplyChain.vue"),
+      meta: {
+        title: "供应链",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/siteGoodsReject",
+      name: "siteGoodsReject",
+      component: () => import("../page/siteGoodsReject/siteGoodsReject.vue"),
+      meta: {
+        title: "供应链",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/sendOutGoodsList",
+      name: "sendOutGoodsList",
+      component: () => import("../page/sendOutGoodsList/sendOutGoodsList.vue"),
+      meta: {
+        title: "发货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/goodsCollectList",
+      name: "goodsCollectList",
+      component: () => import("../page/goodsCollectList/goodsCollectList.vue"),
+      meta: {
+        title: "收货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/sendOutGoods",
+      name: "sendOutGoods",
+      component: () => import("../page/sendOutGoods/sendOutGoods.vue"),
+      meta: {
+        title: "仓库收货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/goodsCollectDetail",
+      name: "goodsCollectDetail",
+      component: () => import("../page/goodsCollectDetail/goodsCollectDetail.vue"),
+      meta: {
+        title: "仓库发货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/goodsRejectList",
+      name: "goodsRejectList",
+      component: () => import("../page/goodsRejectList/goodsRejectList.vue"),
+      meta: {
+        title: "仓库发货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/goodsRejectDetail",
+      name: "goodsRejectDetail",
+      component: () => import("../page/goodsRejectDetail/goodsRejectDetail.vue"),
+      meta: {
+        title: "仓库发货",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/goodsInventory",
+      name: "goodsInventory",
+      component: () => import("../page/goodsInventory/goodsInventory.vue"),
+      meta: {
+        title: "仓库库存",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/storeUpdate",
+      name: "storeUpdate",
+      component: () => import("../page/storeUpdate/storeUpdate.vue"),
+      meta: {
+        title: "仓库管理",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+          // 
+    // 
   ].map((n) => {
     return {
       ...n,
@@ -264,7 +366,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const flag = useFlag();
   flag.overlayShow = false;
-  useTitle(to.meta.title)
+  useTitle(to.meta.title);
   // console.log(to)
   // if (!to.path.startsWith('/orderh5')) {
   //   to.path = orderh5 + to.path;

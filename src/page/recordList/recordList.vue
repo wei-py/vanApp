@@ -53,7 +53,7 @@ async function getData() {
     <template #action>
       <div class="center">
         <van-button size="small" type="warning" class="!bg-[#ffab30] !px-3 !mr-1" round @click="onChangeTab">搜索</van-button>
-        <van-button size="small" type="warning" class="!bg-[#ffab30] !px-3" round @click="() => {}">新建</van-button>
+        <van-button size="small" type="warning" class="!bg-[#ffab30] !px-3" round @click="$router.push({ path: '/recordDetail' })">新建</van-button>
       </div>
     </template>
   </van-search>

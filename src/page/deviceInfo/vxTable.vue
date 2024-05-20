@@ -1,5 +1,4 @@
 <script setup>
-import cell from "./cell.vue";
 const props = defineProps({
   title: { default: "" },
   slot: {

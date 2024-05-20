@@ -20,7 +20,7 @@ function downloadMethod({ src }) {
   // util.toast.error('功能更新中，目前无法下载,请使用浏览器下载')
   // window.open(src)
 
-  // util.postMessage({ func: 'saveImg', src, name })
+  postMsg({ func: 'saveImg', src, name })
 
   window.saveImg = (message) => {
     if (message == "success") showSuccessToast("下载成功, 请到相册查看");

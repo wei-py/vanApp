@@ -65,7 +65,11 @@ async function login() {
       </router-view> -->
       <Suspense>
         <div class="flex-1 bg-[#f3f3f3] flex flex-col">
-          <router-view :key="$route.fullPath"></router-view>
+          <router-view :key="$route.fullPath" v-slot="{ Component }">
+            <KeepAlive>
+              <component :is="Component" />
+            </KeepAlive>
+          </router-view>
         </div>
       </Suspense>
     </van-pull-refresh>
@@ -262,4 +266,9 @@ label {
 :deep(.van-field__label) {
   flex: none !important;
 }
+
+:deep(.vxe-table--render-default .vxe-table--border-line) {
+  border: none !important;
+}
+
 </style>

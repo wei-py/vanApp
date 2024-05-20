@@ -33,89 +33,105 @@ export const income = [
     ]),
   },
   {
-    formType: "input",
-    inputAlign: "left",
-    labelClass: "xCenter border-r border-[#dbdbda]",
-    border: false,
+    ...makeDate({ name: "startTime" }),
     label: "开始时间",
     required: true,
-    name: "startTime",
-    isLink: true,
-    readonly: true,
-    rightIcon: 'arrow',
-    realValue: "",
-    click() {
-      const flag = useFlag()
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "startTimePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("startTime", "value", value);
-              setItem("startTime", "realValue", value);
-              setItem("startTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
-  },
-  {
-    formType: "input",
     inputAlign: "left",
     labelClass: "xCenter border-r border-[#dbdbda]",
-    border: false,
+    rightIcon: 'arrow',
+  },
+  {
+    ...makeDate({ name: "endTime" }),
     label: "结束时间",
     required: true,
+    inputAlign: "left",
+    labelClass: "xCenter border-r border-[#dbdbda]",
     rightIcon: 'arrow',
-    name: "endTime",
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      const flag = useFlag()
-      this.inlineForm[0].show = flag.btns.canEdit;
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "endTimePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("endTime", "value", value);
-              setItem("endTime", "realValue", value);
-              setItem("endTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
+  // {
+  //   formType: "input",
+  //   inputAlign: "left",
+  //   labelClass: "xCenter border-r border-[#dbdbda]",
+  //   border: false,
+  //   label: "开始时间",
+  //   required: true,
+  //   name: "startTime",
+  //   isLink: true,
+  //   readonly: true,
+  //   rightIcon: 'arrow',
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag()
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "startTimePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("startTime", "value", value);
+  //             setItem("startTime", "realValue", value);
+  //             setItem("startTime", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   formType: "input",
+  //   inputAlign: "left",
+  //   labelClass: "xCenter border-r border-[#dbdbda]",
+  //   border: false,
+  //   label: "结束时间",
+  //   required: true,
+  //   rightIcon: 'arrow',
+  //   name: "endTime",
+  //   isLink: true,
+  //   readonly: true,
+  //   realValue: "",
+  //   click() {
+  //     const flag = useFlag()
+  //     this.inlineForm[0].show = flag.btns.canEdit;
+  //   },
+  //   backfill(data) {
+  //     this.value = data[this.name]?.replace(" 00:00:00", "");
+  //     this.realValue = data[this.name];
+  //   },
+  //   inlineForm: [
+  //     {
+  //       slot: "extra",
+  //       formType: "popup",
+  //       name: "endTimePop",
+  //       show: false,
+  //       position: "bottom",
+  //       inlineForm: [
+  //         {
+  //           slot: "default",
+  //           formType: "date",
+  //           confirm(date) {
+  //             const value = date.selectedValues.join("-");
+  //             setItem("endTime", "value", value);
+  //             setItem("endTime", "realValue", value);
+  //             setItem("endTime", "inlineForm.0.show", false);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     formType: "input",
     inputAlign: "left",

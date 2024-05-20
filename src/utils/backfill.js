@@ -15,11 +15,17 @@ export default function backfill(_, data) {
   const flag = useFlag();
   const dom = useDom();
   const event = useEvent();
-  dom.$reset()
+  dom.$reset();
 
-  forForm((item) => {
+  forForm(async (item) => {
     if (lo.isFunction(item.backfill)) {
-      item.backfill(data);
+      await item.backfill(data);
+      // if (lo.get(item, 'inlineForm[0].formType') == "upload") {
+      //   dom.imgDomDic.push({
+      //     name: item.name,
+      //     value: item.inlineForm[0].value.map(n => n.url),
+      //   });
+      // }
       return;
     }
     if (lo.has(data, item.name)) {

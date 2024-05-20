@@ -7,6 +7,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
     disabled = disabledFlag;
     deletable = !disabledFlag;
   }
+  // dom.imgDomDic.push({name: })
   return {
     formType: "input",
     // label,
@@ -20,6 +21,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         slot: "input",
         formType: "upload",
         maxCount,
+        multiple: maxCount > 1,
         accept,
         required,
         deletable: deletable,
@@ -31,7 +33,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
             return;
           } else {
             const dom = useDom();
-            dom.imgIndex = dom.imgDoms.findIndex((n) => n == getUploadUrl(img));
+            dom.imgIndex = dom.imgDoms.findIndex((n) => n == (img.objectUrl || getUploadUrl(img)));
             dom.showPreviewImg = true;
           }
         },
@@ -41,19 +43,32 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         beforeDelete(img) {
           if (!isImgSlot(img)) return true;
           const dom = useDom();
+          // dom.imgDomDic.forEach(item => {
+          //   const idx = item.value.findIndex(n => n == getUploadUrl(img))
+          //   if (idx != -1) {
+          //     item.value.splice(idx, 1)
+          //   }
+          // })
           const index = dom.imgDoms.findIndex((n) => n == getUploadUrl(img));
           dom.imgDoms.splice(index, 1);
           return true;
         },
-        beforeRead: (img) => {
+        beforeRead(img) {
           return new Promise(async (resolve, reject) => {
             const src = await upload(img, getQuery()?.orderId || orderId);
+            // const imgs = [img].flat().map((im, idx) => {
+            //   im.src = src[idx].src
+            //   im.url = src[idx].url
+            //   return im
+            // })
             img.src = src;
             img.url = src;
             await wait(500);
+
             // const dom = useDom();
             // dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
             resolve(img);
+            refreshImg()
           });
         },
         menuRight: [
@@ -114,7 +129,7 @@ export function makeImgsDesign(data) {
     }
   }
   pushImg(...result.map((n) => n.url));
-  return result
+  return result;
 }
 
 function pickImgName(url, type = "object") {

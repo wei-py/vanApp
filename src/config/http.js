@@ -45,12 +45,10 @@ http.interceptors.response.use(
     if (lo.isUndefined(data)) return;
     // 错误处理 ❌
     if (data.code != 200) {
-      showFailToast({
-        message: data.msg || `接口错误:${data.code}`,
-        className: "!bg-red-500",
-      });
+      showFailToast({ message: data.msg || `接口错误:${data.code}`, className: "!bg-red-500" });
       toggleOverlay(false);
-      throw new Error(data.msg);
+      return Promise.reject(data);
+      // throw new Error(data.msg);
     }
     toggleOverlay(false);
     return response.data;
@@ -67,16 +65,15 @@ function converBaseUrl(config) {
     config.url = config.url.replace(/\/\//g, "/");
   }
 
-
   if (config.url.includes("order/sto")) {
     config.baseURL += "Sto";
     config.url = config.url.replace("/order/sto", "");
     config.url = config.url.replace(/\/\//g, "/");
   }
 
-  if (config.baseURL.startsWith('/prod') && config.url.startsWith('/sto')) {
-    config.baseURL = config.baseURL.replace('/prod/order', '/prodSto')
-    config.url = config.url.replace("/sto", "");
+  if (config.baseURL.startsWith("/prod") && (config.url.startsWith("/sto") || config.url.startsWith("sto"))) {
+    config.baseURL = config.baseURL.replace("/prod/order", "/prodSto");
+    config.url = config.url.replace("sto/", "");
     config.url = config.url.replace(/\/\//g, "/");
   }
 

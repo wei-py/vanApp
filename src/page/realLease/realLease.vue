@@ -1,15 +1,13 @@
 <script setup>
 import card from "./card.vue";
+import { filtrate, moreForm } from "./reaLease";
 
 const flag = useFlag();
 const loading = ref(false); // 触底请求加载
 const finished = ref(false); // 触底加载
 const list = ref([]); // 列表数据
-const page = ref({ pageNum: 1, pageSize: 10 }); // 分页
-const queryTag = ref(""); // 搜索内容
-const query = getQuery(); // 路由 query
-const isCysj = query.from == "cysj"; // 从常用数据中跳转过来的
-const orderType = flag.headers.Biztype; // 业务类型
+
+const moreShow = ref(false); // 更多筛选显示
 const tab = ref(""); // 预览筛选
 const tabs = ref([
   { count: "0", title: "订单数量", value: "orderCount" },
@@ -19,17 +17,24 @@ const tabs = ref([
 ]);
 const curTab = computed(() => tabs.value[tab.value]);
 
-// 筛选框
-const filter = ref({
-  companyId: "",
-  prjCompanyId: "",
-  leaseProductCode: "",
-});
+const _ = makeForm({ filtrate, moreForm }); // 筛选参数表单
+// 参数
+const orderType = flag.headers.Biztype; // 业务类型
+const page = ref({ pageNum: 1, pageSize: 10, total: 0 }); // 分页
+const queryTag = ref(""); // 搜索内容
+const query = getQuery(); // 路由 query
+const formParams = ref({}); // 筛选参数
+const filter = computedAsync(() => lo.fromPairs(_.filtrate.map((n) => [n.name, n.value]))); // 筛选框
+
+const isCysj = query.from == "cysj"; // 从常用数据中跳转过来的
 
 onMounted(async () => {
+  backfill(_, {});
+  openBtns();
   list.value.length = 0;
   finished.value = false;
   await getTab();
+  // console.log(_.filtrate[4])
 });
 
 async function getTab() {
@@ -59,16 +64,33 @@ async function getData() {
   const stateId = curTab.value.value.replace("orderCount", "");
   // 编辑参数
   const isZzOrWc = query.title == "终止" || query.title == "完成";
-  const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states"; // 判断是否从终止或者完成中跳转过来
   const body = { orderType, queryTag: queryTag.value }; // post 参数
-  lo.merge(body, lo.pick(getQuery(), ["stageId", "stateId", "taskId"]), filter.value, { stateId });
+  let url = "";
+  if (isZzOrWc) {
+    url = "/order/search";
+  } else {
+    url = "/order/search-exclude-states";
+    body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
+  }
+
+  // const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states"; // 判断是否从终止或者完成中跳转过来
+  const queryParams = lo.pick(getQuery(), ["stageId", "stateId", "taskId"]);
+  // formParams.value,
+  lo.merge(body, queryParams, formParams.value, filter.value, { stateId });
+
+  if (isCysj) {
+    body.stateId = "CURRENT";
+  } else {
+  }
   const isCyjsTab = query.from == "cysj" && query.stageId; // 从常用数据中跳转过来并且选择了其他Tab
   isCyjsTab && (body.stateId = query.stageId);
+
   const params = queryUrl(url, page.value);
 
   // 请求
   const { data } = await http.post(params, body);
   const total = data.total;
+  page.value.total = total;
   const addIndexData = data.list.map((n, i) => ({ ...n, index: list.value.length + i + 1 }));
   list.value.push(...addIndexData);
 
@@ -88,7 +110,7 @@ async function onChangeTab() {
 
 async function onSearch() {
   if (query.title == "预审") {
-    router.push('/inquiry')
+    router.push("/inquiry");
   } else {
     page.value.pageNum = 1;
     page.value.pageSize = 10;
@@ -98,14 +120,34 @@ async function onSearch() {
   }
 }
 
-// onUnmounted(() => {
-//   gets(root[0], "*", (val, p, k) => {
-//     lo.set(root[0], k, null);
-//   });
-//   root[0] = null;
-//   root.pop();
-//   root.length = 0;
-// });
+async function onMenuChange(menu) {
+  page.value.pageNum = 1;
+  page.value.pageSize = 10;
+  list.value.length = 0;
+  finished.value = false;
+  await getDataThrottle();
+}
+
+function onPopConfirm() {
+  formParams.value = getParam();
+  page.value.pageNum = 1;
+  page.value.pageSize = 10;
+  list.value.length = 0;
+  finished.value = false;
+  getDataThrottle();
+  moreShow.value = false;
+}
+
+function openPop() {
+  lo.forIn(filter.value, (value, key) => {
+    setItem(key + "-more", (v) => v.backfill());
+  });
+  moreShow.value = true;
+}
+
+function resetPop() {
+  showFailToast("功能开发中");
+}
 
 eventManage({ getData: getDataThrottle });
 </script>
@@ -131,6 +173,52 @@ eventManage({ getData: getDataThrottle });
       </van-tab>
     </van-tabs>
 
+    <div class="flex flex-nowrap">
+      <van-dropdown-menu active-color="#ffab30" class="w-[85vw]">
+        <van-dropdown-item
+          @change="onMenuChange"
+          v-for="t in _.filtrate"
+          :key="t.title"
+          v-model="t.value"
+          :disabled="t.disabled"
+          :options="t.columns"
+          :title="t.title"
+        />
+      </van-dropdown-menu>
+      <div class="center w-[15vw] bg-white" @click="openPop">筛选</div>
+      <!-- <vButton :round="false" class="h-full">更多</vButton> -->
+    </div>
+
+    <van-popup v-model:show="moreShow" position="right" class="w-[100vw] h-[100vh]">
+      <vantForm :form="_.moreForm" class="pt-3" group-class="shadowC h-[92vh]">
+        <template #checkbox="{ slot }">
+          <van-field :label="slot.label" input-align="right">
+            <template #input>
+              <van-radio-group v-model="slot.value" class="grid grid-cols-2 flex-end">
+                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled>{{ co.text }}</van-radio>
+              </van-radio-group>
+            </template>
+          </van-field>
+        </template>
+        <template #timeSortType="{ slot }">
+          <van-field :label="slot.label" input-align="right">
+            <template #input>
+              <van-radio-group v-model="slot.value" class="grid grid-cols-2 flex-end">
+                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled>{{ co.text }}</van-radio>
+              </van-radio-group>
+            </template>
+          </van-field>
+        </template>
+      </vantForm>
+      <div class="flex justify-center">
+        <van-button @click.stop="moreShow = false" round class="!bg-[#ffab30] !ml-2 w-[100px]" size="small" type="warning">取消</van-button>
+        <van-button @click="onPopConfirm" round class="!bg-[#ffab30] !ml-2 w-[100px]" size="small" type="warning">确认</van-button>
+        <van-button @click="resetPop" round class="!bg-[#ffab30] !ml-2 w-[100px]" size="small" type="warning">重置</van-button>
+      </div>
+    </van-popup>
+
+    <div class="xCenter pt-2 text-[14px]">有效订单数量: {{ page.total }}</div>
+
     <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
       <template v-for="item in list" :key="item.orderBase.orderId">
         <card @click="$router.push({ path: '/itemDetail', query: { orderId: item.orderBase.orderId } })" :item="item"></card>
@@ -151,5 +239,20 @@ eventManage({ getData: getDataThrottle });
 }
 :deep(.van-tabs__wrap) {
   height: 60px;
+}
+</style>
+
+<style>
+.van-dropdown-item__option {
+  .van-cell__title {
+    flex: none !important;
+    width: 90% !important;
+  }
+}
+.van-dropdown-menu__bar--opened {
+  z-index: 9 !important;
+}
+.van-dropdown-menu__bar {
+  box-shadow: none !important;
 }
 </style>

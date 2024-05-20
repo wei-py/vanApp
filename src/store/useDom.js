@@ -1,6 +1,8 @@
 export const useDom = defineStore("dom", () => {
   const approvalDoms = ref({});
   const submitDoms = ref([]);
+  // const imgDomDic = ref([]);
+  // const imgDoms = computed(() => imgDomDic.value.map(n => n.value).flat());
   const imgDoms = ref([]);
 
   const longPressDom = ref(null);
@@ -8,6 +10,13 @@ export const useDom = defineStore("dom", () => {
   const imgIndex = ref(0);
   return { submitDoms, longPressDom, imgDoms, showPreviewImg, approvalDoms, imgIndex };
 });
+
+export async function refreshImg() {
+  const dom = useDom();
+  await wait(1000)
+  dom.imgDoms = lo.uniq([...document.querySelectorAll(".van-image__img")].map(n => n.src))
+  console.log(dom.imgDoms)
+}
 
 // export const approvalDoms = {};
 // export const submitDoms = [];
@@ -94,7 +103,7 @@ export function getParam() {
   params.orderId = getQuery()?.orderId;
 
   forForm((item) => {
-    if (!lo.isUndefined(item.realValue)) {
+    if (!lo.isUndefined(item.realValue) && !lo.isFunction(item.getParam)) {
       item.getParam = (params) => {
         params[item.name] = item.realValue;
       };

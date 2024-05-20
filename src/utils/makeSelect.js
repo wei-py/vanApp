@@ -1,6 +1,7 @@
 export function makeSelect(name, columns, type = "static") {
   // type = 'dynamic'
   const item = {
+    formType: 'input',
     readonly: true,
     realValue: "",
     // getParam(param) {

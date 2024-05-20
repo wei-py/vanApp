@@ -63,10 +63,10 @@ async function onChangeTab(val) {
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
-              <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
-                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
+              <van-badge :offset="[-9, 9]" class="p-3" :show-zero="false" max="99" :content="task.count">
+                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback p-1" alt="" />
               </van-badge>
-              <p class="text-center text-[14px]">{{ task.text }}</p>
+              <p class="text-center text-[14px] h-[28px] leading-[14px]">{{ task.text }}</p>
             </van-grid-item>
           </van-grid>
         </van-cell-group>
@@ -76,10 +76,10 @@ async function onChangeTab(val) {
           <van-cell :title="item.title" title-class="font-bold text-[20px] h-[30px]  leading-[30px]" />
           <van-grid :border="false" :column-num="5" class="mx-[5px] pb-[10px]">
             <van-grid-item v-for="task in item.task" @click="() => task.tap()" class="!py-0">
-              <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
-                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback" alt="" />
+              <van-badge :offset="[-9, 9]" class="p-3" :show-zero="false" max="99" :content="task.count">
+                <img :src="task.icon" fit="contain" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback p-1" alt="" />
               </van-badge>
-              <p class="text-center text-[14px]">{{ task.text }}</p>
+              <p class="text-center text-[14px] h-[28px] leading-[14px]">{{ task.text }}</p>
             </van-grid-item>
           </van-grid>
         </van-cell-group>

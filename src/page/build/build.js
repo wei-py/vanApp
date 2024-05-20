@@ -46,86 +46,14 @@ export const build = [
     },
   },
   {
-    formType: "input",
+    ...makeDate({ name: "startTime" }),
     label: "开工时间",
     required: true,
-    name: "startTime",
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      this.inlineForm[0].show = true;
-      const selectDate = (this.value || dayjs().formType("YYYY-MM-DD")).split("-");
-      this.inlineForm[0].inlineForm[0].value = selectDate;
-      this.inlineForm[0].inlineForm[0].minDate = dayjs().add(-3, "year").toDate();
-      this.inlineForm[0].inlineForm[0].maxDate = dayjs().add(5, "year").toDate();
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "startTimePop",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("startTime", "value", value);
-              setItem("startTime", "realValue", value + " 00:00:00");
-              setItem("startTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
   {
-    formType: "input",
+    ...makeDate({ name: "actEndTime" }),
     label: "完工时间",
     required: true,
-    name: "actEndTime",
-    isLink: true,
-    readonly: true,
-    realValue: "",
-    click() {
-      this.inlineForm[0].show = true;
-      const selectDate = (this.value || dayjs().formType("YYYY-MM-DD")).split("-");
-      this.inlineForm[0].inlineForm[0].value = selectDate;
-      this.inlineForm[0].inlineForm[0].minDate = dayjs().add(-3, "year").toDate();
-      this.inlineForm[0].inlineForm[0].maxDate = dayjs().add(5, "year").toDate();
-    },
-    backfill(data) {
-      this.value = data[this.name]?.replace(" 00:00:00", "");
-      this.realValue = data[this.name];
-    },
-    inlineForm: [
-      {
-        slot: "extra",
-        formType: "popup",
-        name: "actEndTime",
-        show: false,
-        position: "bottom",
-        inlineForm: [
-          {
-            slot: "default",
-            formType: "date",
-            confirm(date) {
-              const value = date.selectedValues.join("-");
-              setItem("actEndTime", "value", value);
-              setItem("actEndTime", "realValue", value + " 00:00:00");
-              setItem("actEndTime", "inlineForm.0.show", false);
-            },
-          },
-        ],
-      },
-    ],
   },
   {
     formType: "input",

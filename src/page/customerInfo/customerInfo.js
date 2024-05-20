@@ -278,6 +278,8 @@ export const lessorInfo = [
     formType: "input",
     label: "详细地址",
     name: "installationAddress",
+    labelAlign: 'top',
+    inputAlign: 'left',
     placeholder: "(从省/自治区/直辖市/特别行政区 开始写)",
     required: true,
     // hidden: isZZD_ORG(),

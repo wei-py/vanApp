@@ -106,6 +106,7 @@ export function makeForm(formList, bindFlag = true) {
     const dom = useDom()
     dom.$reset()
     const event = useEvent()
+    event.approvalBackfill = () => {}
     event.$reset()
   })
 

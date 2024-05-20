@@ -13,12 +13,16 @@ export const formType = {
   popup: van.Popup,
   popover: van.Popover,
   cascader: van.Cascader,
+  calendar: van.Calendar,
   pick: van.Picker,
   button: van.Button,
   upload: van.Uploader,
   numberKeyboard: van.NumberKeyboard,
+  radioGroup: van.RadioGroup,
+  radio: van.Radio,
   icon: van.Icon,
-  date: van.DatePicker
+  date: van.DatePicker,
+  text: van.TextEllipsis,
 };
 
 export function reform(item) {
