@@ -2,10 +2,33 @@
 import overlay from "@/components/overlay.vue";
 const loading = ref(false); // 下拉刷新加载
 const flag = useFlag();
+const query = getQuery();
+const tab = ref(0);
 
 function onClickLeft() {
   // 返回事件
   router.go(-1);
+}
+
+function onClickRight() {
+  router.currentRoute.value.meta.onClickRight();
+  // console.log(router.currentRoute)
+}
+
+function onChange(t) {
+  if (t) {
+    router.push("/person");
+  } else {
+    const companyName = getCompany().name;
+    router.push({
+      path: "/home",
+      query: {
+        title: "当前组织：" + companyName,
+      },
+    });
+  }
+  // replace to="/person"
+  // replace :to="`/home?title=当前组织：+` + companyName"
 }
 
 async function onRefresh() {
@@ -24,6 +47,12 @@ onMounted(async () => {
 
 window.addEventListener("beforeunload", clearStore);
 window.removeEventListener("beforeunload", clearStore);
+
+router.beforeResolve((to, from) => {
+  if (from.path == "/loginPage") {
+    tab.value = 0;
+  }
+});
 
 async function login() {
   const user = {
@@ -53,8 +82,10 @@ async function login() {
       v-show="$route.query.title || $route.meta.title"
       :title="$route.query.title || $route.meta.title"
       :left-text="!$route.meta.hiddenLeftArrow || $route.query.hiddenLeftArrow ? '返回' : ''"
+      :right-text="$route.meta.rightText || ''"
       :left-arrow="!$route.meta.hiddenLeftArrow || $route.query.hiddenLeftArrow"
       @click-left="onClickLeft"
+      @click-right="onClickRight"
       class="shadowC !sticky top-0 !z-10"
       :class="[$route.meta.title == '首页' && 'homeClass']"
     />
@@ -88,9 +119,11 @@ async function login() {
     </template>
 
     <div v-show="$route.meta.tabbar" class="h-[50px] bg-gray-100 w-full"></div>
-    <van-tabbar v-show="$route.meta.tabbar" route class="shadowC stacky bottom-0 !z-10">
-      <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item replace to="/inquiry" icon="search">个人主页</van-tabbar-item>
+    <van-tabbar v-show="$route.meta.tabbar" v-model="tab" class="shadowC stacky bottom-0 !z-10" @change="onChange" active-color="#ffab30">
+      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
+      <div class="w-[20%]"></div>
+      <!-- <van-tabbar-item icon=""></van-tabbar-item> -->
+      <van-tabbar-item icon="user-o">个人中心</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -143,7 +176,7 @@ async function login() {
   font-size: 18px !important;
 }
 .homeClass {
-  @apply py-3;
+  @apply py-1;
   // .van-nav-bar__content {
   //   @apply w-[100vw];
   // }
@@ -235,10 +268,11 @@ label {
 .van-field__label {
   margin: auto;
 }
-.van-field__error-message {
+
+/*.van-field__error-message {
   margin: auto !important;
   text-align: center !important;
-}
+}*/
 
 .van-picker-column__item {
   .van-ellipsis {
@@ -281,4 +315,7 @@ label {
   border: none !important;
 }
 
+:deep(.van-field__left-icon) {
+  @apply my-auto mx-auto mr-2;
+}
 </style>

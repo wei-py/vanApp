@@ -18,7 +18,8 @@ async function getData() {
 async function saveData() {
   await validate();
   const params = getParam();
-  const { data } = await http.post('/record/update', params)
+  const data = await http.post("/record/update", params);
+  return data;
 }
 </script>
 

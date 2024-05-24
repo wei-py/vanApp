@@ -15,18 +15,19 @@ async function getData() {
 }
 
 async function saveData() {
-  const params = getParam()
-  const { data } = await http.post('order/put-grid', params)
+  const params = getParam();
+  const data = await http.post("order/put-grid", params);
+  return data;
 }
 
 async function submitData(params) {
-  params.taskId = 'TASK_BWXX'
-  const { data } = await http.post(queryUrl(`approval/put-approval/bto/grid`, params))
+  params.taskId = "TASK_BWXX";
+  const { data } = await http.post(queryUrl(`approval/put-approval/bto/grid`, params));
 }
 
 async function approvalData(params) {
-  params.taskId = 'TASK_BWXX'
-  const { data } = await http.post('approval/do-approval/bto/grid', params)
+  params.taskId = "TASK_BWXX";
+  const { data } = await http.post("approval/do-approval/bto/grid", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });

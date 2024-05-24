@@ -66,7 +66,7 @@ function converBaseUrl(config) {
   }
 
   if (config.url.includes("order/sto")) {
-    config.baseURL += "Sto";
+    config.baseURL += "Sto" + (location.port == 2222 ? '' : '/sto');
     config.url = config.url.replace("/order/sto", "");
     config.url = config.url.replace(/\/\//g, "/");
   }

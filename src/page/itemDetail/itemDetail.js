@@ -32,6 +32,9 @@ export const inquiry = [
     title: "预审",
     titleClass: itemDetailTitleClass,
     class: "!p-0 h-[50px]",
+    onMounted() {
+      this.hidden = investorHidden("");
+    },
   },
   {
     formType: "cell",
@@ -41,9 +44,12 @@ export const inquiry = [
     titleClass,
     isLink: true,
     value: "未开启",
+    onMounted() {
+      this.hidden = investorHidden("");
+    },
     click() {
       if (this.value != "未开启") {
-        router.push({ path: "/inquiry", query: { orderId: getQuery().orderId } });
+        router.push({ path: "/inquiry", query: { ...getQuery() } });
       } else {
         showFailToast(this.value);
       }
@@ -68,7 +74,7 @@ export const customerInfo = [
     value: "未开启",
     click() {
       if (this.value != "未开启") {
-        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+        router.push({ path: this.name, query: { ...getQuery() } });
       } else {
         showFailToast(this.value);
       }
@@ -93,7 +99,7 @@ export const survey = [
     value: "未开启",
     click() {
       if (this.value != "未开启") {
-        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+        router.push({ path: this.name, query: { ...getQuery() } });
       } else {
         showFailToast(this.value);
       }
@@ -109,7 +115,7 @@ export const survey = [
     value: "未开启",
     click() {
       if (this.value != "未开启") {
-        router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+        router.push({ path: this.name, query: { ...getQuery() } });
       } else {
         showFailToast(this.value);
       }
@@ -131,8 +137,25 @@ export const contractSign = [
     titleClass,
     isLink: true,
     value: "未开启",
-    click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+    async click() {
+      if (isTYZF()) {
+        showConfirmDialog({
+          title: "合同签约",
+          message: "提示：根据商务培训要求，选择正确的签约方式",
+          confirmButtonText: "线上电子合同签约",
+          cancelButtonText: "线下纸质合同签约",
+          closeOnClickOverlay: true,
+        })
+          .then(() => {
+            router.push({ path: this.name, query: { ...getQuery(), online: true } });
+          })
+          .catch(() => {
+            router.push({ path: this.name, query: { ...getQuery(), online: false } });
+          });
+        // console.log(flag, 3333)
+      } else {
+        router.push({ path: this.name, query: { ...getQuery() } });
+      }
     },
   },
 ];
@@ -152,7 +175,7 @@ export const record = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];
@@ -204,7 +227,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
   {
@@ -216,7 +239,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
   {
@@ -228,7 +251,7 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
   {
@@ -274,7 +297,7 @@ export const grid = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];
@@ -295,7 +318,7 @@ export const ZYsettlement = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];
@@ -316,7 +339,7 @@ export const DLSsettlement = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
   {
@@ -328,7 +351,7 @@ export const DLSsettlement = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];
@@ -349,7 +372,7 @@ export const electricityContract = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];
@@ -359,6 +382,9 @@ export const income = [
     title: "收益查询",
     titleClass: itemDetailTitleClass,
     class: "!p-0 h-[50px]",
+    onMounted() {
+      this.hidden = investorHidden("");
+    },
   },
   {
     formType: "cell",
@@ -368,8 +394,11 @@ export const income = [
     titleClass,
     isLink: true,
     value: "未开启",
+    onMounted() {
+      this.hidden = investorHidden("");
+    },
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId } });
+      router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
 ];

@@ -24,6 +24,19 @@ function omitItem(item) {
   return lo.omit(item, ["formType", "inlineForm", "realValue", ...func]);
 }
 
+function hidden(item) {
+  let result = false;
+  if (lo.isBoolean(item.hidden)) {
+    result = item.hidden;
+  }
+  if (lo.isFunction(item.hidden)) {
+    result = item.hidden();
+  }
+  if (isRef(item.hidden)) {
+    result = item.hidden;
+  }
+  return result;
+}
 // function setRef(el, item) {
 //   item.ref = el;
 //   if (item.longPress) {
@@ -53,7 +66,7 @@ function getFunction(item, func, ...args) {
     <!-- {{  formType[item.formType]}} -->
     <!-- :ref="(el) => setRef(el, item)" -->
     <component
-      v-if="!item.hidden"
+      v-if="!hidden(item)"
       :is="formType[item.formType]"
       v-model="item.value"
       v-model:show="item.show"
@@ -69,6 +82,7 @@ function getFunction(item, func, ...args) {
       @blur="(...args) => getFunction(item, 'blur', ...args)"
       @select="(...args) => getFunction(item, 'select', ...args)"
       @clickPreview="(...args) => getFunction(item, 'clickPreview', ...args)"
+      @cancel="(...args) => getFunction(item, 'cancel', ...args)"
       @update:model-value="(...args) => getFunction(item, 'updateValue', ...args)"
     >
       <!-- @touchstart.stop="(...args) => getFunction(item, 'touchstart', ...args)" -->

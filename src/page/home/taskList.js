@@ -1,3 +1,6 @@
+// const orderh5 = '/orderh5'
+const orderh5 = location.port == 2222 ? "/orderh5" : "";
+
 /*
  * @description 常见数据
  */
@@ -53,6 +56,9 @@ const commonTask = [
     text: "收益查询",
     icon: "incomeStatistics",
     path: "/income",
+    onChange() {
+      this.hidden = isTYZF();
+    },
     query: {
       id: 1,
       name: "134",
@@ -86,8 +92,8 @@ const commonTask = [
 ].map((n) => {
   return {
     ...n,
-    from: "常见数据",
-    icon: `./icons/realLeaseTop/${n.icon}.png`,
+    from: "常用数据",
+    icon: `./icons/realLeaseTop/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
     tap() {
       router.push({ path: n.path, query: { ...n.query, from: "cysj", title: n.realText || n.text } });
       // router.push({path :n.path, query: { ...n.query, from: 'cysj', title: n.text }})
@@ -103,6 +109,9 @@ const phaseTask = [
     text: "预审",
     icon: "inquiry",
     path: "/realLease",
+    onChange() {
+      this.hidden = isTYZF();
+    },
     tap() {
       router.push({ path: this.path, query: { ...this.query, from: "rwdq", title: this.text } });
     },
@@ -183,8 +192,9 @@ const phaseTask = [
       stateId: null,
       taskId: "TASK_BAZXX",
     },
-    changeText(tab) {
-      this.text = tab.index ? "备案证" : "备案证及权属证明";
+    onChange() {
+      this.text = isZZD_ORG() ? "备案证" : "备案证及权属证明";
+      // this.text = isZZD() ? "备案证及权属证明" : "备案证";
     },
   },
   {
@@ -303,6 +313,7 @@ const phaseTask = [
     text: "资方驳回",
     icon: "capitalSummary",
     path: "/realLease",
+
     tap() {
       router.push({ path: this.path, query: { ...this.query, from: "rwdq", title: this.text } });
     },
@@ -315,7 +326,7 @@ const phaseTask = [
   return {
     ...n,
     from: "任务大全",
-    icon: `./icons/realLeaseTop/${n.icon}.png`,
+    icon: `./icons/realLeaseTop/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
   };
 });
 
@@ -362,6 +373,22 @@ const checkTask = [
     },
   },
   {
+    text: "风险审查",
+    icon: "multiAudit",
+    path: "/realLease",
+    onChange() {
+      this.hidden = !isTYZF();
+    },
+    tap() {
+      showFailToast("功能开发中");
+      // router.push({ path: this.path, query: { ...this.query, from: "shdq", title: this.text } });
+    },
+    query: {
+      stageId: "KAN_CHA",
+      stateId: "WAITING_APPROVAL",
+    },
+  },
+  {
     text: "备案权属审核",
     icon: "recordOwnership",
     path: "/realLease",
@@ -373,8 +400,8 @@ const checkTask = [
       stateId: "WAITING_APPROVAL",
       taskId: "TASK_BAZXX",
     },
-    changeText(tab) {
-      this.text = tab.index ? "备案审核" : "备案权属审核";
+    onChange() {
+      this.text = isZZD_ORG() ? "备案审核" : "备案权属审核";
     },
   },
   {
@@ -404,6 +431,22 @@ const checkTask = [
     },
   },
   {
+    text: "完工审核",
+    icon: "multiAudit",
+    path: "/realLease",
+    onChange() {
+      this.hidden = !isTYZF();
+    },
+    tap() {
+      showFailToast("功能开发中");
+      // router.push({ path: this.path, query: { ...this.query, from: "shdq", title: this.text } });
+    },
+    query: {
+      stageId: "KAN_CHA",
+      stateId: "WAITING_APPROVAL",
+    },
+  },
+  {
     text: "并网审核",
     icon: "gridConnectedAudit",
     path: "/realLease",
@@ -414,6 +457,22 @@ const checkTask = [
       stageId: "GRID_CONNECTION",
       stateId: "WAITING_APPROVAL",
       // taskId: 'TASK_CSPSXX'
+    },
+  },
+  {
+    text: "投放审查",
+    icon: "multiAudit",
+    path: "/realLease",
+    onChange() {
+      this.hidden = !isTYZF();
+    },
+    tap() {
+      showFailToast("功能开发中");
+      // router.push({ path: this.path, query: { ...this.query, from: "shdq", title: this.text } });
+    },
+    query: {
+      stageId: "KAN_CHA",
+      stateId: "WAITING_APPROVAL",
     },
   },
   {
@@ -441,11 +500,27 @@ const checkTask = [
       taskId: "TASK_GSDHTXX",
     },
   },
+  {
+    text: "资方购售电审核",
+    icon: "multiAudit",
+    path: "/realLease",
+    onChange() {
+      this.hidden = !isTYZF();
+    },
+    tap() {
+      showFailToast("功能开发中");
+      // router.push({ path: this.path, query: { ...this.query, from: "shdq", title: this.text } });
+    },
+    query: {
+      stageId: "KAN_CHA",
+      stateId: "WAITING_APPROVAL",
+    },
+  },
 ].map((n) => {
   return {
     ...n,
     from: "审核大全",
-    icon: `./icons/realLeaseTop/${n.icon}.png`,
+    icon: `./icons/realLeaseTop/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
   };
 });
 

@@ -74,10 +74,10 @@ export const basicMessageForm = [
     formType: "input",
     label: "拟安装逆变器品牌",
     name: "inverterBrand",
+    value: '',
     required: true,
     ...backSelect(),
     ...makeSelect("inverterBrand", [], "dymatic"),
-
     async backfill(bData) {
       const { data } = await http.post("/sto/device-args/list?option=manufacturerShortName", { deviceType: "NBQ" });
       this.makeSelect(bData[this.name], arrayToVantColumns(data));

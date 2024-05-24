@@ -13,17 +13,22 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  try {
-    const { data } = await http.post("/sto/export-base/add", params);
-    setItem("expId", "value", data);
-  } catch (e) {
-    setItem("deviceSlot", (v) => v.backfill(e.data, false));
+
+  if (params.shipperStoId) {
+    try {
+      const { data } = await http.post("/sto/export-base/add", params);
+      setItem("expId", "value", data);
+    } catch (e) {
+      setItem("deviceSlot", (v) => v.backfill(e.data, false));
+    }
+    return;
+  } else {
+    showFailToast("发货仓库暂存确认都是必填");
   }
-  return
 }
 
 async function submitData() {
-  await saveData()
+  await saveData();
   const params = getParam();
   params.state = "1";
   if (!params.deviceInfos.length) {

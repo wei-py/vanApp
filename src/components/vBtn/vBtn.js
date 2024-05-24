@@ -88,7 +88,7 @@ export default [
     label: "原因",
     value: "",
     error: true,
-    labelAlign: 'top',
+    // labelAlign: 'top',
     inputAlign: 'left',
     placeholder: "请输入原因",
     name: "rejectReason",

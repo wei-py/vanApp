@@ -53,7 +53,8 @@ onBeforeUnmount(() => {
 
 <template>
   <van-form v-skeleton="flag.overlayShow" :ref="setRef" :readonly="readonly" :disabled="disabled" :show-error-message="showErrorMessage">
-    <van-cell-group inset :class="props.groupClass" class="" v-skeleton-item>
+    <van-cell-group inset :class="props.groupClass" class="" >
+      <!-- v-skeleton-item -->
       <recuDynComponent :form="props.form">
         <template v-for="slot of slotDoms" #[slot] :key="slot">
           <slot :name="slot" :slot="getSlot(slot)" />

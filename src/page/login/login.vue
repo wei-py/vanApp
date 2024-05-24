@@ -1,4 +1,6 @@
 <script setup>
+import { companyForm } from "./login";
+const _ = makeForm({ companyForm });
 const userStore = useUser();
 const user = reactive({
   username: "superadmin",
@@ -31,6 +33,7 @@ async function onLogin(params) {
     appVersion: "2.4.16",
   };
   const body = lo.merge(t, params);
+  setItem('userId', 'loginInfo', body)
   const { data } = await http.post("/login", body);
   // 缓存用户信息
   userStore.info = data;
@@ -51,16 +54,23 @@ async function onLogin(params) {
   // 跳转
   // console.log(, 3333)
 
-  router.push({
-    path: "/home",
-    query: {
-      title: '当地组织： ' + data.userVo.curUserCompanyVo.company.name,
-    },
-  });
-  showSuccessToast({
-    message: "登录成功",
-    className: "shadowC",
-  });
+  if (lo.get(data, "userVo.curUserCompanyVo.company.name")) {
+    router.push({
+      path: "/home",
+      query: {
+        title: "当前组织： " + data.userVo.curUserCompanyVo.company.name,
+        tab: 0,
+      },
+    });
+    showSuccessToast({
+      message: "登录成功",
+      className: "shadowC",
+    });
+  } else {
+    // console.log(data.userVo)
+    backfill(_, data);
+    setItem("title", "show", true);
+  }
 }
 
 async function onGetCode() {
@@ -83,6 +93,8 @@ function onUsernamePopClick(val) {
   user.username = val.text;
   user.password = val.password;
 }
+
+eventManage({ getData: onLogin });
 </script>
 
 <template>
@@ -171,6 +183,12 @@ function onUsernamePopClick(val) {
         {{ isPasswordToLogin ? "密码登录" : "验证码登录" }}
       </div>
     </div>
+
+    <van-popup v-model:show="_.companyForm[0].show" round teleport="#app" transition-appear>
+      <template #overlay-content>
+        <vantForm @click.prevent :form="_.companyForm" class="pt-[20vh] mx-10" group-class="shadowC"></vantForm>
+      </template>
+    </van-popup>
   </div>
 </template>
 

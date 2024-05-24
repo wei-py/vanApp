@@ -17,7 +17,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-gs-elec-contract", params);
+  const data = await http.post("order/put-gs-elec-contract", params);
+  return data;
 }
 
 async function submitData(params) {
@@ -26,8 +27,8 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  params.taskId = 'TASK_GSDHTXX'
-  const { data } = await http.post(`approval/do-approval/bto/gs-elec-contract`, params)
+  params.taskId = "TASK_GSDHTXX";
+  const { data } = await http.post(`approval/do-approval/bto/gs-elec-contract`, params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });

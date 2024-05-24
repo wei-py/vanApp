@@ -1,14 +1,14 @@
 export const contractAward = [
   {
     ...makeTitle("合同签约"),
-    hidden: isZZD_ORG(),
+    hidden: computed(() => viewOrg() != "ZZD_ORG"),
   },
   {
     formType: "input",
     name: "leaseSigneUrl",
     label: "线上签约(跳转资方H5)",
     readonly: true,
-    hidden: isZZD_ORG(),
+    hidden: computed(() => viewOrg() != "ZZD_ORG"),
     realValue: "",
     backfill(data) {
       this.realValue = data.leaseSigneUrl;
@@ -18,7 +18,7 @@ export const contractAward = [
   {
     formType: "cell",
     titleClass: " xCenter",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => viewOrg() != "ZZD_ORG"),
     inlineForm: [
       {
         slot: "title",
@@ -38,18 +38,19 @@ export const contractAward = [
 
   {
     ...makeTitle("电子合同下载"),
-    hidden: isZZD(),
+    // hidden: computed(() => viewOrg() != "isZZD"),
+    hidden: computed(() => isZZD()),
   },
 
   {
     formType: "input",
     name: "leaseSigneUrl",
     label: "线上签约(跳转资方H5)",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     isLink: true,
     realValue: "",
     click() {
-      openUrl(this.realValue)
+      openUrl(this.realValue);
     },
     backfill(data) {
       this.realValue = data.leaseSigneUrl;
@@ -61,7 +62,7 @@ export const contractAward = [
   {
     formType: "cell",
     titleClass: " xCenter",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     inlineForm: [
       {
         slot: "title",
@@ -86,76 +87,76 @@ export const contractAward = [
 export const signedContractForm = [
   {
     ...makeTitle("屋顶方已盖章合同扫描件上传"),
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
   },
   {
     ...makeUpload(999, 100, "*"),
     name: "orgLegalIdAuthFile",
     label: "法人代表/负责人身份证明书(盖公章)",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     ...makeUpload(999, 100, "*"),
     name: "orgSignatureChop",
     label: "法人组织预留印鉴",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     formType: "cell",
     value: "提示: 盖公章、法人代表名字章、财务专用章。若确无财务专用章可不盖；若无法人代表名字章可手写签名",
-    valueClass: "text-red !text-center",
-    hidden: isZZD(),
+    valueClass: "text-red !text-left",
+    hidden: computed(() => isZZD()),
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "contract",
     label: "屋顶方已盖章合同扫描件",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     formType: "cell",
     value:
       "提示: 上传 “法人代表/负责人身份证明书”、“法人组织预留印鉴”、“屋顶方已盖章合同扫描件” 及签约现场系列照片成功后，项目详情里的 “合同签约” 环节右侧将显示绿色的 “已签约”",
-    valueClass: "text-red !text-center",
-    hidden: isZZD(),
+    valueClass: "text-red !text-left",
+    hidden: computed(() => isZZD()),
   },
 ];
 
 export const signedSiteForm = [
   {
     ...makeTitle("双方已盖章合同扫描件上传"),
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "signPhoto",
     label: "现场签字照",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "stampUsedPhoto",
     label: "现场用印照",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "signOverPhoto",
     label: "签约完成照",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
   },
   {
     formType: "cell",
     value:
       "提示:1, 现场签字照: 法人代表/负责人正脸、持笔或持法人代表章, 与合同签署页同框拍摄; 2, 现场用印照: 法人代表/负责人正脸、持印, 与合同签署页同框拍摄; 3, 签署完成照: 法人代表/负责人正脸, 与合同、身份证、统一社会信用代码证/组织机构代码证（村委）或营业执照（集体经济组织）同框拍摄”",
-    valueClass: "text-red !text-center",
-    hidden: isZZD(),
+    valueClass: "text-red !text-left",
+    hidden: computed(() => isZZD()),
   },
 ];
 

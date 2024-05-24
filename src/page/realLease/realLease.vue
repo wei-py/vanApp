@@ -1,6 +1,6 @@
 <script setup>
 import card from "./card.vue";
-import { filtrate, moreForm } from "./reaLease";
+import { filtrate, moreForm, newPopForm } from "./reaLease";
 
 const flag = useFlag();
 const loading = ref(false); // 触底请求加载
@@ -17,7 +17,7 @@ const tabs = ref([
 ]);
 const curTab = computed(() => tabs.value[tab.value]);
 
-const _ = makeForm({ filtrate, moreForm }); // 筛选参数表单
+const _ = makeForm({ filtrate, moreForm, newPopForm }); // 筛选参数表单
 // 参数
 const orderType = flag.headers.Biztype; // 业务类型
 const page = ref({ pageNum: 1, pageSize: 10, total: 0 }); // 分页
@@ -27,6 +27,14 @@ const formParams = ref({}); // 筛选参数
 const filter = computedAsync(() => lo.fromPairs(_.filtrate.map((n) => [n.name, n.value]))); // 筛选框
 
 const isCysj = query.from == "cysj"; // 从常用数据中跳转过来的
+const searchBtnText = computed(() => {
+  if (investorHidden("")) {
+    return query.title == "客户信息" ? "新增" : "搜索";
+  } else {
+    return query.title == "预审" ? "新增" : "搜索";
+  }
+}); // 搜索按钮内容
+const newPop = ref(false); // 新增弹窗
 
 onMounted(async () => {
   backfill(_, {});
@@ -63,14 +71,14 @@ const getDataThrottle = lo.debounce(getData, 300);
 async function getData() {
   const stateId = curTab.value.value.replace("orderCount", "");
   // 编辑参数
-  const isZzOrWc = query.title == "终止" || query.title == "完成";
+  const isZzOrWc = query.title == "终止" || query.title == "完成" || query.title == "订单列表";
   const body = { orderType, queryTag: queryTag.value }; // post 参数
   let url = "";
   if (isZzOrWc) {
     url = "/order/search";
   } else {
     url = "/order/search-exclude-states";
-    body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
+    // body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
   }
 
   // const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states"; // 判断是否从终止或者完成中跳转过来
@@ -109,8 +117,12 @@ async function onChangeTab() {
 }
 
 async function onSearch() {
-  if (query.title == "预审") {
-    router.push("/inquiry");
+  if (searchBtnText.value == "新增") {
+    if (isTYZF()) {
+      newPop.value = true;
+    } else {
+      router.push("/inquiry");
+    }
   } else {
     page.value.pageNum = 1;
     page.value.pageSize = 10;
@@ -118,6 +130,7 @@ async function onSearch() {
     finished.value = false;
     getDataThrottle();
   }
+  // if (query.title == "预审") { router.push("/inquiry"); } else { }
 }
 
 async function onMenuChange(menu) {
@@ -149,6 +162,30 @@ function resetPop() {
   showFailToast("功能开发中");
 }
 
+function goDetail(item) {
+  const orderId = item.orderBase.orderId;
+  const investorId = item.orderBase.investorId;
+  const type = item.orderBase.type;
+
+  router.push({ path: "/itemDetail", query: { orderId, investorId, type } });
+  // const investorId = item.orderBase.investorId;
+  // const type = item.orderBase.type;
+
+  // if (isTYZF()) {
+  //   router.push({
+  //     path: "/customerInfo",
+  //     query: {
+  //       orderId: item.orderBase.orderId,
+  //       investorId,
+  //       type,
+  //       title: "客户信息 - " + (type == "ZZD" ? "自然人" : "法人"),
+  //     },
+  //   });
+  // } else {
+  //   router.push({ path: "/itemDetail", query: { orderId: item.orderBase.orderId } });
+  // }
+}
+
 eventManage({ getData: getDataThrottle });
 </script>
 
@@ -158,7 +195,8 @@ eventManage({ getData: getDataThrottle });
       <template #action>
         <div class="yCenter">
           <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
-            {{ query.title == "预审" ? "新增" : "搜索" }}
+            {{ searchBtnText }}
+            <!-- {{ (searchBtnText) ? "新增" : "搜索" }} -->
           </van-button>
         </div>
       </template>
@@ -189,7 +227,7 @@ eventManage({ getData: getDataThrottle });
       <!-- <vButton :round="false" class="h-full">更多</vButton> -->
     </div>
 
-    <van-popup v-model:show="moreShow" position="right" class="w-[100vw] h-[100vh]">
+    <van-popup v-model:show="moreShow" position="right" class="w-[90vw] h-[100vh]">
       <vantForm :form="_.moreForm" class="pt-3" group-class="shadowC h-[92vh]">
         <template #checkbox="{ slot }">
           <van-field :label="slot.label" input-align="right">
@@ -221,10 +259,16 @@ eventManage({ getData: getDataThrottle });
 
     <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
       <template v-for="item in list" :key="item.orderBase.orderId">
-        <card @click="$router.push({ path: '/itemDetail', query: { orderId: item.orderBase.orderId } })" :item="item"></card>
+        <card @click="goDetail(item)" :item="item"></card>
       </template>
     </van-list>
   </div>
+
+  <van-popup v-model:show="newPop" round teleport="#app" transition-appear>
+    <template #overlay-content>
+      <vantForm @click.prevent :form="_.newPopForm" class="pt-[20vh] mx-10" group-class="shadowC"></vantForm>
+    </template>
+  </van-popup>
 </template>
 
 <style scoped>

@@ -7,7 +7,7 @@ export const lessorInfo = [
     label: "姓名",
     name: "name",
     required: true,
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     value: "",
     rightIcon: "scan",
     onMounted() {
@@ -31,7 +31,7 @@ export const lessorInfo = [
     formType: "input",
     label: "证件类型",
     name: "idCardType",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     required: true,
     // rightIcon: "arrow",
     readonly: true,
@@ -56,7 +56,7 @@ export const lessorInfo = [
     placeholder: "扫描证件或手动输入",
     required: true,
     value: "",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     rightIcon: "scan",
     onMounted() {
       this.value = "";
@@ -72,7 +72,7 @@ export const lessorInfo = [
     formType: "input",
     label: "出租人电话",
     name: "phone",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     placeholder: "请输入出租人电话",
     type: "tel",
     required: true,
@@ -91,14 +91,14 @@ export const lessorInfo = [
     label: "组织名称",
     name: "name",
     required: true,
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     rightIcon: "scan",
     onMounted() {
       this.value = "";
     },
     onSave() {
-      if (!this.value) {
+      if (!this.value && isZZD_ORG()) {
         showFailToast("请输入组织名称");
         // throw new Error('请输入姓名')
       }
@@ -114,7 +114,7 @@ export const lessorInfo = [
     formType: "input",
     label: "登记注册码类型",
     name: "regType",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
     // rightIcon: "arrow",
     readonly: true,
@@ -130,7 +130,7 @@ export const lessorInfo = [
     label: "登记注册码",
     name: "regNo",
     placeholder: "核对证件后, 手动输入",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     // rules: [e => isChineseIdCard(e) || '身份证有误'],
     required: true,
@@ -143,23 +143,23 @@ export const lessorInfo = [
     name: "position",
     placeholder: "请选择负责人类型",
     required: true,
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
   },
   {
     formType: "input",
     label: "负责人姓名",
     name: "name",
     placeholder: "请输入负责人姓名",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     // rules: [e => isChineseIdCard(e) || '身份证有误'],
     required: true,
   },
   {
     formType: "input",
-    label: "证件类型",
+    label: "负责人证件类型",
     name: "certType",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     required: true,
     // rightIcon: "arrow",
     readonly: true,
@@ -182,7 +182,7 @@ export const lessorInfo = [
     label: "负责人证件号码",
     name: "certCode",
     placeholder: "扫描证件号码或手动输入",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     required: true,
   },
@@ -191,7 +191,7 @@ export const lessorInfo = [
     label: "法人代表手机号码",
     name: "cellPhone",
     placeholder: "请输入法人代表手机电话",
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     required: true,
   },
@@ -201,12 +201,12 @@ export const lessorInfo = [
     name: "houseAddr",
     readonly: true,
     required: true,
-    // hidden: isZZD_ORG(),
+    // hidden: computed(() => isZZD()),
     placeholder: "请选择所在地区",
     middle: { value: [], provinceCode: "", cityCode: "", areaCode: "" },
     isLink: true,
     onMounted() {
-      if (isZZD_ORG().value) {
+      if (isZZD_ORG()) {
         this.label = "注册地址区域";
       }
     },
@@ -279,7 +279,7 @@ export const lessorInfo = [
     placeholder:
       "提示: 此地址是法人组织的工商登记注册地址, 可能和拟安装光伏的建筑详细地址不一致, 需按统一社会信用代码/组织机构代码证/营业执照上的地址填写",
     required: true,
-    hidden: isZZD(),
+    hidden: computed(() => isZZD()),
     value: "",
     inputAlign: "left",
     errorMessage:
@@ -300,11 +300,11 @@ export const lessorInfo = [
     formType: "input",
     label: "家庭住址",
     name: "detailedAddress",
-    labelAlign: 'top',
-    inputAlign: 'left',
+    // labelAlign: 'top',
+    inputAlign: "left",
     placeholder: "(此地址是屋顶业主本人现在的家庭住址, 所以可能和需要安装光伏的房屋地址不一致。从省/自治区/直辖市/特别行政区 开始写)",
     required: true,
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     value: "",
     inputAlign: "left",
     errorMessage: "提示: 此地址是屋顶业主本人现在的家庭住址, 所以可能和需要安装光伏的房屋地址不一致。从省/自治区/直辖市/特别行政区 开始写",
@@ -379,19 +379,19 @@ export const salespersonInfo = [
 export const guarantor = [
   {
     ...makeTitle("保证人"),
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
   },
   {
     formType: "input",
     label: "是否有保证人",
     name: "isSurety",
     value: "",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     onMounted() {
       this.value = "";
     },
     ...backSelect(),
-    ...makeSelect("companyId", [
+    ...makeSelect("isSurety", [
       { text: "无", value: 0 },
       { text: "有", value: 1 },
     ]),
@@ -402,7 +402,8 @@ export const signInfo = [
   {
     customSlot: "title",
     title: "授权协议签署",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
+    time: null,
     click() {
       // 重签按钮
       setItem("fddSignTaskId", "value", "未签署");
@@ -414,7 +415,7 @@ export const signInfo = [
   // makeTitle("授权协议签署"),
   {
     formType: "input",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     label: "信息使用授权协议",
     name: "fddSignTaskId",
     readonly: true,
@@ -429,7 +430,7 @@ export const signInfo = [
   {
     formType: "input",
     label: "签署方式",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     value: "",
     name: "signeType",
     inlineForm: [
@@ -465,7 +466,7 @@ export const signInfo = [
     formType: "input",
     inputAlign: "center",
     name: "signeType",
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     inlineForm: [
       {
         slot: "input",
@@ -498,6 +499,7 @@ export const signInfo = [
               confirmButtonText: "使用",
               cancelButtonText: "不使用",
               confirmButtonColor: "#ffab30",
+              closeOnClickOverlay: true,
             })
               .then(() => {
                 setItem("signeType", "value", data.signeType);
@@ -514,6 +516,8 @@ export const signInfo = [
                 await glSave();
                 const { data } = await http.get(queryUrl("fdd/get-actor-url", { ...getQuery(), ...lo.pick(params, ["signeType"]) }));
                 showSuccessToast("短信发送成功");
+
+                setItem("loopGetData", (v) => v.start());
               });
           }
 
@@ -524,6 +528,7 @@ export const signInfo = [
               showConfirmDialog({
                 message: "是否跳转至签署页面",
                 confirmButtonColor: "#ffab30",
+                closeOnClickOverlay: true,
               })
                 .then(() => {
                   openUrl(data.actorSignTaskEmbedUrl);
@@ -539,6 +544,7 @@ export const signInfo = [
               confirmButtonText: "使用",
               cancelButtonText: "不使用",
               confirmButtonColor: "#ffab30",
+              closeOnClickOverlay: true,
             })
               .then(() => {
                 setItem("signeType", "value", data.signeType);
@@ -554,9 +560,11 @@ export const signInfo = [
                 setItem("authorizationLetter", "realValue", "");
                 await glSave();
                 const { data } = await http.get(queryUrl("fdd/get-actor-url", { ...getQuery(), ...lo.pick(params, ["signeType"]) }));
+
                 showConfirmDialog({
                   message: "是否跳转至签署页面",
                   confirmButtonColor: "#ffab30",
+                  closeOnClickOverlay: true,
                 })
                   .then(() => {
                     openUrl(data.actorSignTaskEmbedUrl);
@@ -564,6 +572,9 @@ export const signInfo = [
                   .catch(() => {
                     setItem("authorizationLetter", "value", "协议查看");
                     setItem("authorizationLetter", "realValue", data.authorizationLetter);
+                  })
+                  .finally(() => {
+                    setItem("loopGetData", (v) => v.start());
                   });
               });
           }
@@ -574,13 +585,27 @@ export const signInfo = [
     ],
   },
   {
+    fomrType: "",
+    name: "loopGetData",
+    time: null,
+    start() {
+      this.time = setInterval(() => {
+        const event = useEvent();
+        event.getData(false);
+      }, 3000);
+    },
+    stop() {
+      clearInterval(this.time);
+      this.time = null;
+    },
+  },
+  {
     formType: "input",
     label: "已签署协议查看",
     required: true,
-    hidden: isZZD_ORG(),
+    hidden: computed(() => isZZD_ORG()),
     placeholder: "暂无数据",
     name: "authorizationLetter",
-    hidden: isZZD_ORG(),
     realValue: "",
     readonly: true,
     isLink: true,

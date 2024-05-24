@@ -2,6 +2,7 @@
 const search = ref(""); // 搜索内容
 const query = getQuery(); // 路由参数
 const tab = ref(query.state * 1); // 切换标签
+const tabs = ref(["待发货", "已发货"]);
 const flag = useFlag(); // 配合骨架
 const dialogShow = ref(false); // 弹出框显示
 const loading = ref(false); // 触底请求加载
@@ -66,9 +67,9 @@ function onShowDetail(item) {
 }
 
 onMounted(async () => {
-  list.value.length = 0;
-  finished.value = false;
-  // await getDataThrottle()
+  // list.value.length = 0;
+  // finished.value = false;
+  // getDataThrottle();
 });
 </script>
 
@@ -91,7 +92,7 @@ onMounted(async () => {
   </van-search>
 
   <van-tabs class="flex-1 flex flex-col" v-model:active="tab" background="#f3f3f3" line-width="80px" color="#ffab30" @change="changeTab" swipeable>
-    <van-tab v-for="t in ['待发货', '已发货']" :title="t" :key="t">
+    <van-tab v-for="t in tabs" :title="t" :key="t">
       <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
         <template v-for="item in list" :key="item.index">
           <!-- van-haptics-feedback -->
@@ -137,6 +138,7 @@ onMounted(async () => {
       </van-list>
     </van-tab>
   </van-tabs>
+
   <van-dialog v-model:show="dialogShow" title="" :show-confirm-button="false" close-on-click-overlay>
     <div class="grid grid-cols-1 gap-2 py-8 px-8">
       <vButton @click="$router.push({ path: 'sendOutGoods', query: { expId: '', exportType: 'FIRST_TO_SITE', title: '一级仓库发现场' } })">
@@ -165,4 +167,10 @@ onMounted(async () => {
 :deep(.van-cell) {
   padding: 0 10px !important;
 }
+/* :deep(.van-list) {
+  @apply w-[100vw];
+}
+:deep(.van-cell-group) {
+  @apply w-[90vw];
+} */
 </style>

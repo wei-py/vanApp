@@ -15,7 +15,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-grid-settlement", params);
+  const data = await http.post("order/put-grid-settlement", params);
+  return data;
 }
 
 async function submitData(params) {
@@ -24,8 +25,8 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  params.setType = 2
-  const { data } = await http.post('approval/do-approval/bto/settle', params)
+  params.setType = 2;
+  const { data } = await http.post("approval/do-approval/bto/settle", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });

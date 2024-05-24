@@ -95,7 +95,9 @@ function scanCode(item, t) {
 }
 
 onMounted(() => {
-  runTime(getDataThrottle);
+  list.value.length = 0;
+  finished.value = false;
+  getDataThrottle();
 });
 </script>
 

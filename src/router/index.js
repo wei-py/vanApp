@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 const orderh5 = "";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: "/",
@@ -34,6 +34,16 @@ const router = createRouter({
       },
     },
     {
+      path: "/person",
+      name: "person",
+      component: () => import("../page/person/person.vue"),
+      meta: {
+        tabbar: true,
+        title: "",
+        hiddenLeftArrow: true,
+      },
+    },
+    {
       path: "/realLease",
       name: "realLease",
       component: () => import("../page/realLease/realLease.vue"),
@@ -48,6 +58,10 @@ const router = createRouter({
       component: () => import("../page/itemDetail/itemDetail.vue"),
       meta: {
         title: "项目详情",
+        rightText: "操作记录",
+        onClickRight() {
+          router.push({ path: "/operateLog" });
+        },
         refresh: true,
       },
     },
@@ -353,8 +367,26 @@ const router = createRouter({
         // tabbar: true,
       },
     },
-          // 
-    // 
+    {
+      path: "/designChange",
+      name: "designChange",
+      component: () => import("../page/designChange/designChange.vue"),
+      meta: {
+        title: "设计变更",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/operateLog",
+      name: "operateLog",
+      component: () => import("../page/operateLog/operateLog.vue"),
+      meta: {
+        title: "操作记录",
+        refresh: true,
+        // tabbar: true,
+      },
+    },
   ].map((n) => {
     return {
       ...n,
@@ -362,6 +394,16 @@ const router = createRouter({
     };
   }),
 });
+
+// router.beforeResolve((to, from, next) => {
+//   console.log(to);
+//   if (!to.path.startsWith("/orderh5")) {
+//     to.path = orderh5 + to.path;
+//     to.fullPath = orderh5 + to.fullPath;
+//     to.href = orderh5 + to.href;
+//   }
+//   next();
+// });
 
 router.beforeEach(async (to, from, next) => {
   const flag = useFlag();

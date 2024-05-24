@@ -76,26 +76,36 @@ onMounted(async () => {
 
 // });
 
-function saveData() {
+async function saveData() {
   onSave();
   try {
-    event.saveData();
+    const data = await event.saveData();
+    if (data) {
+      const msg = lo.get(data, "msg", "保存成功") || "保存成功";
+      showSuccessToast(msg);
+    }
   } catch {
-    showSuccessToast("保存成功");
+    showFailToast("保存失败");
   }
 }
 
 async function submitData() {
   onSave();
-  event.saveData();
-  const result = await validate();
-
-  const param = getParam();
-  const query = lo.pick(param, ["id", "orderId"]);
-  event.submitData(query);
-  event.getData();
-  await wait(2000);
-  // location.reload();
+  await event.saveData();
+  try {
+    const result = await validate();
+    const param = getParam();
+    const query = lo.pick(param, ["id", "orderId"]);
+    event.submitData(query);
+    event.getData();
+    await wait(2000);
+    location.reload();
+  } catch (e) {
+    showFailToast({
+      className: "!bg-[red] !text-white",
+      message: e[0].message,
+    });
+  }
 }
 
 async function approvalData() {

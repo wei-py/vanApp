@@ -84,7 +84,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
     ],
     backfill(data) {
       this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
-      const dom = useDom();
+      // const dom = useDom();
       pushImg(sToUrl(data[this.name]));
     },
     onMounted() {

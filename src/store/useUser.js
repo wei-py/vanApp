@@ -41,16 +41,23 @@ export function getUserVo() {
   return user.info.userVo
 }
 
+export function getCompany() {
+  const user = useUser();
+  return user.info.userVo.curUserCompanyVo.company
+}
+
 /**
  * 结合用户信息获取请求头
  * @returns { Authorization, Uid, Biztype, Version }
  */
 export function getHeaderInfo() {
   const user = useUser();
+  const flag = useFlag()
   return {
     Authorization: user.info.access_token,
     Uid: user.info.uid,
     Biztype: useFlag().headers.Biztype,
+    investor: flag.investor
     // Version: user.info.Version,
   };
 }

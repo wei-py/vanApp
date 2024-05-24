@@ -461,6 +461,20 @@
     "openBtns": true,
     "refreshImg": true,
     "makeDate": true,
-    "setFormItem": true
+    "setFormItem": true,
+    "isZYZF": true,
+    "getCompanyId": true,
+    "getCompany": true,
+    "appConfig": true,
+    "getAppInfo": true,
+    "isZSGY": true,
+    "investorShow": true,
+    "investorHidden": true,
+    "isZZD_GY": true,
+    "isTYZF": true,
+    "showStatus": true,
+    "c": true,
+    "org": true,
+    "viewOrg": true
   }
 }

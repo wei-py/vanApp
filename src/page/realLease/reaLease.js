@@ -48,7 +48,7 @@ export const filtrate = [
     columns: [{ text: "项目公司", value: "" }],
     title: "项目公司",
     async backfill() {
-      const type = isZZD_ORG().value ? "ZZD_ORG" : "ZZD";
+      const type = isZZD_ORG() ? "ZZD_ORG" : "ZZD";
       const { data } = await http.get(queryUrl("/leaseLessor/getAuth", { pageNum: 1, pageSize: 9999, type }));
       const columns = data.map((n) => {
         return { value: n.code, text: `${n.code}, ${n.companyName}, ${n.areaId}` };
@@ -65,7 +65,7 @@ export const filtrate = [
     columns: [{ text: "产品地区", value: "" }],
     title: "产品地区",
     async backfill() {
-      const type = isZZD_ORG().value ? "ZZD_ORG" : "ZZD";
+      const type = isZZD_ORG() ? "ZZD_ORG" : "ZZD";
       const { data } = await http.get(queryUrl(`/leasePrjProjectProduct/get`, { isPage: false, type }));
       const columns = data.map((n) => {
         return { value: n.code, text: `${n.code}, ${n.areaType}, ${n.area}` };
@@ -196,15 +196,13 @@ export const moreForm = [
       // lo.merge(param, { provinceCode, cityCode, areaCode });
     },
     async backfill(data) {
-      runTime(async () => {
-        const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
-        cascader.options = await getArea();
-        const value = data.areaCode || data.cityCode;
-        setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
-        const tree = searchTree(cascader.options, (n) => n.value == value);
-        const arr = toTreeArray(tree);
-        cascader.finish({ selectedOptions: arr, value: value });
-      });
+      const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
+      cascader.options = await getArea();
+      const value = data.areaCode || data.cityCode;
+      setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
+      const tree = searchTree(cascader.options, (n) => n.value == value);
+      const arr = toTreeArray(tree);
+      cascader.finish({ selectedOptions: arr, value: value });
     },
 
     inlineForm: [
@@ -369,6 +367,59 @@ export const moreForm = [
             v.value = `${time[0]} 至 ${time[1]}`;
             v.inlineForm[0].show = false;
           });
+        },
+      },
+    ],
+  },
+];
+
+export const newPopForm = [
+  makeTitle("客户信息"),
+  {
+    ...backSelect(),
+    ...makeSelect("investorId", [{ text: "中山公用", value: "ZSGY" }]),
+    label: "选择资方",
+    name: "investorId",
+  },
+  {
+    ...backSelect(),
+    ...makeSelect("type", [
+      { text: "自然人项目", value: "ZZD" },
+      { text: "法人项目", value: "ZZD_ORG" },
+    ]),
+    label: "选择屋顶类型",
+    name: "type",
+    onMounted() {
+      this.hidden = computed(() => !getItem("investorId", "realValue"));
+    },
+  },
+  {
+    formType: "input",
+    inputAlign: "center",
+    inlineForm: [
+      {
+        slot: "input",
+        formType: "button",
+        size: "mini",
+        className: "px-10 center !bg-[#ffab30] text-white rounded-2xl",
+        text: "确认",
+        click() {
+          const investorId = getItem("investorId", "realValue");
+          const type = getItem("type", "realValue");
+          if (!investorId) showFailToast("请选择资方");
+          else if (!type) showFailToast("请选择屋顶类型");
+          else {
+            const flag = useFlag();
+            flag.headers.Biztype = type;
+            router.push({
+              path: "/customerInfo",
+              query: {
+                investorId,
+                type,
+                title: "客户信息 - " + (type == "ZZD" ? "自然人" : "法人"),
+              },
+            });
+          }
         },
       },
     ],

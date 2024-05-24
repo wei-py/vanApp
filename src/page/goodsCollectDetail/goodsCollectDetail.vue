@@ -6,16 +6,21 @@ let _ = makeForm({ impGoods, importImages, impDeviceInfo, impDeviceContent });
 
 const tab = ref("ZUJIAN"); // 设备信息切换
 const query = getQuery(); // 路由参数
-const api = urlDic[(query.state ? "" : "no") + (query.acceptType ? "show" : "detail")][query.deliveryType] // 接口管理
+const api = urlDic[(query.state ? "" : "no") + (query.acceptType ? "show" : "detail")][query.deliveryType]; // 接口管理
 
 async function getData() {
-  const { data } = await http.get(`${api.getDataUrl}/${query.expId}`)
+  const { data } = await http.get(`${api.getDataUrl}/${query.expId}`);
   backfill(_, data);
 }
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post(api.saveUrl, params)
+  if (params.consigneeStoId) {
+    const data = await http.post(api.saveUrl, params);
+    return data;
+  } else {
+    showFailToast("收货仓库暂存确认都是必填");
+  }
   // try {
   //   const { data } = await http.post("/sto/export-base/add", params);
   //   setItem("expId", "value", data);

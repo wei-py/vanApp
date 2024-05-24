@@ -14,7 +14,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-construction", params);
+  const data = await http.post("order/put-construction", params);
+  return data;
 }
 
 async function submitData(params) {
@@ -23,8 +24,8 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  params.taskId = 'TASK_SGXX'
-  const { data } = await http.post('approval/do-approval/bto/construction', params)
+  params.taskId = "TASK_SGXX";
+  const { data } = await http.post("approval/do-approval/bto/construction", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });

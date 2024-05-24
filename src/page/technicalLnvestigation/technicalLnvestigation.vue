@@ -36,7 +36,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-tec-kancha", params);
+  const data = await http.post("order/put-tec-kancha", params);
+  return data;
 }
 
 async function submitData(params) {
@@ -44,7 +45,7 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  const { data } = await http.post('approval/do-approval/bto/tec-takan', params)
+  const { data } = await http.post("approval/do-approval/bto/tec-takan", params);
 }
 
 eventManage({ saveData, getData, submitData, approvalData });

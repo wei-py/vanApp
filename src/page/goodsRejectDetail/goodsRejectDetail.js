@@ -187,7 +187,7 @@ export const goods = [
     placeholder: "请输入备注",
     value: "",
     colon: true,
-    labelAlign: "top",
+    // labelAlign: "top",
     inputAlign: "left",
     name: "remark",
     onMounted() {

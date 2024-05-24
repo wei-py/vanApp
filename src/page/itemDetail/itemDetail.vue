@@ -91,7 +91,7 @@ async function getData() {
           const color = statusColor(val.value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);
         }
-        if (val.title?.includes('结算信息') && title == '结算') {
+        if (val.title?.includes("结算信息") && title == "结算") {
           val.value = value;
           const color = statusColor(value);
           val.valueClass = val.valueClass.replace(/text-[^ ]+/, "text-" + color);

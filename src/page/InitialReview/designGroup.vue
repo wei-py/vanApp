@@ -46,9 +46,10 @@ async function saveData() {
     designNbqPvList: Object.values(tabData.value),
   };
   const data = await http.post("design/put-design-nbq-pv", params);
-  if (data.code == 200) {
-    showSuccessToast("保存成功");
-  }
+  return data
+  // if (data.code == 200) {
+  //   showSuccessToast("保存成功");
+  // }
 }
 
 async function initTabData() {

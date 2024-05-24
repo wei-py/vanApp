@@ -15,7 +15,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-record", params);
+  const data = await http.post("order/put-record", params);
+  return data;
 }
 
 async function submitData(params) {
@@ -23,7 +24,7 @@ async function submitData(params) {
 }
 
 async function approvalData(params) {
-  const { data } = await http.post('approval/do-approval/bto/record', params)
+  const { data } = await http.post("approval/do-approval/bto/record", params);
 }
 
 eventManage({ getData, saveData, submitData, approvalData });

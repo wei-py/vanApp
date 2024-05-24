@@ -20,7 +20,8 @@ async function saveData() {
   const params = getParam();
   const resp = await http.post("order/put-grid-settlement", params);
   if (resp.code == 200) {
-    const { data } = await http.post(queryUrl(`approval/put-approval/bto/settle`, { setType: "1", orderId: query.orderId }));
+    const data = await http.post(queryUrl(`approval/put-approval/bto/settle`, { setType: "1", orderId: query.orderId }));
+    return data;
   }
 }
 

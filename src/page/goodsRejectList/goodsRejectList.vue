@@ -70,7 +70,7 @@ function onShowDetail(item) {
 onMounted(async () => {
   list.value.length = 0;
   finished.value = false;
-  // await getDataThrottle()
+  await getDataThrottle()
 });
 </script>
 

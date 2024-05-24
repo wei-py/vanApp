@@ -15,7 +15,8 @@ async function getData() {
 
 async function saveData() {
   const params = getParam();
-  const { data } = await http.post("order/put-grid-settlement", params);
+  const data = await http.post("order/put-grid-settlement", params);
+  return data;
 }
 
 async function submitData(params) {

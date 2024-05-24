@@ -101,6 +101,7 @@ export function getParam() {
     return { ...pre, ...cur };
   }, {});
   params.orderId = getQuery()?.orderId;
+  params.investorId = getQuery()?.investorId;
 
   forForm((item) => {
     if (!lo.isUndefined(item.realValue) && !lo.isFunction(item.getParam)) {

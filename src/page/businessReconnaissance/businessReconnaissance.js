@@ -29,9 +29,12 @@ export const businessReconnaissanceForm = [
       };
     },
     backfill(data) {
+      // console.log(, 3333)
       this.lat = data.lat
       this.lng = data.lng
       this.address = data.latLngAddress
+      this.disabled = !data.btns.canEdit
+      // console.log(this, 333)
     },
     getParam(param) {
       param.lat = this.lat

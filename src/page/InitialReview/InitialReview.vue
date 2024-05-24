@@ -30,7 +30,8 @@ async function saveData() {
   setItem("saveMaterial", (v) => {
     v.inlineForm[0].click(false);
   });
-  const { data } = await http.post("order/put-design", params);
+  const data = await http.post("order/put-design", params);
+  return data;
 }
 
 async function submitData(params) {

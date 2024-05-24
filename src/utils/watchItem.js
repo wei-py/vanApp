@@ -1,5 +1,5 @@
 export default function watchItem(name, pathOrCallback, callback = () => {}) {
-  // let stop = null
+  // let null
   if (lo.isString(name)) {
     setItem(name, (v) => {
       const value = v?.realValue || v?.value;
@@ -10,7 +10,7 @@ export default function watchItem(name, pathOrCallback, callback = () => {}) {
       }
     });
 
-    // stop = watchDebounced(
+    // watchDebounced(
     //   () => getItem(name, "realValue") || getItem(name, "value"),
     //   (value) => {
     //     if (lo.isFunction(pathOrCallback)) {
@@ -39,7 +39,7 @@ export default function watchItem(name, pathOrCallback, callback = () => {}) {
       callback(values);
     }
 
-    // stop = watchDebounced(
+    // watchDebounced(
     //   () => name.map((n) => getItem(n, "realValue") || getItem(n, "value")),
     //   (values) => {
     //     if (lo.isFunction(pathOrCallback)) {

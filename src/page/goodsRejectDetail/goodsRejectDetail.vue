@@ -17,10 +17,10 @@ async function saveData() {
   try {
     const { data } = await http.post("/sto/export-base/add", params);
     setItem("expId", "value", data);
+    return data
   } catch (e) {
     setItem("deviceSlot", (v) => v.backfill(e.data, false));
   }
-  return
 }
 
 async function submitData() {

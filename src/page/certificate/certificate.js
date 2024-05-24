@@ -1,5 +1,5 @@
 export const certificate = [
-  makeTitle(isZZD() ? "备案证及权属证明" : ""),
+  makeTitle(isZZD_ORG() ? "备案证及权属证明" : ""),
   {
     formType: "input",
     label: "备案证类型",

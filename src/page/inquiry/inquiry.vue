@@ -10,26 +10,49 @@ onMounted(() => {
   // getData();
 });
 
-async function getData() {
+
+
+// let time = setInterval(() => {
+//   console.log("轮训检查是否签署协议");
+//   getData(false);
+// }, 3000);
+
+// onUnmounted(() => {
+//   clearInterval(time);
+//   time = null;
+// });
+
+async function getData(isFirst = true) {
   if (query.orderId) {
     // 已有订单
     const url = "/order/get-pre-approval";
     const { data } = await http.get(queryUrl(url, query));
-    backfill(_, data);
+    if (isFirst) {
+      backfill(_, data);
+    }
+    console.log(data, 333333333)
     if (data.fddSignTaskId && !data.authorizationLetter) {
-      returnFile();
+      // returnFile();
+    } else {
+      setItem("fddSignTaskId", "value", "已签署");
+      setItem("fddSignTaskId", "realValue", data.fddSignTaskId);
+      setItem("authorizationLetter", "realValue", data.authorizationLetter);
+      setItem("authorizationLetter", "value", "协议查看");
     }
   } else {
     // 新增订单
-    backfill(_, {});
+    if (isFirst) {
+      backfill(_, { btns: { canSave: true, canEdit: true, hasEditBtn: true } });
+    }
   }
 }
 
 async function saveData() {
   const body = lo.merge(getParam(), query);
-  const url = isZZD_ORG().value ? "order/org/put-pre-approval" : "order/put-pre-approval";
+  const url = isZZD_ORG() ? "order/org/put-pre-approval" : "order/put-pre-approval";
   const { data } = await http.post(url, body);
   query.orderId = data;
+  return data;
 }
 
 async function submitData() {
@@ -37,11 +60,12 @@ async function submitData() {
   const { data } = await http.post(url);
 }
 
-async function returnFile() {
-  // TODO
-  const url = "fdd/get-preview-url";
-  const { data } = await http.get(queryUrl(url, query));
-}
+// async function returnFile() {
+//   // TODO
+//   const url = "fdd/get-preview-url";
+//   const { data } = await http.get(queryUrl(url, query));
+//   console.log(data, 3333333);
+// }
 
 eventManage({ getData, saveData, submitData });
 </script>
@@ -52,7 +76,11 @@ eventManage({ getData, saveData, submitData });
   <vantForm :form="_.guarantor" class="pt-3" group-class="shadowC"> </vantForm>
   <vantForm :form="_.signInfo" class="pt-3" group-class="shadowC">
     <template #title="{ slot }">
-      <van-cell v-if="!slot.hidden" title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white" class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]">
+      <van-cell
+        v-if="!slot.hidden"
+        title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white"
+        class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]"
+      >
         <template #title>
           {{ slot.title }}
         </template>

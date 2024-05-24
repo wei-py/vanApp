@@ -35,7 +35,8 @@ async function getData() {
 async function saveData() {
   const params = getParam();
   const url = "order/put-takan";
-  const { data } = await http.post(url, params);
+  const data = await http.post(url, params);
+  return data;
 }
 
 async function submitData(params) {
@@ -70,6 +71,7 @@ eventManage({ getData, saveData, submitData, approvalData });
           <van-button
             @click="() => slot.getLocation()"
             :loading="slot.loading"
+            :disabled="slot.disabled"
             class="!w-[100px] !py-3 !bg-[#ffab30] !text-[white] !border-0 !text-[14px]"
             round
             size="mini"
