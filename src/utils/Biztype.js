@@ -48,6 +48,11 @@ export function viewOrg() {
   return (isTYZF() ? "TYZF" : "YUEXIU") + (isZZD() ? "_ZZD" : "_ZZD_ORG");
 }
 
+export const investorIdDic = {
+  ZSGY: '中山公用事业集团股份有限公司',
+  // YUEXIU: '广州越秀融资租赁有限公司',
+}
+
 export function investorHidden(inve) {
   const flag = useFlag();
   return flag.investor == inve;

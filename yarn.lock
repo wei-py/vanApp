@@ -3341,6 +3341,11 @@ vue3-menus@^1.1.2:
   resolved "https://registry.yarnpkg.com/vue3-menus/-/vue3-menus-1.1.2.tgz#b798b16e051e7a5acfaa5ab0df1ae9de51d1a726"
   integrity sha512-MoX87TH25fbKmmE8PwC+c2kJOSGJheP4pBR2we0RkOrfUDQg7sK+akAZSmQU8o+7dF+xVF2NfKPhoVHOhlX9wQ==
 
+vue3-pdf-app@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue3-pdf-app/-/vue3-pdf-app-1.0.3.tgz#2f4ad738d7d86e8082a1aacbe498c5a08cb4d226"
+  integrity sha512-qegWTIF4wYKiocZ3KreB70wRXhqSdXWbdERDyyKzT7d5PbjKbS9tD6vaKkCqh3PzTM84NyKPYrQ3iuwJb60YPQ==
+
 vue3-photo-preview@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/vue3-photo-preview/-/vue3-photo-preview-0.3.0.tgz#082941ccbaad8504adcc6bd6a02560eb125d515e"

@@ -1,5 +1,5 @@
 export const certificate = [
-  makeTitle(isZZD_ORG() ? "备案证及权属证明" : ""),
+  makeTitle(isZZD_ORG() ? "备案证" : "备案证及权属证明"),
   {
     formType: "input",
     label: "备案证类型",
@@ -10,6 +10,9 @@ export const certificate = [
       { text: "大备案证", value: 1 },
       { text: "精准备案", value: 2 },
     ]),
+    confirm() {
+      setItem("recordCertificateCapacity", "value", "");
+    },
   },
   {
     formType: "input",
@@ -45,6 +48,7 @@ export const certificate = [
     name: "recordCertificateId",
     label: "备案证编码",
     realValue: "",
+    value: "",
     required: true,
     getParam(param) {
       param[this.name] = this.realValue || this.value;
@@ -115,6 +119,7 @@ export const certificate = [
             const filterActions = actions.filter((n) => n.value.includes(value));
             this.inlineForm[1].show = new Boolean(filterActions.length || value.length);
             this.inlineForm[1].actions = filterActions;
+            this.realValue = value
           };
           this.value = "";
           this.readonly = false;

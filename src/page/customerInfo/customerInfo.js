@@ -17,13 +17,6 @@ export const urls = {
 
 export const lessorInfo = [
   makeTitle("出租人信息"),
-  // {
-  //   ...makeTitle("出租人信息"),
-  // },
-  // {
-  //   ...makeTitle("出租人信息"),
-  //   hidden: computed(() => isZZD_ORG()),
-  // },
   {
     formType: "input",
     label: "姓名",
@@ -301,6 +294,14 @@ export const lessorInfo = [
     onMounted() {
       if (isZZD_ORG()) {
         this.label = "注册地址区域";
+        this.name = "regAddress";
+        this.inlineForm[0].name = "regAddressPop";
+        this.inlineForm[0].inlineForm[0].upName = this.name;
+      } else {
+        this.label = "家庭住址区域";
+        this.name = "houseAddr";
+        this.inlineForm[0].name = "houseAddrPop";
+        this.inlineForm[0].inlineForm[0].upName = this.name;
       }
     },
     click() {
@@ -314,7 +315,7 @@ export const lessorInfo = [
     // },
     getParam(param) {
       const [provinceCode, cityCode, areaCode] = this.middle.value;
-      param.houseAddr = { provinceCode: provinceCode || "", cityCode: cityCode || "", areaCode: areaCode || "" };
+      param[this.name] = { provinceCode: provinceCode || "", cityCode: cityCode || "", areaCode: areaCode || "" };
     },
     async backfill(data) {
       const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
@@ -343,12 +344,13 @@ export const lessorInfo = [
             formType: "cascader",
             title: "请选择所在地区",
             options: [],
+            upName: "houseAddr",
             value: "",
             // async onMounted() {
             //   this.options = await getArea();
             // },
             close() {
-              setItem("houseAddr", "inlineForm.0.show", false);
+              setItem(this.upName, "inlineForm.0.show", false);
             },
             finish(result) {
               const text = result.selectedOptions.map((n) => n.text).join("/");
@@ -356,9 +358,9 @@ export const lessorInfo = [
               if (!lo.isObject(result.value)) {
                 this.value = result.value;
               }
-              setItem("houseAddr", text);
-              setItem("houseAddr", "middle.value", value);
-              setItem("houseAddr", "inlineForm.0.show", false);
+              setItem(this.upName, text);
+              setItem(this.upName, "middle.value", value);
+              setItem(this.upName, "inlineForm.0.show", false);
             },
           },
         ],
@@ -378,11 +380,11 @@ export const lessorInfo = [
     errorMessage:
       "提示: 此地址是法人组织的工商登记注册地址, 可能和拟安装光伏的建筑详细地址不一致, 需按统一社会信用代码/组织机构代码证/营业执照上的地址填写",
     getParam(params) {
-      params.houseAddr.detailedAddress = this.value;
+      params.regAddress.detailedAddress = this.value;
       delete params.detailedAddress;
     },
     backfill(data) {
-      this.value = data.houseAddr?.detailedAddress || "";
+      this.value = data.regAddress?.detailedAddress || "";
     },
     // clickRightIcon() {
     //   showToast("扫码功能开发中");
@@ -397,13 +399,17 @@ export const lessorInfo = [
     readonly: true,
     titleClass: "xCenter text-[16px]",
   },
-
   {
     ...makeUpload(1, 50),
     name: "orgLegalIdCardFront",
     label: "法人代表证件正面(头像面)",
     hidden: computed(() => isZZD()),
     required: true,
+    getParam(param) {
+      console.log(this.inlineForm[0].value[0], getUploadUrl(this.inlineForm[0].value[0]))
+      delete param[this.name];
+      lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+    },
   },
   {
     ...makeUpload(1, 50),
@@ -411,6 +417,10 @@ export const lessorInfo = [
     label: "法人代表证件反面(国徽面)",
     hidden: computed(() => isZZD()),
     required: true,
+    getParam(param) {
+      delete param[this.name];
+      lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+    },
   },
   {
     ...makeUpload(1, 100),
@@ -418,6 +428,10 @@ export const lessorInfo = [
     hidden: computed(() => isZZD()),
     label: "统一社会信用代码证/组织机构代码证/营业执照",
     required: true,
+    getParam(param) {
+      delete param[this.name];
+      lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+    },
     // errorMessage: '提示1: 出租方为村民委员会, 上传统一社会信用代码证/组织机构代码证; 出租方为村经济联合社, 上传农村集体经济组织登记证/营业执照'
   },
   {

@@ -8,8 +8,7 @@ let qiniuToken = "";
  */
 export async function upload(file, orderId = getQuery()?.orderId, fileType = "image") {
   if (lo.isUndefined(orderId)) {
-    showFailToast("orderId 为空");
-    return;
+    return URL.createObjectURL(file);
   }
 
   const url = "https://up-cn-east-2.qiniup.com";

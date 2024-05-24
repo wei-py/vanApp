@@ -475,6 +475,9 @@
     "showStatus": true,
     "c": true,
     "org": true,
-    "viewOrg": true
+    "viewOrg": true,
+    "locat": true,
+    "getHash": true,
+    "investorIdDic": true
   }
 }

@@ -2,6 +2,7 @@
 import { lessorInfo, bankInfo, certificateType, lesseeInfo, productWithArea, cardBuckle, salemanInfo, urls } from "./customerInfo";
 const _ = makeForm({ lessorInfo, bankInfo, certificateType, lesseeInfo, productWithArea, cardBuckle, salemanInfo });
 const query = getQuery();
+let orderId = "";
 
 onMounted(() => {
   getData();
@@ -9,12 +10,14 @@ onMounted(() => {
 
 async function getData() {
   if (query.orderId) {
-    // general-investor/get-customer-np
-    // const url = isZZD_ORG() ? "order/org/get-customer-info" : "order/get-customer-info";
-    const url = urls.getData[viewOrg()]
+    const url = urls.getData[viewOrg()];
     const { data } = await http.get(queryUrl(url, query));
-    backfill(_, data);
+    backfill(_, { ...data, ...(data.regImages || {}) });
   } else {
+    const data = await http.get("/order/create-orderId");
+    orderId = data.data;
+    // query.orderId = orderId;
+    // router.replace({ path: "/customerInfo", query: {...query, orderId} });
     backfill(_, { btns: { canSave: true, canEdit: true, hasEditBtn: true } });
   }
 
@@ -39,11 +42,18 @@ async function getData() {
 
 async function saveData() {
   const params = await getParam();
+  params.orderId = params.orderId || orderId;
+  console.log(params.orderId, 'roder')
 
-  // const url = isZZD_ORG() ? "order/org/put-customer-info" : "order/put-customer-info";
-  const url = urls.saveData[viewOrg()]
+  const url = urls.saveData[viewOrg()];
   const data = await http.post(url, params);
-  return data;
+  if (!query.orderId) {
+    query.orderId = orderId;
+    location.hash += '&orderId=' + orderId
+    return;
+  }
+
+  // return data;
 }
 
 async function submitData() {
@@ -66,7 +76,14 @@ eventManage({ getData, saveData, submitData, approvalData });
   <vantForm :form="_.productWithArea" group-class="shadowC" class="pt-3"> </vantForm>
   <vantForm :form="_.cardBuckle" group-class="shadowC" class="pt-3">
     <template #cardBukle="{ slot }">
-      <van-tabs v-if="slot.show" v-model:active="slot.tab" line-width="0" :ellipsis="false" title-active-color="#ffab30" @change="(tab) => slot.onChangeTab(tab)">
+      <van-tabs
+        v-if="slot.show"
+        v-model:active="slot.tab"
+        line-width="0"
+        :ellipsis="false"
+        title-active-color="#ffab30"
+        @change="(tab) => slot.onChangeTab(tab)"
+      >
         <van-tab v-for="t in slot.tabs" :title="t.title">
           <vantForm :form="t.inlineForm" group-class="shadowC !mx-0" class="pt-3"></vantForm>
         </van-tab>
@@ -74,7 +91,6 @@ eventManage({ getData, saveData, submitData, approvalData });
     </template>
   </vantForm>
   <vantForm :form="_.salemanInfo" group-class="shadowC" class="pt-3"> </vantForm>
-  
 
   <vBtn></vBtn>
 </template>

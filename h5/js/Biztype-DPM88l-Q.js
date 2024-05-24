@@ -1,1 +1,0 @@
-import{c as t,b as r}from"./index-NPFU1_kq.js";function Z(){return t().type=="ZZD_ORG"}function e(){return t().type=="ZZD"}function i(){return r().active==2}function o(){return(i()?"TYZF":"YUEXIU")+(e()?"_ZZD":"_ZZD_ORG")}function u(n){return r().investor==n}export{Z as a,u as b,e as c,i,o as v};

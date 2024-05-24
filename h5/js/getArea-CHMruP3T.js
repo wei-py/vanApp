@@ -1,0 +1,1 @@
+import{h as n}from"./index-BiU8ePZK.js";import{x as i}from"./xe-utils-D22uZPtC.js";let t=[];async function c(){if(t.length)return t;const{data:a}=await n.get("/area"),e=i.mapTree(a,r=>({text:r.name,value:r.code}),{children:"childList",mapChildren:"children"});return t=e,e}export{c as g};

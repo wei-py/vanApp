@@ -74,7 +74,12 @@ export const customerInfo = [
     value: "未开启",
     click() {
       if (this.value != "未开启") {
-        router.push({ path: this.name, query: { ...getQuery() } });
+        const titleDic = {
+          TYZF_ZZD: "客户信息 - 自然人",
+          TYZF_ZZD_ORG: "客户信息 - 法人"
+        }
+        const title = titleDic[viewOrg()] || this.title
+        router.push({ path: this.name, query: { ...getQuery(), title } });
       } else {
         showFailToast(this.value);
       }
@@ -147,10 +152,10 @@ export const contractSign = [
           closeOnClickOverlay: true,
         })
           .then(() => {
-            router.push({ path: this.name, query: { ...getQuery(), online: true } });
+            router.push({ path: this.name, query: { ...getQuery(), online: true, title: '线上电子合同签约' } });
           })
           .catch(() => {
-            router.push({ path: this.name, query: { ...getQuery(), online: false } });
+            router.push({ path: this.name, query: { ...getQuery(), online: false, title: '线下纸质合同签约' } });
           });
         // console.log(flag, 3333)
       } else {

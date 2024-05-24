@@ -392,7 +392,32 @@ export const newPopForm = [
     onMounted() {
       this.hidden = computed(() => !getItem("investorId", "realValue"));
     },
+    // confirm(val) {
+      // setItem("name", (v) => {
+      //   const isORG = v.value == "ZZD_ORG";
+      //   v.realName = isORG ? "orgName" : "name";
+      //   v.label = isORG ? "组织全称" : "姓名";
+      //   v.value = "";
+      // });
+    // },
+    cancel() {
+      const flag = useFlag();
+      flag.active = 2;
+    },
   },
+  // {
+  //   formType: "input",
+  //   name: "name",
+  //   realName: "",
+  //   label: "",
+  //   value: "",
+  //   onMounted() {
+  //     // this.label = computed(() => {
+  //     //   const type = getItem('type', 'realValue')
+  //     //   return type == 'ZZD' ? '姓名' : '组织全称'
+  //     // })
+  //   }
+  // },
   {
     formType: "input",
     inputAlign: "center",

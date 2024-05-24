@@ -1,14 +1,21 @@
+// export const urls = {
+//   YUEXIU_ZZD: "order/get-lease-contract",
+//   YUEXIU_ZZD_ORG: "order/org/get-contract",
+//   TYZF_ZZD: "",
+//   TYZF_ZZD_ORG: "",
+// }
+
 export const contractAward = [
   {
     ...makeTitle("合同签约"),
-    hidden: computed(() => viewOrg() != "ZZD_ORG"),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD"),
   },
   {
     formType: "input",
     name: "leaseSigneUrl",
     label: "线上签约(跳转资方H5)",
     readonly: true,
-    hidden: computed(() => viewOrg() != "ZZD_ORG"),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD"),
     realValue: "",
     backfill(data) {
       this.realValue = data.leaseSigneUrl;
@@ -18,7 +25,7 @@ export const contractAward = [
   {
     formType: "cell",
     titleClass: " xCenter",
-    hidden: computed(() => viewOrg() != "ZZD_ORG"),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD"),
     inlineForm: [
       {
         slot: "title",
@@ -38,15 +45,14 @@ export const contractAward = [
 
   {
     ...makeTitle("电子合同下载"),
-    // hidden: computed(() => viewOrg() != "isZZD"),
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
 
   {
     formType: "input",
     name: "leaseSigneUrl",
     label: "线上签约(跳转资方H5)",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     isLink: true,
     realValue: "",
     click() {
@@ -62,7 +68,7 @@ export const contractAward = [
   {
     formType: "cell",
     titleClass: " xCenter",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     inlineForm: [
       {
         slot: "title",
@@ -82,38 +88,98 @@ export const contractAward = [
       },
     ],
   },
+
+  ///// 线上电子合同签约 /////
+  () => {
+    const query = getQuery()
+    if (!lo.has(query, 'online')) return [];
+    return [
+      makeTitle("屋顶租赁合同签约"),
+      {
+        formType: "input",
+        name: "fddSignTaskId",
+        label: "屋顶租赁合同",
+        value: "",
+      },
+      {
+        formType: "input",
+        label: "签署方式",
+        value: "",
+        name: "signeType",
+        inlineForm: [
+          {
+            slot: "input",
+            formType: "button",
+            text: "短信签署",
+            size: "mini",
+            round: true,
+            class: "!mr-[10px] !text-[14px] !px-5 !py-4 !bg-[#f5f5f5] !border-0",
+            click() {
+              setItem("signeType", (v) => {
+                v.inlineForm[0].text = "发送短信";
+              });
+            },
+          },
+          {
+            slot: "extra",
+            formType: "button",
+            text: "App",
+            round: true,
+            size: "mini",
+            class: " !text-[14px] !px-5 !py-4 !bg-[#f5f5f5] !border-0",
+            click() {
+              setItem("signeType", (v) => {
+                v.inlineForm[0].text = "开始签署";
+              });
+            },
+          },
+        ],
+      },
+      {
+        formType: "input",
+        name: "",
+        label: "已签约合同查看",
+        value: "合同查看",
+        readonly: true,
+        isLink: true,
+        click() {
+          console.log(this.value);
+        },
+      },
+    ];
+  },
 ];
 
 export const signedContractForm = [
   {
     ...makeTitle("屋顶方已盖章合同扫描件上传"),
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
   {
     ...makeUpload(999, 100, "*"),
     name: "orgLegalIdAuthFile",
     label: "法人代表/负责人身份证明书(盖公章)",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
     ...makeUpload(999, 100, "*"),
     name: "orgSignatureChop",
     label: "法人组织预留印鉴",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
     formType: "cell",
     value: "提示: 盖公章、法人代表名字章、财务专用章。若确无财务专用章可不盖；若无法人代表名字章可手写签名",
     valueClass: "text-red !text-left",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "contract",
     label: "屋顶方已盖章合同扫描件",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
@@ -121,34 +187,34 @@ export const signedContractForm = [
     value:
       "提示: 上传 “法人代表/负责人身份证明书”、“法人组织预留印鉴”、“屋顶方已盖章合同扫描件” 及签约现场系列照片成功后，项目详情里的 “合同签约” 环节右侧将显示绿色的 “已签约”",
     valueClass: "text-red !text-left",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
 ];
 
 export const signedSiteForm = [
   {
     ...makeTitle("双方已盖章合同扫描件上传"),
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "signPhoto",
     label: "现场签字照",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "stampUsedPhoto",
     label: "现场用印照",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
     ...makeUpload(1, 100, "*"),
     name: "signOverPhoto",
     label: "签约完成照",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
     required: true,
   },
   {
@@ -156,7 +222,7 @@ export const signedSiteForm = [
     value:
       "提示:1, 现场签字照: 法人代表/负责人正脸、持笔或持法人代表章, 与合同签署页同框拍摄; 2, 现场用印照: 法人代表/负责人正脸、持印, 与合同签署页同框拍摄; 3, 签署完成照: 法人代表/负责人正脸, 与合同、身份证、统一社会信用代码证/组织机构代码证（村委）或营业执照（集体经济组织）同框拍摄”",
     valueClass: "text-red !text-left",
-    hidden: computed(() => isZZD()),
+    hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
   },
 ];
 

@@ -170,7 +170,7 @@ export const dimensionalDrawingForm = [
   {
     ...makeUpload(999, 100),
     required: true,
-    label: "楼板厚度照",
+    label: "楼板厚度照(必填)",
     name: "floorThickness",
     backfill(data) {
       this.inlineForm[0].value = data[this.name] ? data[this.name].map((n) => ({ url: sToUrl(n) })) : [];
@@ -188,7 +188,7 @@ export const explorationTableForm = [
   {
     ...makeUpload(1, 50),
     required: true,
-    label: "勘察表正面",
+    label: "勘察表正面(必填)",
     name: "front",
     backfill(data) {
       const imgs = lo.get(data, `explorationTable.${this.name}`);
@@ -204,7 +204,7 @@ export const explorationTableForm = [
   {
     ...makeUpload(1, 50),
     required: true,
-    label: "屋面尺寸图",
+    label: "屋面尺寸图(必填)",
     name: "back",
     backfill(data) {
       const imgs = lo.get(data, `explorationTable.${this.name}`);
@@ -223,9 +223,9 @@ export const otherImagesForm = [
   makeTitle("其他踏勘影像件"),
   {
     ...makeUpload(999, 100),
-    label: "其他踏勘影像件",
+    label: "其他踏勘影像件(选填)",
     name: "imageAddr",
-    required: true,
+    // required: true,
     backfill(data) {
       const imgs = data.otherImages?.imageAddr || [];
       this.inlineForm[0].value = imgs.map((n) => ({ url: sToUrl(n) }));

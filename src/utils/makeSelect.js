@@ -4,6 +4,7 @@ export function makeSelect(name, columns, type = "static") {
     formType: "input",
     readonly: true,
     realValue: "",
+    confirm: () => {},
     // columns: [],
     // getParam(param) {
     //   param[name] = this.realValue || "";
@@ -39,10 +40,13 @@ export function makeSelect(name, columns, type = "static") {
               setItem(name, "value", val.selectedOptions[0].text);
               setItem(name, "realValue", val.selectedOptions[0].value);
               setItem(name, "inlineForm.0.show", false);
+              setItem(name, (v) => {
+                v.confirm(val.selectedOptions[0]);
+              });
             },
             cancel() {
               setItem(name, "inlineForm.0.show", false);
-            }
+            },
           },
         ],
       },
@@ -58,8 +62,8 @@ export function makeSelect(name, columns, type = "static") {
     item.makeSelect = function (value, columns) {
       this.value = value;
       // this.columns = columns;
-      this.inlineForm[0].inlineForm[0].columns.length = 0
-      this.inlineForm[0].inlineForm[0].columns.push(...columns)
+      this.inlineForm[0].inlineForm[0].columns.length = 0;
+      this.inlineForm[0].inlineForm[0].columns.push(...columns);
       const text = (columns.value || columns).find((n) => n.value == value)?.text;
       this.realValue = this.value;
       this.value = text;

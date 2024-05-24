@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import("../page/web/web.vue"),
     },
     {
+      path: "/previewFile",
+      name: "previewFile",
+      component: () => import("../page/web/previewFile.vue"),
+    },
+    {
       path: "/home",
       name: "home",
       component: () => import("../page/home/home.vue"),

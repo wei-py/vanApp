@@ -18,7 +18,7 @@ export const record = [
     label: "备案类型",
     required: true,
     readonly: true,
-    disabled: true,
+    // disabled: true,
     value: "",
     name: "recordType",
     ...backSelect(),
@@ -43,8 +43,7 @@ export const record = [
       this.checkColumns = lo.uniqBy(this.checkColumns, "value");
     },
     getParam(params) {
-      params[this.name] = `[${this.checkColumns.map(n => n.value + '')}]`
-      JSON.stringify()
+      params[this.name] = `[${this.checkColumns.map((n) => n.value + "")}]`;
       // .replace(/\//g, '')
     },
     check(n) {
@@ -64,7 +63,7 @@ export const record = [
           value: n.companyId,
         };
       });
-      JSON.parse(bData[this.name]).forEach((n) => {
+      JSON.parse(bData[this.name] || '[]').forEach((n) => {
         const item = this.columns.find((m) => m.value == n);
         if (item) {
           lo.set(item, "checked", true);
@@ -102,8 +101,8 @@ export const record = [
       params.recordCertificateCapacity = multiply(params.recordCertificateCapacity, 1000);
     },
     backfill(data) {
-      this.value = divide(data.recordCertificateCapacity, 1000)
-    }
+      this.value = divide(data.recordCertificateCapacity, 1000);
+    },
   },
   {
     formType: "input",
@@ -114,6 +113,12 @@ export const record = [
     type: "digit",
     hidden: computed(() => getItem("recordType", "realValue") != 1),
     ...makeUnit("kW"),
+    getParam(params) {
+      params.recordCertificateCapacity = multiply(params.recordCertificateCapacity, 1000);
+    },
+    backfill(data) {
+      this.value = divide(data.recordCertificateCapacity, 1000);
+    },
   },
   {
     ...makeUpload(1, 100, "*", true, undefined, "accessory"),
@@ -121,7 +126,9 @@ export const record = [
     required: true,
     name: "accessory",
     getParam(params) {
-      params[this.name] = getUploadUrl(params[this.name][0])
+      params[this.name] = getUploadUrl(params[this.name][0]);
+      const user = getUserVo()
+      params.userId = user.userId
       // params.accessory = JSON.stringify(lo.get(params, 'accessory', []))
     },
   },

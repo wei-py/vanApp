@@ -29,7 +29,11 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         previewFullImage: false,
         clickPreview(img) {
           if (!isImgSlot(img)) {
-            console.log("这不是一张图片", img);
+            const url = img.objectUrl || getUploadUrl(img)
+            router.push({
+              path: '/previewFile',
+              query: {url}
+            })
             return;
           } else {
             const dom = useDom();

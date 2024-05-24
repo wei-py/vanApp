@@ -3,22 +3,26 @@ import { record } from "./recordDetail";
 const query = getQuery();
 const _ = makeForm({ record });
 
-onMounted(() => {
+onMounted(async () => {
   if (query.recordCertificateId) {
     getData();
+  } else {
+    openBtns();
+    backfill(_, {});
+    // console.log(data);
   }
 });
 
 async function getData() {
   const { data } = await http.get(queryUrl("record/one", query));
-  openBtns();
   backfill(_, data);
 }
 
 async function saveData() {
   await validate();
   const params = getParam();
-  const data = await http.post("/record/update", params);
+  const url = query.recordCertificateId ? '/record/update' : '/record/new'
+  const data = await http.post(url, params);
   return data;
 }
 </script>

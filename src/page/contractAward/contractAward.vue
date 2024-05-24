@@ -4,13 +4,17 @@ const _ = makeForm({ contractAward, signedContractForm, signedSiteForm, button }
 const query = getQuery();
 
 onMounted(() => {
-  console.log(query);
   getData();
 });
 
 async function getData() {
-  let url = isZZD() ? "order/get-lease-contract" : "order/org/get-contract";
-  const { data } = await http.get(queryUrl(url, query));
+  let url = "";
+  if (lo.isUndefined(query, "online")) {
+    url = query.online ? "general-investor/get-online-sign-rent-contract" : "general-investor/get-offline-sign-rent-contract";
+  } else {
+    url = isZZD() ? "order/get-lease-contract" : "order/org/get-contract";
+  }
+  const { data } = await http.get(queryUrl(url, lo.omit(query, 'title')));
   const btns = await http.get(`leaseContract/has-get-sign-btn`);
   backfill(_, { ...data, ...btns.data });
 }

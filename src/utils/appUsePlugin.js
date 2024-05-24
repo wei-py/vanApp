@@ -17,6 +17,7 @@ export default function appUsePlugin(app) {
   app.use(createInstall(isImg, "isImg"));
   app.use(createInstall(get, "get"));
   app.use(createInstall(unitConver, "unitConver"));
+  app.use(createInstall(investorIdDic, "investorIdDic"));
 
   window.goBack = () => {
     const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");

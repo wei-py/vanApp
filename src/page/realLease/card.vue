@@ -41,8 +41,10 @@ function getStatus(i) { // 获取状态
           {{ getStatus(i) }}
         </div>
       </template>
+      所属组织: {{ get(props.item, 'company.name', '') }} <br />
       销售人员: {{ get(props.item, "orderBase.salesman", "-") }} <br />
       详细地址: {{ get(props.item, "orderBase.installationAddress", "-") }} <br />
+      资方名称: {{ $investorIdDic[get(props.item, "orderBase.investorId", "-")] }} <br />
       订单创建时间: {{ get(props.item, "orderBase.createTime", "-") }} <br />
     </article>
 
