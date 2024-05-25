@@ -69,4 +69,8 @@ https://v2.tailwindcss.com/docs/guides/vue-3-vite
 ## 图片预览模块
 ## 扫码模块 ✅
 ## pdf 模块
+- https://blog.csdn.net/Dandrose/article/details/130271456
+- https://www.cnblogs.com/lzb1234/p/17813250.html
+
 ## 
+

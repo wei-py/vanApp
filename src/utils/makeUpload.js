@@ -29,11 +29,11 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         previewFullImage: false,
         clickPreview(img) {
           if (!isImgSlot(img)) {
-            const url = img.objectUrl || getUploadUrl(img)
+            const url = img.objectUrl || getUploadUrl(img);
             router.push({
-              path: '/previewFile',
-              query: {url}
-            })
+              path: "/previewFile",
+              query: { url },
+            });
             return;
           } else {
             const dom = useDom();
@@ -72,7 +72,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
             // const dom = useDom();
             // dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
             resolve(img);
-            refreshImg()
+            refreshImg();
           });
         },
         menuRight: [
@@ -108,6 +108,7 @@ export function makeImgs(data) {
   } else if (lo.isString(data[this.name])) {
     if (data[this.name].startsWith("[")) {
       this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n), ...pickImgName(n) }));
+      console.log(this.inlineForm[0].value, this.name);
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
       // file: new File([], '123123')
     } else if (isImg(data[this.name])) {

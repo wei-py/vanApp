@@ -11,6 +11,7 @@ declare module 'vue' {
     Cell: typeof import('./src/components/cell.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Overlay: typeof import('./src/components/overlay.vue')['default']
+    PDFViewer: typeof import('./src/components/PDFViewer.vue')['default']
     PhotoPreview: typeof import('./src/components/photoPreview.vue')['default']
     PlainButton: typeof import('./src/components/plainButton.vue')['default']
     RecuDynComponent: typeof import('./src/components/recuDynComponent.vue')['default']

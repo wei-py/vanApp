@@ -4,6 +4,7 @@ import { get } from "lodash";
 import { formType } from "@/utils/formType";
 
 const now = Date.now() + lo.random(0, 100);
+const orderh5 = location.port == 2222 ? "/orderh5" : "";
 
 const props = defineProps({
   form: {}, // 表单
@@ -93,7 +94,7 @@ function getFunction(item, func, ...args) {
       <!-- vant 文件显示处理 -->
       <template #preview-cover="slot">
         <template v-if="!isImgSlot(slot)">
-          <van-image src="./background/pdf.png" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          <van-image :src="`.${orderh5}/background/pdf.png`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
         </template>
         <template v-else>
           <van-image :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">

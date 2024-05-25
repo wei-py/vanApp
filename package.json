@@ -34,7 +34,7 @@
     "vue-camera-lib": "^1.0.4",
     "vue-router": "^4.3.0",
     "vue3-menus": "^1.1.2",
-    "vue3-pdf-app": "^1.0.3",
+    "vue3-pdf-app": "1.0.3",
     "vue3-photo-preview": "^0.3.0",
     "vxe-table": "^4.6.7",
     "xe-utils": "^3.5.23"
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@vant/auto-import-resolver": "^1.1.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "less": "^4.2.0",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",
     "vite": "^5.1.4",
