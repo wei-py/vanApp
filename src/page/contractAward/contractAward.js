@@ -108,6 +108,7 @@ export const contractAward = [
           label: "签署方式",
           value: "",
           name: "signeType",
+          inputAlign: 'right',
           inlineForm: [
             {
               slot: "input",
@@ -142,6 +143,7 @@ export const contractAward = [
           name: "",
           label: "已签约合同查看",
           value: "合同查看",
+          inputAlign: 'right',
           readonly: true,
           isLink: true,
           click() {

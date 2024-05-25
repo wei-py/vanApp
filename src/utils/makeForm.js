@@ -13,10 +13,6 @@
  * @returns
  */
 export function setFormItem(item) {
-  if (lo.isFunction(item)) {
-    console.log(item());
-  }
-
   if (item.required) {
     const label = item.label;
     item.rules = [...lo.get(item, "rules", []), (val) => val.length || `${label}必填`];
@@ -84,6 +80,9 @@ function setForm(form) {
   for (let i = 0; i < form.length; i++) {
     if (lo.isFunction(form[i])) {
       form[i] = form[i]()
+      form[i].forEach((n) => {
+        setFormItem(n);
+      });
     } else {
       form[i] = setFormItem(form[i]);
     }
@@ -97,10 +96,10 @@ function setForm(form) {
  * @returns
  */
 export function makeForm(formList, bindFlag = true) {
-  formList = lo.mapValues(formList, value => {
+  formList = lo.mapValues(formList, (value) => {
     return setForm(value).flat();
-  })
-  
+  });
+
   const result = reactive(formList);
 
   if (bindFlag) {

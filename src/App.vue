@@ -34,9 +34,9 @@ function onChange(t) {
 async function onRefresh() {
   // location.reload()
   // 下拉刷新事件
-  // const event = useEvent();
-  // await event.getData();
-  loading.value = false;
+  const event = useEvent();
+  await event.onRefresh();
+  // loading.value = false;
 }
 
 onMounted(async () => {

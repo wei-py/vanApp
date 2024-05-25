@@ -18,6 +18,10 @@ export default function appUsePlugin(app) {
   app.use(createInstall(get, "get"));
   app.use(createInstall(unitConver, "unitConver"));
   app.use(createInstall(investorIdDic, "investorIdDic"));
+  app.use(createInstall(lo.debounce, "debounce"));
+  
+
+
 
   window.goBack = () => {
     const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");

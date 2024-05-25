@@ -230,6 +230,14 @@ export const lessorInfo = [
     placeholder: "请选择负责人类型",
     required: true,
     hidden: computed(() => !isTYZF() || isZZD()),
+    newBackfill(data) {
+      this.backfill(data.orgMainMember, true);
+    },
+    getParam(param) {
+      lo.set(param, "orgMainMember." + this.name, this.realValue);
+      console.log(param);
+      delete param[this.name];
+    },
   },
   {
     formType: "input",
@@ -240,6 +248,13 @@ export const lessorInfo = [
     value: "",
     // rules: [e => isChineseIdCard(e) || '身份证有误'],
     required: true,
+    backfill(data) {
+      this.value = lo.get(data, `orgMainMember.${this.name}`);
+    },
+    getParam(param) {
+      lo.set(param, "orgMainMember." + this.name, this.value);
+      delete param[this.name];
+    },
   },
   {
     formType: "input",
@@ -262,6 +277,13 @@ export const lessorInfo = [
       { text: "外国人居留证", value: "ALIEN_RESIDENCE_PERMIT" },
       { text: "警官证", value: "POLICE_ID" },
     ]),
+    newBackfill(data) {
+      this.backfill(data.orgMainMember, true);
+    },
+    getParam(param) {
+      lo.set(param, "orgMainMember." + this.name, this.realValue);
+      delete param[this.name];
+    },
   },
   {
     formType: "input",
@@ -271,6 +293,13 @@ export const lessorInfo = [
     hidden: computed(() => !isTYZF() || isZZD()),
     value: "",
     required: true,
+    backfill(data) {
+      this.value = lo.get(data, `orgMainMember.${this.name}`);
+    },
+    getParam(param) {
+      lo.set(param, "orgMainMember." + this.name, this.value);
+      delete param[this.name];
+    },
   },
   {
     formType: "input",
@@ -319,7 +348,7 @@ export const lessorInfo = [
     },
     async backfill(data) {
       const cascader = getItem(this.name, "inlineForm.0.inlineForm.0");
-      const value = data.houseAddr?.areaCode || data.houseAddr?.cityCode;
+      const value = data[this.name]?.areaCode || data[this.name]?.cityCode;
       cascader.options = await getArea();
       setItem(this.name, "inlineForm.0.inlineForm.0.value", value);
       const tree = searchTree(cascader.options, (n) => n.value == value);
@@ -380,7 +409,8 @@ export const lessorInfo = [
     errorMessage:
       "提示: 此地址是法人组织的工商登记注册地址, 可能和拟安装光伏的建筑详细地址不一致, 需按统一社会信用代码/组织机构代码证/营业执照上的地址填写",
     getParam(params) {
-      params.regAddress.detailedAddress = this.value;
+      lo.set(params, "regAddress.detailedAddress", this.value);
+      // params.regAddress.detailedAddress = this.value;
       delete params.detailedAddress;
     },
     backfill(data) {
@@ -406,9 +436,8 @@ export const lessorInfo = [
     hidden: computed(() => isZZD()),
     required: true,
     getParam(param) {
-      console.log(this.inlineForm[0].value[0], getUploadUrl(this.inlineForm[0].value[0]))
-      delete param[this.name];
       lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+      delete param[this.name];
     },
   },
   {
@@ -418,8 +447,8 @@ export const lessorInfo = [
     hidden: computed(() => isZZD()),
     required: true,
     getParam(param) {
-      delete param[this.name];
       lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+      delete param[this.name];
     },
   },
   {
@@ -429,8 +458,8 @@ export const lessorInfo = [
     label: "统一社会信用代码证/组织机构代码证/营业执照",
     required: true,
     getParam(param) {
-      delete param[this.name];
       lo.set(param, `regImages.${this.name}`, getUploadUrl(this.inlineForm[0].value[0]) || "");
+      delete param[this.name];
     },
     // errorMessage: '提示1: 出租方为村民委员会, 上传统一社会信用代码证/组织机构代码证; 出租方为村经济联合社, 上传农村集体经济组织登记证/营业执照'
   },
@@ -452,6 +481,18 @@ export const lessorInfo = [
         this.label = "村民代表大会决议书(选填)";
       }
     },
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      console.log(param.regImages, 33333);
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
   },
   {
     ...makeUpload(999, 100),
@@ -459,6 +500,17 @@ export const lessorInfo = [
     hidden: computed(() => isZZD()),
     label: "村委议事章程(选填)",
     required: false,
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
   },
   {
     ...makeUpload(999, 100),
@@ -472,6 +524,17 @@ export const lessorInfo = [
         this.label = "集体土地使用证(选填)";
       }
     },
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
   },
   {
     ...makeUpload(999, 100),
@@ -479,6 +542,17 @@ export const lessorInfo = [
     hidden: computed(() => isZZD()),
     label: "产权证明",
     required: true,
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
     // errorMessage: "提示2: 支持不动产证书/不动产登记部门查册证明/国土资源管理部门确权文件(加盖村委章)/上一级政府证明(加盖村委章)",
   },
   {
@@ -599,8 +673,42 @@ export const bankInfo = [
     },
   },
   { ...makeUpload(1, 100, "*"), required: true, label: "银行卡-卡号面", name: "bankCardFront", hidden: computed(() => isZZD_ORG()) },
-  { ...makeUpload(999, 100), required: true, label: "对公账户信息(盖公章)", name: "publicAccountInformation", hidden: computed(() => isZZD()) },
-  { ...makeUpload(999, 100, "*"), required: true, label: "银行印鉴留样原件", name: "bankSealSample", hidden: computed(() => isZZD()) },
+  {
+    ...makeUpload(999, 100),
+    required: true,
+    label: "对公账户信息(盖公章)",
+    name: "publicAccountInformation",
+    hidden: computed(() => isZZD()),
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
+  },
+  {
+    ...makeUpload(999, 100, "*"),
+    required: true,
+    label: "银行印鉴留样原件",
+    name: "bankSealSample",
+    hidden: computed(() => isZZD()),
+    getParam(param) {
+      lo.set(
+        param,
+        `regImages.${this.name}`,
+        param[this.name].map((n) => getUploadUrl(n))
+      );
+      delete param[this.name];
+    },
+    backfill(data) {
+      lo.bind(makeImgs, this)(data);
+    },
+  },
   {
     formType: "input",
     name: "bankAccount",
@@ -612,15 +720,14 @@ export const bankInfo = [
       if (isTYZF()) {
         this.placeholder = '自动获取"姓名"/"组织全称"';
         this.readonly = true;
-
         // this.value = computed(() => {
         //   return getItem(isZZD() ? "name" : "orgName", "value");
         // });
       }
     },
-    backfill() {
+    backfill(data) {
       watchItem(isZZD() ? "name" : "orgName", (v) => {
-        this.value = v;
+        this.value = v || data[this.name];
       });
     },
     // backfill(data) {

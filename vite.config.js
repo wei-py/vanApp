@@ -14,7 +14,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: '/orderh5',
+  base: '/orderh5',
   publicDir: "./public",
   plugins: [
     vue(),

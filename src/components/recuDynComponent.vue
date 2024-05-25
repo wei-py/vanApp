@@ -94,7 +94,16 @@ function getFunction(item, func, ...args) {
       <!-- vant 文件显示处理 -->
       <template #preview-cover="slot">
         <template v-if="!isImgSlot(slot)">
-          <van-image :src="`.${orderh5}/background/pdf.png`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          <template v-if="getUploadUrl(slot).endsWith('.pdf')">
+            <van-image :src="`.${orderh5}/icons/office/pdf.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          </template>
+          <template v-else-if="getUploadUrl(slot).endsWith('.docx') || getUploadUrl(slot).endsWith('.doc')">
+            <van-image :src="`.${orderh5}/icons/office/word.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          </template>
+          <template v-else-if="getUploadUrl(slot).endsWith('.xlsx') || getUploadUrl(slot).endsWith('.xls')">
+            <van-image :src="`.${orderh5}/icons/office/excel.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          </template>
+          
         </template>
         <template v-else>
           <van-image :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">

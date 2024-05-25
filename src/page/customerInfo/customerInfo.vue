@@ -41,19 +41,21 @@ async function getData() {
 }
 
 async function saveData() {
-  const params = await getParam();
+  const params = getParam();
+
+
   params.orderId = params.orderId || orderId;
-  console.log(params.orderId, 'roder')
+  // console.log(params.orderId, "order");
 
   const url = urls.saveData[viewOrg()];
   const data = await http.post(url, params);
   if (!query.orderId) {
     query.orderId = orderId;
-    location.hash += '&orderId=' + orderId
+    location.hash += "&orderId=" + orderId;
     return;
   }
 
-  // return data;
+  return data;
 }
 
 async function submitData() {

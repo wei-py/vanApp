@@ -14,6 +14,17 @@ export function makeSelect(name, columns, type = "static") {
       const flag = useFlag();
       this.inlineForm[0].show = flag.btns.canEdit;
     },
+    backfill(data, stopNewBackfillFlag = false) {
+      if (this.hidden) return
+      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text || this.value;
+      const realValue = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.text == text)?.value;
+      this.value = text;
+      this.realValue = data[this.name] || realValue;
+      if (stopNewBackfillFlag) return
+      if (lo.isFunction(this.newBackfill)) {
+        this.newBackfill(data)
+      }
+    },
     // rightIcon: "arrow",
     // clickRightIcon() {
     //   const flag = useFlag()
@@ -80,16 +91,15 @@ export function makeSelect(name, columns, type = "static") {
 }
 
 export function backSelect() {
-  return {
-    backfill(data) {
-      const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text || this.value;
-      const realValue = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.text == text)?.value;
-      // const text = this.columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text || this.value;
-      // const realValue = this.columns.find((n) => n.value == data[this.name] || n.text == text)?.value;
-      this.value = text;
-      this.realValue = data[this.name] || realValue;
-    },
-  };
+  return {}
+//   return {
+//     backfill(data) {
+//       const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.value == this.realValue)?.text || this.value;
+//       const realValue = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == data[this.name] || n.text == text)?.value;
+//       this.value = text;
+//       this.realValue = data[this.name] || realValue;
+//     },
+//   };
 }
 
 export function setSelectValue(item, columns) {

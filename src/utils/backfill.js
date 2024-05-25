@@ -30,6 +30,7 @@ export default function backfill(_, data) {
     }
     if (lo.has(data, item.name)) {
       item.value = data[item.name] || item.value;
+      // item.value = lo.get(data, item.name) || item.value;
     }
   });
 

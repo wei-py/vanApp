@@ -24,13 +24,15 @@ export const useEvent = defineStore("event", () => {
  * 全局事件管理
  * @param {Object} { getData, saveData, submitEvent }
  */
-export function eventManage({ getData, saveData, submitData, approvalData, approvalBackfill }) {
+export function eventManage({ getData, saveData, submitData, approvalData, approvalBackfill, onRefresh }) {
   const event = useEvent();
   getData && (event.getData = getData);
   saveData && (event.saveData = saveData);
   submitData && (event.submitData = submitData);
   approvalData && (event.approvalData = approvalData);
   approvalBackfill && (event.approvalBackfill = approvalBackfill);
+  onRefresh && (event.onRefresh = onRefresh);
+  
 }
 
 export function disabledEvent() {

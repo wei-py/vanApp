@@ -27,6 +27,12 @@ const router = createRouter({
       path: "/previewFile",
       name: "previewFile",
       component: () => import("../page/web/previewFile.vue"),
+      meta: {
+        // tabbar: true,
+        title: "首页123",
+        refresh: true,
+        // hiddenLeftArrow: true,
+      },
     },
     {
       path: "/home",

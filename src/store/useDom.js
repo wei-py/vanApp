@@ -13,9 +13,8 @@ export const useDom = defineStore("dom", () => {
 
 export async function refreshImg() {
   const dom = useDom();
-  await wait(1000)
-  dom.imgDoms = lo.uniq([...document.querySelectorAll(".van-image__img")].map(n => n.src))
-  console.log(dom.imgDoms)
+  await wait(1000);
+  dom.imgDoms = lo.uniq([...document.querySelectorAll(".van-image__img")].map((n) => n.src));
 }
 
 // export const approvalDoms = {};
@@ -96,23 +95,27 @@ export function onSave() {
  * @returns
  */
 export function getParam() {
-  const paramList = getParamList();
-  const params = paramList.reduce((pre, cur) => {
-    return { ...pre, ...cur };
-  }, {});
-  params.orderId = getQuery()?.orderId;
-  params.investorId = getQuery()?.investorId;
+  try {
+    const paramList = getParamList();
+    const params = paramList.reduce((pre, cur) => {
+      return { ...pre, ...cur };
+    }, {});
+    params.orderId = getQuery()?.orderId;
+    params.investorId = getQuery()?.investorId;
 
-  forForm((item) => {
-    if (!lo.isUndefined(item.realValue) && !lo.isFunction(item.getParam)) {
-      item.getParam = (params) => {
-        params[item.name] = item.realValue;
-      };
-    }
-    if (lo.isFunction(item.getParam)) {
-      item.getParam(params);
-    }
-  });
-
-  return params;
+    forForm((item) => {
+      if (!lo.isUndefined(item.realValue) && !lo.isFunction(item.getParam)) {
+        item.getParam = (params) => {
+          // lo.set(params, item.name, this.realValue)
+          params[item.name] = item.realValue;
+        };
+      }
+      if (lo.isFunction(item.getParam)) {
+        item.getParam(params);
+      }
+    });
+    return params;
+  } catch (e) {
+    console.error(e);
+  }
 }

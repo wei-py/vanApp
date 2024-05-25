@@ -53,10 +53,10 @@ function pagesRendered(pdfApp: any) {
   <!-- viewer.properties: 该文件已放置本地，使用相对路径引入，亦可放置cdn上，使用网络路径引入 -->
 
   <!-- <link rel="resource" type="application/l10n" href="/src/assets/files/viewer.properties"> -->
-  <!-- <link rel="resource" type="application/l10n" :href="`/pdf${orderh5}/viewer.properties`"> -->
-  <!-- <link rel="resource" type="application/l10n" :href="`/pdf${orderh5}/viewer.ftl`"> -->
+  <link rel="resource" type="application/l10n" :href="`.${orderh5}/pdf/viewer.properties`">
+  <!-- <link rel="resource" type="application/l10n" :href="`.${orderh5}/pdf/viewer.ftl`"> -->
   <!-- <link rel="resource" type="application/l10n" href="/pdf/orderh5/viewer.ftl"> -->
-  <link rel="resource" type="application/l10n" href="/pdf/viewer.properties" />
+  <!-- <link rel="resource" type="application/l10n" href="/pdf/viewer.properties" /> -->
   <!-- <link rel="resource" type="application/l10n" href="/viewer.properties" /> -->
 
   <VuePdfApp

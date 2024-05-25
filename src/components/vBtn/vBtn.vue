@@ -76,6 +76,7 @@ onMounted(async () => {
 
 // });
 
+const saveDataDebounce = lo.debounce(saveData, 300)
 async function saveData() {
   onSave();
   try {
@@ -89,6 +90,7 @@ async function saveData() {
   }
 }
 
+const submitDataDebounce = lo.debounce(submitData, 300)
 async function submitData() {
   onSave();
   await event.saveData();
@@ -108,6 +110,8 @@ async function submitData() {
   }
 }
 
+
+const approvalDataDebounce = lo.debounce(approvalData, 300)
 async function approvalData() {
   await doms.approvalDoms.approval.validate();
   const val = doms.approvalDoms.approval.getValues();
@@ -153,7 +157,7 @@ async function approvalData() {
       round
       block
       type="warning"
-      @click="saveData"
+      @click="saveDataDebounce"
       size="small"
       class="!w-[100px] !bg-[#ffab30] !mr-9"
     >
@@ -165,7 +169,7 @@ async function approvalData() {
       round
       block
       type="warning"
-      @click="submitData"
+      @click="submitDataDebounce"
       size="small"
       class="!w-[100px] !bg-[#ffab30]"
     >
@@ -177,7 +181,7 @@ async function approvalData() {
       round
       block
       type="warning"
-      @click="approvalData"
+      @click="approvalDataDebounce"
       size="small"
       class="!w-[100px] !bg-[#ffab30]"
     >

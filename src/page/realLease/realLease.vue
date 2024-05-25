@@ -191,7 +191,7 @@ eventManage({ getData: getDataThrottle });
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <van-search v-model="queryTag" shape="round" background="#f3f3f3" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action>
+    <van-search @blur="onChangeTab" v-model="queryTag" shape="round" background="#f3f3f3" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action>
       <template #action>
         <div class="yCenter">
           <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
