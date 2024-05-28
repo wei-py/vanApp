@@ -95,7 +95,7 @@ async function onChangeTab(val) {
                   <van-badge :offset="[-9, 9]" class="p-2" :show-zero="false" max="99" :content="task.count">
                     <img :src="task.icon" fit="contain" :class="task.imgClass" class="bg-[#ffcf48] rounded-xl shadowC van-haptics-feedback p-1" alt="" />
                   </van-badge>
-                  <p class="text-center text-[14px] h-[28px] leading-[14px]">{{ task.text }}</p>
+                  <p class="text-center w-full text-[14px] h-[28px] leading-[14px]">{{ task.text }}</p>
                 </van-grid-item>
               </template>
             </van-grid>

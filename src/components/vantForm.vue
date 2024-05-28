@@ -21,6 +21,7 @@ const readonly = computed(() => {
   return !lo.isUndefined(props.readonly) ? props.readonly : !flag.btns.canEdit;
 });
 const disabled = computed(() => {
+  // return false
   return !lo.isUndefined(props.disabled) ? props.disabled : !flag.btns.canEdit;
 });
 const showErrorMessage = computed(() => {

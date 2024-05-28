@@ -4,7 +4,7 @@ import vue from "@vitejs/plugin-vue";
 import { VantResolver } from "@vant/auto-import-resolver";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import viteCompression from "vite-plugin-compression";
 
 // import px2rem from "vite-plugin-vue-px2rem";
@@ -14,7 +14,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/orderh5',
+  base: "/orderh5",
   publicDir: "./public",
   plugins: [
     vue(),
@@ -67,6 +67,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+
+  // css: {
+  //   postcss: {
+  //     plugins: [postcssNesting],
+  //   },
+  // },
 
   server: {
     host: "0.0.0.0",
@@ -128,7 +134,7 @@ export default defineConfig({
     target: "es2020",
     // minify: 'terser',
     // rollup 配置
-    outDir: 'h5',
+    outDir: "h5",
     rollupOptions: {
       output: {
         chunkFileNames: "js/[name]-[hash].js", // 引入文件名的名称

@@ -1,4 +1,4 @@
-import {get} from "lodash"
+import { get } from "lodash";
 
 function createInstall(callback, fname) {
   return {
@@ -19,12 +19,15 @@ export default function appUsePlugin(app) {
   app.use(createInstall(unitConver, "unitConver"));
   app.use(createInstall(investorIdDic, "investorIdDic"));
   app.use(createInstall(lo.debounce, "debounce"));
-  
-
-
 
   window.goBack = () => {
     const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");
+    const dom = useDom();
+
+    if (dom.showPreviewImg) {
+      dom.showPreviewImg = false;
+      return 
+    }
     if (!isPopupShow) {
       router.go(-1);
     }

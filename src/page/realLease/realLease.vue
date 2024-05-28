@@ -20,7 +20,7 @@ const curTab = computed(() => tabs.value[tab.value]);
 const _ = makeForm({ filtrate, moreForm, newPopForm }); // 筛选参数表单
 // 参数
 const orderType = flag.headers.Biztype; // 业务类型
-const page = ref({ pageNum: 1, pageSize: 10, total: 0 }); // 分页
+const page = ref({ pageNum: 1, pageSize: 5, total: 0 }); // 分页
 const queryTag = ref(""); // 搜索内容
 const query = getQuery(); // 路由 query
 const formParams = ref({}); // 筛选参数
@@ -110,7 +110,7 @@ async function getData() {
 async function onChangeTab() {
   if (isCysj) return;
   page.value.pageNum = 1;
-  page.value.pageSize = 10;
+  page.value.pageSize = 5;
   list.value.length = 0;
   finished.value = false;
   await getDataThrottle();
@@ -121,11 +121,18 @@ async function onSearch() {
     if (isTYZF()) {
       newPop.value = true;
     } else {
-      router.push("/inquiry");
+      
+      router.push({
+        path: '/inquiry',
+        query: {
+          investorId: 'YUEXIU',
+          type: flag.active == 0 ? 'ZZD' : 'ZZD_ORG'
+        }
+      });
     }
   } else {
     page.value.pageNum = 1;
-    page.value.pageSize = 10;
+    page.value.pageSize = 5;
     list.value.length = 0;
     finished.value = false;
     getDataThrottle();
@@ -135,7 +142,7 @@ async function onSearch() {
 
 async function onMenuChange(menu) {
   page.value.pageNum = 1;
-  page.value.pageSize = 10;
+  page.value.pageSize = 5;
   list.value.length = 0;
   finished.value = false;
   await getDataThrottle();
@@ -144,7 +151,7 @@ async function onMenuChange(menu) {
 function onPopConfirm() {
   formParams.value = getParam();
   page.value.pageNum = 1;
-  page.value.pageSize = 10;
+  page.value.pageSize = 5;
   list.value.length = 0;
   finished.value = false;
   getDataThrottle();
@@ -191,10 +198,10 @@ eventManage({ getData: getDataThrottle });
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <van-search @blur="onChangeTab" v-model="queryTag" shape="round" background="#f3f3f3" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action>
+    <van-search @blur="onChangeTab" v-model="queryTag" shape="round" background="#fff" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action class="van-hairline--bottom">
       <template #action>
         <div class="yCenter">
-          <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
+          <van-button @click="onSearch" class="!w-auto !h-[30px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
             {{ searchBtnText }}
             <!-- {{ (searchBtnText) ? "新增" : "搜索" }} -->
           </van-button>
@@ -202,7 +209,8 @@ eventManage({ getData: getDataThrottle });
       </template>
     </van-search>
 
-    <van-tabs v-model:active="tab" line-width="0" :ellipsis="false" title-active-color="#ffab30" @change="onChangeTab">
+
+    <van-tabs v-model:active="tab" line-width="0" :ellipsis="false" title-active-color="#ffab30" @change="onChangeTab" class="van-hairline--bottom text-[14px]">
       <van-tab v-for="t in tabs">
         <template #title>
           <div class="xCenter">{{ t.count }}</div>
@@ -233,16 +241,16 @@ eventManage({ getData: getDataThrottle });
           <van-field :label="slot.label" input-align="right">
             <template #input>
               <van-radio-group v-model="slot.value" class="grid grid-cols-2 flex-end">
-                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled>{{ co.text }}</van-radio>
+                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30">{{ co.text }}</van-radio>
               </van-radio-group>
             </template>
           </van-field>
         </template>
         <template #timeSortType="{ slot }">
-          <van-field :label="slot.label" input-align="right">
+          <van-field :label="slot.label" input-align="right" valueClass="yCenter">
             <template #input>
-              <van-radio-group v-model="slot.value" class="grid grid-cols-2 flex-end">
-                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled>{{ co.text }}</van-radio>
+              <van-radio-group v-model="slot.value" class="grid grid-cols-2">
+                <van-radio class="ml-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30">{{ co.text }}</van-radio>
               </van-radio-group>
             </template>
           </van-field>
@@ -274,15 +282,22 @@ eventManage({ getData: getDataThrottle });
 <style scoped>
 :deep(.van-search__content) {
   background: white;
+  height: 30px !important;
 }
 :deep(.van-field__control) {
   font-size: 12px;
+  @apply mb-[4px]
+  /* line-height: 24px !important; */
 }
 :deep(.van-search__field) {
   @apply !px-0;
 }
 :deep(.van-tabs__wrap) {
   height: 60px;
+}
+
+:deep(.van-search__content) {
+  background: #f7f7f7;
 }
 </style>
 

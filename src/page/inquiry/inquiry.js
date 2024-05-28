@@ -608,12 +608,15 @@ export const signInfo = [
     name: "authorizationLetter",
     realValue: "",
     readonly: true,
+    disabled: false,
     isLink: true,
     value: "",
     click() {
       if (this.realValue) {
         glSave();
-        router.push({ path: "/web", query: { src: this.realValue, title: "信息使用协议" } });
+        console.log(this.realValue, 222)
+        // postMsg({func: 'openPdf', url: this.realValue})
+        router.push({ path: "/previewFile", query: { url: this.realValue, title: "信息使用协议" } });
       } else {
         showFailToast({
           message: "暂无数据",

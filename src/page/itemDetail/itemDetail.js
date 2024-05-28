@@ -3,7 +3,7 @@ const titleClass = "!pl-[5px] !min-w-[30%]";
 export const itemDetail = [
   {
     customSlot: "person",
-    title: "任命",
+    title: "-",
     value: "value",
     orderId: "-",
     stageId: "-",
@@ -13,16 +13,17 @@ export const itemDetail = [
     name: "orderId",
     title: "系统编号",
     valueClass: "mr-[10px] text-gray",
-    titleClass,
+    titleClass: "!pl-[5px] !min-w-[20%] !flex-none",
     value: "-",
   },
   {
     formType: "cell",
-    name: "designId",
+    name: "contractNumber",
     title: "进件编号",
     valueClass: "mr-[10px] text-gray",
     titleClass,
     value: "-",
+    
   },
 ];
 
@@ -76,9 +77,9 @@ export const customerInfo = [
       if (this.value != "未开启") {
         const titleDic = {
           TYZF_ZZD: "客户信息 - 自然人",
-          TYZF_ZZD_ORG: "客户信息 - 法人"
-        }
-        const title = titleDic[viewOrg()] || this.title
+          TYZF_ZZD_ORG: "客户信息 - 法人",
+        };
+        const title = titleDic[viewOrg()] || this.title;
         router.push({ path: this.name, query: { ...getQuery(), title } });
       } else {
         showFailToast(this.value);
@@ -143,21 +144,26 @@ export const contractSign = [
     isLink: true,
     value: "未开启",
     async click() {
+      // if (this.value == "已签约") {
+      //   router.push({ path: this.name, query: { ...getQuery(), online: true, title: "线上电子合同签约" } });
+      //   return
+      // }
       if (isTYZF()) {
         showConfirmDialog({
           title: "合同签约",
           message: "提示：根据商务培训要求，选择正确的签约方式",
           confirmButtonText: "线上电子合同签约",
+          confirmButtonDisabled: isZZD_ORG(),
           cancelButtonText: "线下纸质合同签约",
+          cancelButtonDisabled: isZZD(),
           closeOnClickOverlay: true,
         })
           .then(() => {
-            router.push({ path: this.name, query: { ...getQuery(), online: true, title: '线上电子合同签约' } });
+            router.push({ path: this.name, query: { ...getQuery(), online: true, title: "线上电子合同签约" } });
           })
           .catch(() => {
-            router.push({ path: this.name, query: { ...getQuery(), online: false, title: '线下纸质合同签约' } });
+            router.push({ path: this.name, query: { ...getQuery(), online: false, title: "线下纸质合同签约" } });
           });
-        // console.log(flag, 3333)
       } else {
         router.push({ path: this.name, query: { ...getQuery() } });
       }
@@ -184,6 +190,7 @@ export const record = [
     },
   },
 ];
+
 export const initReview = [
   {
     formType: "cell",
@@ -216,6 +223,7 @@ export const initReview = [
     },
   },
 ];
+
 export const build = [
   {
     formType: "cell",

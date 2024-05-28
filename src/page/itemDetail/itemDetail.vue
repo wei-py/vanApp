@@ -35,23 +35,20 @@ let _ = makeForm({
 let query = getQuery(); // 路由参数
 const statusDic = getStatusDic(); // 阶段状态字典
 const isDLS = ref(false);
+const stepActive = ref("预审");
 
 onMounted(() => {
   // query = getQuery(); // 路由参数
-  runTime(getData, "itemDetail - getData");
-  // getData();
+  // runTime(getData, "itemDetail - getData");
+  getData();
 });
 
 async function getData() {
   const { data } = await http.post(`/order/search`, { queryTag: query.orderId, orderId: query.orderId });
+  const stepStageId = lo.get(data, "list.0.currentOrderState.0.stageId");
+  stepActive.value = statusDic[stepStageId];
 
-  gets(data, "list.0", (v) => {
-    _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
-    _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
-    console.log();
-    isDLS.value = v?.company?.type == "DLS";
-    setItem("hasPutApprovalConstructBtn", "realValue", v.hasPutApprovalConstructBtn);
-  });
+  
 
   gets(data, "*.currentOrderState.0", (v) => {
     _.itemDetail[0].orderId = v?.orderId;
@@ -106,12 +103,25 @@ async function getData() {
     _.initReview[2].value = "不可变更";
     _.initReview[2].valueClass = _.initReview[2].valueClass.replace(/text-[^ ]+/, "text-gray");
   }
+
+  gets(data, "list.0", (v) => {
+    _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
+    _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
+    isDLS.value = v?.company?.type == "DLS";
+    setItem("hasPutApprovalConstructBtn", "realValue", v.hasPutApprovalConstructBtn);
+  });
 }
+
+function onClickRight() {
+  router.push({ path: "/operateLog", query });
+}
+
+eventManage({onClickRight})
 </script>
 
 <template>
   <div class="bg-[#f3f3f3] min-h-[100vh] pb-[10px]">
-    <step class="h-[13vh] mb-[10px] shadowC" />
+    <step :stepActive="stepActive" class="h-[13vh] mb-[10px] shadowC" />
     <vantForm :form="_.itemDetail" group-class="itemDetailGrop">
       <template #person="{ slot }">
         <van-cell title-class="!text-[20px] bg-[white] flex items-center  font-bold">
@@ -121,8 +131,8 @@ async function getData() {
           </template>
           <template #value>
             <div class="flex justify-end items-end w-full">
-              <plainButton class="!h-[24px]" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
-              <plainButton class="!h-[24px] !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
+              <plainButton class="!h-[auto]" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
+              <plainButton class="!h-[auto] !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
             </div>
           </template>
         </van-cell>

@@ -78,8 +78,8 @@ eventManage({ getData, saveData, submitData });
     <template #title="{ slot }">
       <van-cell
         v-if="!slot.hidden"
-        title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white"
-        class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]"
+        title-class="!text-[20px] bg-[white] pl-[20px] flex items-center  text-[#3f3f3f]"
+        class="!bg-[white] !p-0 h-[50px] !pr-[20px]"
       >
         <template #title>
           {{ slot.title }}

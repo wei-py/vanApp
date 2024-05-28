@@ -14,11 +14,11 @@ export async function upload(file, orderId = getQuery()?.orderId, fileType = "im
   const url = "https://up-cn-east-2.qiniup.com";
   await getToken(orderId, fileType);
   const body = new FormData();
-  body.append("file", file, file.name); //通过append向form对象添加数据
+  body.append("file", file); //通过append向form对象添加数据
   body.append("token", qiniuToken);
 
   const { data } = await axios.post(url, body);
-  return data.src || data.data.src;
+  return sToUrl(data.src || data.data.src);
   // const apis = [file].flat().map(async (n) => {
   //   const url = "https://up-cn-east-2.qiniup.com";
   //   await getToken(orderId, fileType);

@@ -3,7 +3,7 @@ import App from "./App.vue";
 
 import "./index.css"; // 默认 css
 import "vant/lib/index.css"; // vant css
-import { PullRefresh, Lazyload, Toast, NumberKeyboard } from "vant"; // 下拉刷新等
+import { PullRefresh, Lazyload, Toast, NumberKeyboard, ShareSheet } from "vant"; // 下拉刷新等
 import Skeleton from '@x-ui-vue3/skeleton' // 骨架屏
 
 import { createPinia } from "pinia"; // 状态
@@ -27,6 +27,7 @@ app.use(router); // 路由
 app.use(pinia); // 状态
 app.use(PullRefresh); // 下拉刷新
 app.use(Toast); // 提示
+app.use(ShareSheet); // 分享
 app.use(Lazyload, { lazyComponent: true }); // 图片懒加载
 app.use(vue3PhotoPreview); // 图片预览
 app.use(VXETable); // 表格

@@ -72,5 +72,9 @@ https://v2.tailwindcss.com/docs/guides/vue-3-vite
 - https://blog.csdn.net/Dandrose/article/details/130271456
 - https://www.cnblogs.com/lzb1234/p/17813250.html
 
-## 
+## icons
+> https://igoutu.cn/icon
+
+## office
+> https://github.com/501351981/vue-office?tab=readme-ov-file
 

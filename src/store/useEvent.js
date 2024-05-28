@@ -5,8 +5,9 @@ export const useEvent = defineStore("event", () => {
   let approvalData = async () => {};
   let onRefresh = async () => {};
   let approvalBackfill = async () => {};
+  let onClickRight = async () => {}
 
-  return { getData, saveData, submitData, approvalData, onRefresh, approvalBackfill };
+  return { getData, saveData, submitData, approvalData, onRefresh, approvalBackfill, onClickRight };
 });
 
 // export let getData = async () => {};
@@ -24,7 +25,7 @@ export const useEvent = defineStore("event", () => {
  * 全局事件管理
  * @param {Object} { getData, saveData, submitEvent }
  */
-export function eventManage({ getData, saveData, submitData, approvalData, approvalBackfill, onRefresh }) {
+export function eventManage({ getData, saveData, submitData, approvalData, approvalBackfill, onRefresh, onClickRight }) {
   const event = useEvent();
   getData && (event.getData = getData);
   saveData && (event.saveData = saveData);
@@ -32,7 +33,7 @@ export function eventManage({ getData, saveData, submitData, approvalData, appro
   approvalData && (event.approvalData = approvalData);
   approvalBackfill && (event.approvalBackfill = approvalBackfill);
   onRefresh && (event.onRefresh = onRefresh);
-  
+  onClickRight && (event.onClickRight = onClickRight);
 }
 
 export function disabledEvent() {

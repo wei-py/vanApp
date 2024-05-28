@@ -54,6 +54,9 @@ export const lessorInfo = [
       { text: "外国人居留证", value: "ALIEN_RESIDENCE_PERMIT" },
       { text: "警官证", value: "POLICE_ID" },
     ]),
+    confirm(val) {
+      setItem("dateBirth", "hidden", val.value == "ID_CARD");
+    },
     onMounted() {
       if (isTYZF()) {
         this.placeholder = "请选择证件类型";
@@ -89,6 +92,18 @@ export const lessorInfo = [
         this.placeholder = "手动输入或扫描证件";
         this.readonly = false;
       }
+    },
+  },
+  {
+    ...makeDate({ name: "dateBirth" }),
+    required: true,
+    label: "出生日期",
+    name: "dateBirth",
+    hidden: true,
+    onMounted() {
+      onUnmounted(() => {
+        this.value = "";
+      });
     },
   },
   {
@@ -239,23 +254,32 @@ export const lessorInfo = [
       delete param[this.name];
     },
   },
-  {
-    formType: "input",
-    label: "负责人姓名",
-    name: "name",
-    placeholder: "请输入负责人姓名",
-    hidden: computed(() => !isTYZF() || isZZD()),
-    value: "",
-    // rules: [e => isChineseIdCard(e) || '身份证有误'],
-    required: true,
-    backfill(data) {
-      this.value = lo.get(data, `orgMainMember.${this.name}`);
-    },
-    getParam(param) {
-      lo.set(param, "orgMainMember." + this.name, this.value);
-      delete param[this.name];
-    },
+  () => {
+    if (!(!isTYZF() || isZZD())) {
+      return [
+        {
+          formType: "input",
+          label: "负责人姓名",
+          name: "name",
+          placeholder: "请输入负责人姓名",
+          hidden: computed(() => !isTYZF() || isZZD()),
+          value: "",
+          // rules: [e => isChineseIdCard(e) || '身份证有误'],
+          required: true,
+          backfill(data) {
+            this.value = lo.get(data, `orgMainMember.${this.name}`);
+          },
+          getParam(param) {
+            lo.set(param, "orgMainMember." + this.name, this.value);
+            delete param[this.name];
+          },
+        },
+      ];
+    } else {
+      return [];
+    }
   },
+
   {
     formType: "input",
     label: "负责人证件类型",
@@ -485,7 +509,7 @@ export const lessorInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       console.log(param.regImages, 33333);
       delete param[this.name];
@@ -504,7 +528,7 @@ export const lessorInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       delete param[this.name];
     },
@@ -528,7 +552,7 @@ export const lessorInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       delete param[this.name];
     },
@@ -546,7 +570,7 @@ export const lessorInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       delete param[this.name];
     },
@@ -683,7 +707,7 @@ export const bankInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       delete param[this.name];
     },
@@ -701,7 +725,7 @@ export const bankInfo = [
       lo.set(
         param,
         `regImages.${this.name}`,
-        param[this.name].map((n) => getUploadUrl(n))
+        (param[this.name] || []).map((n) => getUploadUrl(n))
       );
       delete param[this.name];
     },
@@ -922,13 +946,17 @@ export const certificateType = [
       { text: "项目公司备案", value: "RECORD_LEASE_PC" },
       { text: "非项目公司备案(屋顶方备案)", value: "RECORD_NP", disabled: isTYZF() ? true : isZZD_ORG() },
     ]),
-    errorMessage: '提示: 必须先选择 "备案类型" 才能选择 "项目公司" 和 "产品地区"',
     onMounted() {
       if (isTYZF()) {
         this.realValue = "RECORD_LEASE_PC";
         this.value = "项目公司备案";
       }
     },
+  },
+  {
+    formType: "cell",
+    value: '提示: 必须先选择 "备案类型" 才能选择 "项目公司" 和 "产品地区"',
+    valueClass: "text-red !text-left",
   },
 ];
 
@@ -1268,13 +1296,17 @@ export const cardBuckle = [
 ];
 
 export const salemanInfo = [
-  makeTitle("销售人员信息"),
+  {
+    ...makeTitle("销售人员信息"),
+    hidden: computed(() => !viewOrg().includes("TYZF")),
+  },
   {
     formType: "input",
     label: "资方名称",
     name: "investorId",
     placeholder: "自动获取",
     readonly: true,
+    hidden: computed(() => !viewOrg().includes("TYZF")),
     backfill(data) {
       const query = getQuery();
       const dic = {
@@ -1290,6 +1322,7 @@ export const salemanInfo = [
     name: "salesman",
     placeholder: "自动获取",
     readonly: true,
+    hidden: computed(() => !viewOrg().includes("TYZF")),
     backfill(data) {
       const user = getUserVo();
       this.value = data[this.name] || user.name;
@@ -1301,6 +1334,7 @@ export const salemanInfo = [
     name: "saleTelephone",
     placeholder: "自动获取",
     readonly: true,
+    hidden: computed(() => !viewOrg().includes("TYZF")),
     backfill(data) {
       const user = getUserVo();
       this.value = data[this.name] || user.phone;
@@ -1310,6 +1344,7 @@ export const salemanInfo = [
     formType: "input",
     label: "订单所属组织",
     name: "companyId",
+    hidden: computed(() => !viewOrg().includes("TYZF")),
     placeholder: "自动获取",
     readonly: true,
     ...backSelect(),
@@ -1328,6 +1363,7 @@ export const salemanInfo = [
   {
     formType: "",
     name: "userId",
+    hidden: computed(() => !viewOrg().includes("TYZF")),
     value: "",
     getParam(param) {
       const user = getUserVo();

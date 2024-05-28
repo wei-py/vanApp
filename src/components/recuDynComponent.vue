@@ -22,7 +22,7 @@ function omitItem(item) {
   //   }
 
   // });
-  return lo.omit(item, ["formType", "inlineForm", "realValue", ...func]);
+  return lo.omit(item, ["formType", "inlineForm", "realValue", "ref", ...func]);
 }
 
 function hidden(item) {
@@ -38,14 +38,16 @@ function hidden(item) {
   }
   return result;
 }
-// function setRef(el, item) {
-//   item.ref = el;
-//   if (item.longPress) {
-//     onLongPress(el, (e) => {
-//       item.longPress = e.target.src;
-//     });
-//   }
-// }
+function setRef(el, item) {
+  if (el) {
+    item.ref = el;
+  }
+  // if (item.longPress) {
+  //   onLongPress(el, (e) => {
+  //     item.longPress = e.target.src;
+  //   });
+  // }
+}
 
 onMounted(() => {});
 
@@ -57,7 +59,7 @@ onBeforeUnmount(() => {
 });
 
 function getFunction(item, func, ...args) {
-  return lo.isFunction(item[func]) ? item[func](...args) : () => {};
+  return lo.isFunction(item[func]) ? item[func](...args, item) : () => {};
 }
 </script>
 
@@ -65,13 +67,15 @@ function getFunction(item, func, ...args) {
   <template v-for="(item, i) of [props.form].flat()" :key="i">
     <slot :name="item.customSlot"></slot>
     <!-- {{  formType[item.formType]}} -->
-    <!-- :ref="(el) => setRef(el, item)" -->
+
     <component
       v-if="!hidden(item)"
       :is="formType[item.formType]"
+      :ref="(el) => setRef(el, item)"
       v-model="item.value"
       v-model:show="item.show"
       v-bind="omitItem(item)"
+      :beforeRead="(...args) => getFunction(item, 'beforeRead', ...args)"
       @click.stop="(...args) => getFunction(item, 'click', ...args)"
       @close="(...args) => getFunction(item, 'close', ...args)"
       @finish="(...args) => getFunction(item, 'finish', ...args)"
@@ -94,19 +98,24 @@ function getFunction(item, func, ...args) {
       <!-- vant 文件显示处理 -->
       <template #preview-cover="slot">
         <template v-if="!isImgSlot(slot)">
+          
           <template v-if="getUploadUrl(slot).endsWith('.pdf')">
-            <van-image :src="`.${orderh5}/icons/office/pdf.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+            <van-image :src="`.${orderh5}/icons/office/pdf.png`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+
           </template>
-          <template v-else-if="getUploadUrl(slot).endsWith('.docx') || getUploadUrl(slot).endsWith('.doc')">
+          <template v-if="getUploadUrl(slot).endsWith('.ppt') || getUploadUrl(slot).endsWith('.pptx')">
+            <van-image :src="`.${orderh5}/icons/office/ppt.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
+          </template>
+          <template v-if="getUploadUrl(slot).endsWith('.docx') || getUploadUrl(slot).endsWith('.doc')">
             <van-image :src="`.${orderh5}/icons/office/word.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
           </template>
-          <template v-else-if="getUploadUrl(slot).endsWith('.xlsx') || getUploadUrl(slot).endsWith('.xls')">
+          <template v-if="getUploadUrl(slot).endsWith('.xlsx') || getUploadUrl(slot).endsWith('.xls')">
             <van-image :src="`.${orderh5}/icons/office/excel.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
           </template>
-          
         </template>
         <template v-else>
           <van-image :src="slot.url || slot.objectUrl" class="w-[80px] h-[80px] bg-[#f7f8fa]" fit="cover">
+            <!-- objectUrl -->
             <!-- lazy-load -->
             <template #error>加载失败</template>
             <template #loading>

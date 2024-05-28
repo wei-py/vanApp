@@ -67,7 +67,8 @@ eventManage({ getData, saveData, submitData, approvalData });
       <van-cell title="经纬度" value-class="!text-[#323232] !w-[80%] !flex-none" title-class="!w-[20%] !flex-none my-auto">
         <template #value>
           <div>{{ slot.address || "定位地理位置(自动获取)" }}</div>
-          <div>纬度: {{ slot.lat || "未获取" }} 经度: {{ slot.lng || "未获取" }}</div>
+          <div>纬度: {{ slot.lat || "未获取" }}</div>
+          <div>经度: {{ slot.lng || "未获取" }}</div>
           <van-button
             @click="() => slot.getLocation()"
             :loading="slot.loading"

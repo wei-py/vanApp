@@ -10,6 +10,7 @@ export const useFlag = defineStore(
     const orderState = ref({});
     const deviceInfoType = ref("ZUJIAN");
     const active = ref(0);
+    const tabbar = ref(0)
     const investor = computed(() => {
       return ["YUEXIU", "YUEXIU", ""][active.value];
     });
@@ -18,7 +19,7 @@ export const useFlag = defineStore(
       return computed(() => investor.value == investorTmp);
     }
     // const stopWatch = ref([])
-    return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState, deviceInfoType, active, investor, investorHidden };
+    return { orderId, statusDic, headers, overlayShow, saveFlag, btns, orderState, deviceInfoType, active, investor, investorHidden, tabbar };
   },
   {
     persist: {

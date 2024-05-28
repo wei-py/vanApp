@@ -13,7 +13,7 @@ export const useDom = defineStore("dom", () => {
 
 export async function refreshImg() {
   const dom = useDom();
-  await wait(1000);
+  // await wait(2000);
   dom.imgDoms = lo.uniq([...document.querySelectorAll(".van-image__img")].map((n) => n.src));
 }
 

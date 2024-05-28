@@ -1,4 +1,4 @@
-export default function makeUpload(maxCount = 999, width = 100, accept = "", required = false, disabledFlag, orderId) {
+export default function makeUpload(maxCount = 999, width = 100, accept = "image/*", required = false, disabledFlag, orderId) {
   const flag = useFlag();
   const canEdit = computed(() => flag.btns.canEdit);
   let deletable = canEdit;
@@ -14,8 +14,8 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
     // name,
     value: "",
     longPress: true,
-    class: `flex-col-reverse  float-start !w-[${width}%]`,
-    labelClass: "xCenter !w-full !m-0",
+    class: `flex-col-reverse !px-0 !mx-0  !float-left !w-[${width}%]`,
+    labelClass: `xCenter !w-[100%] !m-0 !text-xs`,
     inlineForm: [
       {
         slot: "input",
@@ -29,7 +29,10 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         previewFullImage: false,
         clickPreview(img) {
           if (!isImgSlot(img)) {
-            const url = img.objectUrl || getUploadUrl(img);
+            const url = getUploadUrl(img) || img.objectUrl;
+            // if (url.endsWith(".pdf")) {
+            //   postMsg({ func: "openPdf", url });
+            // }
             router.push({
               path: "/previewFile",
               query: { url },
@@ -37,7 +40,10 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
             return;
           } else {
             const dom = useDom();
-            dom.imgIndex = dom.imgDoms.findIndex((n) => n == (img.objectUrl || getUploadUrl(img)));
+            dom.imgIndex = dom.imgDoms.findIndex((n) => {
+              console.log(n, getUploadUrl(img), n == (getUploadUrl(img) || img.objectUrl));
+              return n == (getUploadUrl(img) || img.objectUrl);
+            });
             dom.showPreviewImg = true;
           }
         },
@@ -47,33 +53,28 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
         beforeDelete(img) {
           if (!isImgSlot(img)) return true;
           const dom = useDom();
-          // dom.imgDomDic.forEach(item => {
-          //   const idx = item.value.findIndex(n => n == getUploadUrl(img))
-          //   if (idx != -1) {
-          //     item.value.splice(idx, 1)
-          //   }
-          // })
           const index = dom.imgDoms.findIndex((n) => n == getUploadUrl(img));
           dom.imgDoms.splice(index, 1);
           return true;
         },
-        beforeRead(img) {
-          return new Promise(async (resolve, reject) => {
-            const src = await upload(img, getQuery()?.orderId || orderId);
-            // const imgs = [img].flat().map((im, idx) => {
-            //   im.src = src[idx].src
-            //   im.url = src[idx].url
-            //   return im
-            // })
-            img.src = src;
-            img.url = src;
-            await wait(500);
-
-            // const dom = useDom();
-            // dom.imgDoms = [...document.querySelectorAll(".van-image__img")].map((n) => n.src);
-            resolve(img);
-            refreshImg();
-          });
+        beforeRead(img, ...args) {
+          img.status = ref("uploading");
+          upload(img, getQuery()?.orderId || orderId).then(
+            async (src) => {
+              img.src = src;
+              img.url = src;
+              img.status.value = "done";
+              await refreshImg();
+            },
+            (error) => {
+              img.status.value = "faild";
+            }
+          );
+          return img;
+          // return Promise.resolve(img);
+        },
+        async afterRead(img, index, name) {
+          img.status = img.file.status;
         },
         menuRight: [
           {
@@ -87,7 +88,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
       },
     ],
     backfill(data) {
-      this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]) }] : [];
+      this.inlineForm[0].value = data[this.name] ? [{ url: sToUrl(data[this.name]), status: "done" }] : [];
       // const dom = useDom();
       pushImg(sToUrl(data[this.name]));
     },
@@ -95,6 +96,7 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "", req
       this.inlineForm[0].value.length = 0;
     },
     getParam(param) {
+      console.log(param, 3333);
       const url = lo.get(this, "inlineForm.0.value.0.file.url") || lo.get(this, "inlineForm.0.value.0.url", "");
       param[this.name] = url;
     },

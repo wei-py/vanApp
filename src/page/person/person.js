@@ -77,6 +77,8 @@ export const form = [
         text: "刷新",
         click() {
           location.reload();
+          const flag = useFlag();
+          flag.tabbar = 1;
         },
       },
     ],

@@ -29,8 +29,9 @@ const router = createRouter({
       component: () => import("../page/web/previewFile.vue"),
       meta: {
         // tabbar: true,
-        title: "首页123",
-        refresh: true,
+        title: "预览文件",
+        refresh: false,
+        rightText: "分享",
         // hiddenLeftArrow: true,
       },
     },
@@ -60,7 +61,7 @@ const router = createRouter({
       component: () => import("../page/realLease/realLease.vue"),
       meta: {
         title: "订单列表",
-        // refresh: true,
+        // refresh: false,
       },
     },
     {
@@ -70,10 +71,11 @@ const router = createRouter({
       meta: {
         title: "项目详情",
         rightText: "操作记录",
-        onClickRight() {
-          router.push({ path: "/operateLog" });
-        },
-        refresh: true,
+        // onClickRight() {
+        //   const event = useEvent()
+        //   event.onClickRight()
+        // },
+        refresh: false,
       },
     },
     {
@@ -82,7 +84,7 @@ const router = createRouter({
       component: () => import("../page/inquiry/inquiry.vue"),
       meta: {
         title: "预审",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -92,7 +94,7 @@ const router = createRouter({
       component: () => import("../page/customerInfo/customerInfo.vue"),
       meta: {
         title: "客户信息",
-        refresh: true,
+        // refresh: false,
         // tabbar: true,
       },
     },
@@ -102,7 +104,7 @@ const router = createRouter({
       component: () => import("../page/businessReconnaissance/businessReconnaissance.vue"),
       meta: {
         title: "业务踏勘",
-        refresh: true,
+        // refresh: false,
         // tabbar: true,
       },
     },
@@ -112,7 +114,7 @@ const router = createRouter({
       component: () => import("../page/technicalLnvestigation/technicalLnvestigation.vue"),
       meta: {
         title: "技术勘察",
-        refresh: true,
+        // refresh: false,
         // tabbar: true,
       },
     },
@@ -132,7 +134,7 @@ const router = createRouter({
       component: () => import("../page/certificate/certificate.vue"),
       meta: {
         title: "备案证及权属证明",
-        refresh: true,
+        // refresh: false,
         // tabbar: true,
       },
     },
@@ -142,7 +144,7 @@ const router = createRouter({
       component: () => import("../page/InitialReview/InitialReview.vue"),
       meta: {
         title: "初设评审",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -152,7 +154,7 @@ const router = createRouter({
       component: () => import("../page/InitialReview/designGroup.vue"),
       meta: {
         title: "设计组串数量",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -162,7 +164,7 @@ const router = createRouter({
       component: () => import("../page/build/build.vue"),
       meta: {
         title: "施工",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -172,7 +174,7 @@ const router = createRouter({
       component: () => import("../page/deviceInfo/deviceInfo.vue"),
       meta: {
         title: "施工",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -182,7 +184,7 @@ const router = createRouter({
       component: () => import("../page/buildVideo/buildVideo.vue"),
       meta: {
         title: "施工影像件信息",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -192,7 +194,7 @@ const router = createRouter({
       component: () => import("../page/gridConnected/gridConnected.vue"),
       meta: {
         title: "施工影像件信息",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -202,7 +204,7 @@ const router = createRouter({
       component: () => import("../page/electricityContract/electricityContract.vue"),
       meta: {
         title: "施工影像件信息",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -212,7 +214,7 @@ const router = createRouter({
       component: () => import("../page/settlement/settlement.vue"),
       meta: {
         title: "直营结算",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -222,7 +224,7 @@ const router = createRouter({
       component: () => import("../page/income/income.vue"),
       meta: {
         title: "收益查询",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -232,7 +234,7 @@ const router = createRouter({
       component: () => import("../page/InitialReview/designChangeLog.vue"),
       meta: {
         title: "设计变更记录",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -242,7 +244,7 @@ const router = createRouter({
       component: () => import("../page/gridConnectedAccount/gridConnectedAccount.vue"),
       meta: {
         title: "并网信息结算",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
 
@@ -254,7 +256,7 @@ const router = createRouter({
       component: () => import("../page/gridSettlement/gridSettlement.vue"),
       meta: {
         title: "并网信息结算",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -264,7 +266,7 @@ const router = createRouter({
       component: () => import("../page/recordList/recordList.vue"),
       meta: {
         title: "备案证列表",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -274,7 +276,7 @@ const router = createRouter({
       component: () => import("../page/recordDetail/recordDetail.vue"),
       meta: {
         title: "备案证详情",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -284,7 +286,7 @@ const router = createRouter({
       component: () => import("../page/supplyChain/supplyChain.vue"),
       meta: {
         title: "供应链",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -294,7 +296,7 @@ const router = createRouter({
       component: () => import("../page/siteGoodsReject/siteGoodsReject.vue"),
       meta: {
         title: "供应链",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -304,7 +306,7 @@ const router = createRouter({
       component: () => import("../page/sendOutGoodsList/sendOutGoodsList.vue"),
       meta: {
         title: "发货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -314,7 +316,7 @@ const router = createRouter({
       component: () => import("../page/goodsCollectList/goodsCollectList.vue"),
       meta: {
         title: "收货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -324,7 +326,7 @@ const router = createRouter({
       component: () => import("../page/sendOutGoods/sendOutGoods.vue"),
       meta: {
         title: "仓库收货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -334,7 +336,7 @@ const router = createRouter({
       component: () => import("../page/goodsCollectDetail/goodsCollectDetail.vue"),
       meta: {
         title: "仓库发货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -344,7 +346,7 @@ const router = createRouter({
       component: () => import("../page/goodsRejectList/goodsRejectList.vue"),
       meta: {
         title: "仓库发货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -354,7 +356,7 @@ const router = createRouter({
       component: () => import("../page/goodsRejectDetail/goodsRejectDetail.vue"),
       meta: {
         title: "仓库发货",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -364,7 +366,7 @@ const router = createRouter({
       component: () => import("../page/goodsInventory/goodsInventory.vue"),
       meta: {
         title: "仓库库存",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -374,7 +376,7 @@ const router = createRouter({
       component: () => import("../page/storeUpdate/storeUpdate.vue"),
       meta: {
         title: "仓库管理",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -384,7 +386,7 @@ const router = createRouter({
       component: () => import("../page/designChange/designChange.vue"),
       meta: {
         title: "设计变更",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },
@@ -394,7 +396,7 @@ const router = createRouter({
       component: () => import("../page/operateLog/operateLog.vue"),
       meta: {
         title: "操作记录",
-        refresh: true,
+        refresh: false,
         // tabbar: true,
       },
     },

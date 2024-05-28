@@ -53,6 +53,11 @@ export const certificate = [
     getParam(param) {
       param[this.name] = this.realValue || this.value;
     },
+    blur() {
+      setItem("recordCertificateCapacity", (v) => {
+        v.ref.focus();
+      });
+    },
     isLink: true,
     readonly: true,
     placeholder: "请选择直接输入或选择",
@@ -96,7 +101,6 @@ export const certificate = [
         },
       },
     ],
-
     async backfill(bData) {
       watchItem(["companyId", "recordType"], async ([companyId, recordType]) => {
         const { data } = await http.post("record/list?isAuth=false", { recordType, companyId });
@@ -112,21 +116,21 @@ export const certificate = [
           const columns = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
           this.inlineForm[0].inlineForm[0].columns = columns;
           setItem("surplusCapacity", "hidden", false);
-          setItem("recordCertificateCapacity", "readonly", true);
         } else {
           const actions = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
           this.updateValue = (value) => {
             const filterActions = actions.filter((n) => n.value.includes(value));
             this.inlineForm[1].show = new Boolean(filterActions.length || value.length);
             this.inlineForm[1].actions = filterActions;
-            this.realValue = value
+            this.realValue = value;
+            setItem("recordCertificateCapacity", "value", "");
+            // console.log(getItem('recordCertificateCapacity', 'readonly'))
           };
           this.value = "";
           this.readonly = false;
           this.isLink = false;
           this.click = () => {};
           setItem("surplusCapacity", "hidden", true);
-          setItem("recordCertificateCapacity", "readonly", false);
         }
       });
       await wait(2000);
@@ -140,6 +144,7 @@ export const certificate = [
     name: "recordCertificateCapacity",
     value: "",
     required: true,
+    readonly: false,
     ...makeUnit("kW"),
     getParam(param) {
       param[this.name] = multiply(param[this.name], 1000);
@@ -184,7 +189,7 @@ export const certificate = [
     },
   },
   {
-    ...makeUpload(1, 100),
+    ...makeUpload(1, 100, '*'),
     label: "备案证附件",
     name: "accessory",
     required: true,

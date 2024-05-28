@@ -3,15 +3,16 @@ import overlay from "@/components/overlay.vue";
 const loading = ref(false); // 下拉刷新加载
 const flag = useFlag();
 const query = getQuery();
-const tab = ref(0);
+const event = useEvent();
+// const tab = ref(0);
 
 function onClickLeft() {
   // 返回事件
   router.go(-1);
 }
 
-function onClickRight() {
-  router.currentRoute.value.meta.onClickRight();
+ function onClickRight() {
+  event.onClickRight()
   // console.log(router.currentRoute)
 }
 
@@ -34,7 +35,6 @@ function onChange(t) {
 async function onRefresh() {
   // location.reload()
   // 下拉刷新事件
-  const event = useEvent();
   await event.onRefresh();
   // loading.value = false;
 }
@@ -75,7 +75,7 @@ async function login() {
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen">
+  <van-config-provider class="flex flex-col min-h-screen">
     <overlay></overlay>
     <PhotoPreview></PhotoPreview>
     <van-nav-bar
@@ -112,20 +112,25 @@ async function login() {
         </transition>
       </router-view> -->
       <Suspense>
-        <div class="flex-1 flex flex-col">
-          <router-view :key="$route.fullPath"></router-view>
+        <div class="flex-1 flex flex-col bg-gray-100">
+          <router-view :key="$route.fullPath" v-slot="{ Component }">
+            <KeepAlive>
+              <component :is="Component" />
+            </KeepAlive>
+          </router-view>
+          <!-- <router-view :key="$route.fullPath"></router-view> -->
         </div>
       </Suspense>
     </template>
 
     <div v-show="$route.meta.tabbar" class="h-[50px] bg-gray-100 w-full"></div>
-    <van-tabbar v-show="$route.meta.tabbar" v-model="tab" class="shadowC stacky bottom-0 !z-10" @change="onChange" active-color="#ffab30">
+    <van-tabbar v-show="$route.meta.tabbar" v-model="flag.tabbar" class="shadowC stacky bottom-0 !z-10" @change="onChange" active-color="#ffab30">
       <van-tabbar-item icon="home-o">首页</van-tabbar-item>
       <div class="w-[20%]"></div>
       <!-- <van-tabbar-item icon=""></van-tabbar-item> -->
       <van-tabbar-item icon="user-o">个人中心</van-tabbar-item>
     </van-tabbar>
-  </div>
+  </van-config-provider>
 </template>
 
 <style lang="scss">
@@ -171,6 +176,11 @@ async function login() {
   height: 18px !important;
   width: 18px !important;
 }
+.van-uploader__mask {
+  width: 80px !important;
+  border-radius: 8px !important;
+  height: 80px !important;
+}
 
 .van-uploader__preview-delete-icon {
   font-size: 18px !important;
@@ -191,6 +201,10 @@ async function login() {
   color: #323232 !important;
   -webkit-text-fill-color: #323232 !important;
 } */
+.van-badge__wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+}
 
 .van-field--disabled .van-field__label {
   label {
@@ -288,6 +302,10 @@ label {
 
 .\!w-\[100\%\] {
   width: 100% !important;
+}
+
+.van-toast {
+  width: none !important;
 }
 </style>
 

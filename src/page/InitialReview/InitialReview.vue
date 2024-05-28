@@ -53,7 +53,7 @@ eventManage({ getData, saveData, submitData, approvalData });
 <template>
   <vantForm :form="_.basicInfoForm" class="pt-3" group-class="shadowC">
     <template #title="{ slot }">
-      <van-cell title-class="!text-[20px] bg-[#ffab30] pl-[20px] flex items-center  text-white" class="!bg-[#ffab30] !p-0 h-[50px] !pr-[20px]">
+      <van-cell title-class="!text-[20px] bg-[#fff] pl-[20px] flex items-center  text-[#232323]" class="!bg-[#fff] !p-0 h-[50px] !pr-[20px]">
         <template #title>
           {{ slot.title }}
         </template>
@@ -64,7 +64,7 @@ eventManage({ getData, saveData, submitData, approvalData });
               round
               block
               size="mini"
-              class="!text-[14px] !w-[120px] !py-3 !bg-[#f5f5f5] !border-0 !text-[#ffab30]"
+              class="!text-[14px] !w-[120px] !py-3 !bg-[#ddd] !border-0 !text-[white]"
               @click="() => slot.click()"
             >
               设计变更记录

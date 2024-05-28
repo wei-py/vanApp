@@ -29,9 +29,11 @@ export default [
     formType: "input",
     label: "审核结果",
     name: "result",
-    value: "",
+    // valueClass: '!hidden',
+    inputAlign: 'right',
     realValue: "",
     readonly: true,
+    disabled: true,
     required: true,
     isLink: true,
     backfill(data) {
@@ -65,6 +67,9 @@ export default [
               confirm(val) {
                 that.value = val.selectedOptions[0].text;
                 that.realValue = val.selectedOptions[0].value;
+                that.inlineForm[0].show = false;
+              },
+              cancel() {
                 that.inlineForm[0].show = false;
               },
               columns: [

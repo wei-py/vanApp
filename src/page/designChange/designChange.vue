@@ -42,13 +42,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <van-search v-model="queryTag" shape="round" background="#f3f3f3" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action>
+  <van-search v-model="queryTag" shape="round" background="#fff" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action class="van-hairline--bottom">
     <template #action>
       <div class="yCenter">
-        <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
+        <van-button @click="onSearch" class="!w-auto !h-[30px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
           搜索
-          <!-- {{ query.title == "预审" ? "新增" : "搜索" }} -->
         </van-button>
+        <!-- <van-button @click="onSearch" class="!w-auto !h-[34px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
+          {{ query.title == "预审" ? "新增" : "搜索" }}
+        </van-button> -->
       </div>
     </template>
   </van-search>
@@ -71,9 +73,38 @@ onMounted(() => {
 
 <style scoped>
 :deep(.van-search__content) {
-  background: white !important;
+  background: white;
+  height: 30px !important;
+}
+:deep(.van-field__control) {
+  font-size: 12px;
+  @apply mb-[4px]
+  /* line-height: 24px !important; */
+}
+:deep(.van-search__field) {
+  @apply !px-0;
 }
 :deep(.van-tabs__wrap) {
   height: 60px;
 }
+
+:deep(.van-search__content) {
+  background: #f7f7f7;
+}
 </style>
+
+<style>
+.van-dropdown-item__option {
+  .van-cell__title {
+    flex: none !important;
+    width: 90% !important;
+  }
+}
+.van-dropdown-menu__bar--opened {
+  z-index: 9 !important;
+}
+.van-dropdown-menu__bar {
+  box-shadow: none !important;
+}
+</style>
+

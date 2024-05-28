@@ -98,7 +98,7 @@ eventManage({ getData: onLogin });
 </script>
 
 <template>
-  <div class="h-full w-full flex-1">
+  <div class="h-full w-full flex-1 bg-white">
     <div class="h-[30vh] w-full center bgImg">
       <van-image width="100" height="100" src="./icons/loginRegister/btoWhiteLogo.png" />
     </div>

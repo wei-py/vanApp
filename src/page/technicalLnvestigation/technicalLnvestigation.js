@@ -18,6 +18,11 @@ export const reconnaissanceUserForm = [
         setItem("phone", "value", lo.find(columns, ["value", v])?.phone || "");
       });
       this.makeSelect(bData[this.name], columns);
+      this.disabled = false;
+      this.click = () => {
+        const flag = useFlag();
+        this.inlineForm[0].show = flag.btns.canSave;
+      };
     },
   },
   {
@@ -25,6 +30,7 @@ export const reconnaissanceUserForm = [
     label: "技术勘察员手机号码",
     value: "",
     readonly: true,
+    required: true,
     placeholder: "系统抓取技术勘察员手机号码",
     name: "phone",
     rightIcon: "phone",
@@ -74,7 +80,7 @@ export const basicMessageForm = [
     formType: "input",
     label: "拟安装逆变器品牌",
     name: "inverterBrand",
-    value: '',
+    value: "",
     required: true,
     ...backSelect(),
     ...makeSelect("inverterBrand", [], "dymatic"),
@@ -89,6 +95,7 @@ export const basicMessageForm = [
     value: "",
     placeholder: "请输入",
     type: "digit",
+    required: true,
     name: "modulePower",
     ...makeUnit("W"),
   },
@@ -96,6 +103,7 @@ export const basicMessageForm = [
     formType: "input",
     label: "拟安装组件数量",
     value: "",
+    required: true,
     placeholder: "请输入",
     name: "moduleNumberReckon",
     type: "number",
@@ -109,6 +117,7 @@ export const basicMessageForm = [
     readonly: true,
     placeholder: "自动计算",
     realValue: 0,
+    required: true,
     name: "installedCapacityReckon",
     ...makeUnit("W"),
     backfill(bData) {
@@ -150,7 +159,7 @@ export const inverterPositionForm = [
   makeTitle("逆变器安装位置"),
   {
     ...makeUpload(1, 100, "", true),
-    label: "逆变器安装位置",
+    label: "逆变器安装位置(必填)",
     name: "inverterPosition",
     required: true,
   },
@@ -160,7 +169,7 @@ export const distributionBoxPositionForm = [
   makeTitle("配电箱安装位置"),
   {
     ...makeUpload(1, 100, "", true),
-    label: "配电箱安装位置",
+    label: "配电箱安装位置(必填)",
     name: "distributionBoxPosition",
     required: true,
   },
@@ -172,7 +181,6 @@ export const junctionLocationForm = [
     ...makeUpload(1, 100),
     label: "并网点位置水印相机定位照(选填)",
     name: "junctionLocation",
-    required: true,
   },
   {
     formType: "input",

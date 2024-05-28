@@ -39,7 +39,9 @@ function approvalBackfill() {
       _.rejectReason[5].inlineForm[0].disabled = true;
     } else {
       _.rejectReason[i].readonly = false;
-      _.rejectReason[i].click = function () {
+      _.rejectReason[3].readonly = true;
+      _.rejectReason[3].isLink = true;
+      _.rejectReason[3].click = function () {
         this.inlineForm[0].show = flag.btns.canApproval;
       };
       _.rejectReason[5].inlineForm[0].readonly = false;
@@ -67,6 +69,7 @@ onMounted(async () => {
     // });
     // console.log("禁用");
   }
+  rejectReason[3].readonly = true;
 
   // 禁用输入 readonly 代替 disabled
   // watch(
@@ -76,7 +79,7 @@ onMounted(async () => {
 
 // });
 
-const saveDataDebounce = lo.debounce(saveData, 300)
+const saveDataDebounce = lo.debounce(saveData, 300);
 async function saveData() {
   onSave();
   try {
@@ -85,12 +88,12 @@ async function saveData() {
       const msg = lo.get(data, "msg", "保存成功") || "保存成功";
       showSuccessToast(msg);
     }
-  } catch {
-    showFailToast("保存失败");
+  } catch (e) {
+    showFailToast("保存失败: " + e.msg);
   }
 }
 
-const submitDataDebounce = lo.debounce(submitData, 300)
+const submitDataDebounce = lo.debounce(submitData, 300);
 async function submitData() {
   onSave();
   await event.saveData();
@@ -110,8 +113,7 @@ async function submitData() {
   }
 }
 
-
-const approvalDataDebounce = lo.debounce(approvalData, 300)
+const approvalDataDebounce = lo.debounce(approvalData, 300);
 async function approvalData() {
   await doms.approvalDoms.approval.validate();
   const val = doms.approvalDoms.approval.getValues();
