@@ -59,8 +59,9 @@ export const certificate = [
       });
     },
     isLink: true,
+    rightIcon: "",
     readonly: true,
-    placeholder: "请选择直接输入或选择",
+    placeholder: "请直接输入或选择",
     inlineForm: [
       {
         slot: "right-icon",
@@ -108,7 +109,7 @@ export const certificate = [
           // 大备案
           this.value = "";
           this.readonly = true;
-          this.isLink = true;
+          this.rightIcon = "";
           this.click = () => {
             const flag = useFlag();
             this.inlineForm[0].show = flag.btns.canEdit;
@@ -118,6 +119,7 @@ export const certificate = [
           setItem("surplusCapacity", "hidden", false);
         } else {
           const actions = data.map((n) => ({ ...n, text: n.recordCertificateId, value: n.recordCertificateId }));
+          // this.rightIcon = "arrow";
           this.updateValue = (value) => {
             const filterActions = actions.filter((n) => n.value.includes(value));
             this.inlineForm[1].show = new Boolean(filterActions.length || value.length);
@@ -128,8 +130,9 @@ export const certificate = [
           };
           this.value = "";
           this.readonly = false;
-          this.isLink = false;
-          this.click = () => {};
+          this.click = () => {
+            this.inlineForm[1].show = flag.btns.canEdit
+          };
           setItem("surplusCapacity", "hidden", true);
         }
       });
@@ -189,7 +192,7 @@ export const certificate = [
     },
   },
   {
-    ...makeUpload(1, 100, '*'),
+    ...makeUpload(1, 100, "*"),
     label: "备案证附件",
     name: "accessory",
     required: true,

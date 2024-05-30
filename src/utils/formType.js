@@ -1,10 +1,9 @@
 /*
- * @Author: rabbwei 
- * @Date: 2024-04-06 14:44:27 
+ * @Author: rabbwei
+ * @Date: 2024-04-06 14:44:27
  * @Last Modified by: rabbwei
  * @Last Modified time: 2024-04-28 10:15:24
  */
-
 
 export const formType = {
   input: van.Field,
@@ -26,14 +25,13 @@ export const formType = {
 };
 
 export function reform(item) {
-
   let labelClass = lo.get(item, "labelClass", "");
   labelClass += " !min-w-[30%]";
   // labelClass += ' flex-1'
-  labelClass = lo.uniq(labelClass.split(" ")).join(" ")
+  labelClass = lo.uniq(labelClass.split(" ")).join(" ");
   lo.set(item, "labelClass", labelClass);
 
-  if (!lo.has(item, 'inputAlign')) {
+  if (!lo.has(item, "inputAlign")) {
     item.inputAlign = "right";
   }
 
@@ -46,7 +44,13 @@ export function reform(item) {
 
 function reformInput(item) {
   if (lo.isUndefined(item.type)) {
-    item.type = 'textarea'
+    item.type = "textarea";
   }
-  lo.merge(item, { autosize: true,  rows: "1" });
+  if (item.type == "digit" && !lo.isFunction(item.backfill)) {
+    item.backfill = function (data) {
+      console.log(this, data)
+      this.value = data[this.name];
+    };
+  }
+  lo.merge(item, { autosize: true, rows: "1" });
 }

@@ -42,7 +42,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <van-search v-model="queryTag" shape="round" background="#fff" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action class="van-hairline--bottom">
+  <van-search
+    v-model="queryTag"
+    shape="round"
+    background="#fff"
+    placeholder="系统编号、进件编号、组织全称、姓名、手机号"
+    show-action
+    class="van-hairline--bottom"
+  >
     <template #action>
       <div class="yCenter">
         <van-button @click="onSearch" class="!w-auto !h-[30px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
@@ -69,6 +76,7 @@ onMounted(() => {
       <card @click="$router.push({ path: '/itemDetail', query: { orderId: item.orderBase.orderId } })" :item="item"></card>
     </template>
   </van-list>
+  <van-back-top class="!bg-[#fed38c]" />
 </template>
 
 <style scoped>
@@ -79,7 +87,7 @@ onMounted(() => {
 :deep(.van-field__control) {
   font-size: 12px;
   @apply mb-[4px]
-  /* line-height: 24px !important; */
+  /* line-height: 24px !important; */;
 }
 :deep(.van-search__field) {
   @apply !px-0;
@@ -107,4 +115,3 @@ onMounted(() => {
   box-shadow: none !important;
 }
 </style>
-

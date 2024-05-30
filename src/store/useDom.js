@@ -8,7 +8,8 @@ export const useDom = defineStore("dom", () => {
   const longPressDom = ref(null);
   const showPreviewImg = ref(false);
   const imgIndex = ref(0);
-  return { submitDoms, longPressDom, imgDoms, showPreviewImg, approvalDoms, imgIndex };
+  const popupDomName = ref([])
+  return { submitDoms, longPressDom, imgDoms, showPreviewImg, approvalDoms, imgIndex, popupDomName };
 });
 
 export async function refreshImg() {

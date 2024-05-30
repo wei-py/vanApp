@@ -1,14 +1,14 @@
-import { actionSheetProps } from "vant";
-
 export const show = [
   {
     formType: "",
     name: "designGroupShow",
     value: false,
-    backfill(data) {this.value = false},
+    backfill(data) {
+      this.value = false;
+    },
     getParam(param) {
-      delete param[this.name]
-    }
+      delete param[this.name];
+    },
   },
   {
     formType: "",
@@ -50,15 +50,15 @@ export const basicInfoForm = [
     show: false,
     click() {
       router.push({
-        path: '/designChangeLog',
+        path: "/designChangeLog",
         query: {
-          orderId: getQuery().orderId
-        }
-      })
+          orderId: getQuery().orderId,
+        },
+      });
     },
     onMounted() {
-      this.show = getQuery().title == '设计变更信息'
-    }
+      this.show = getQuery().title == "设计变更信息";
+    },
   },
   // makeTitle("基本信息"),
   {
@@ -69,19 +69,19 @@ export const basicInfoForm = [
     name: "designType",
     ...backSelect(),
     ...makeSelect("designType", arrayToVantColumns(["一字型", "人字型", "阵列式", "一字型+人字型", "一字型+阵列式", "人字型+阵列式"])),
-    backfill(data) {
-      this.value = data.designType || "";
-      this.realValue = data.designType || "";
-    },
-    getParam(params) {
-      params.designType = "";
-    },
+    // backfill(data) {
+    //   this.value = data.designType || "";
+    //   this.realValue = data.designType || "";
+    // },
+    // getParam(params) {
+    //   params.designType = "";
+    // },
   },
   {
     formType: "input",
     label: "南坡组件数量",
+    type: "digit",
     value: "",
-    type: "number",
     placeholder: "请输入",
     name: "southModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
@@ -89,8 +89,8 @@ export const basicInfoForm = [
   {
     formType: "input",
     label: "北坡组件数量",
+    type: "digit",
     value: "",
-    type: "number",
     placeholder: "请输入",
     name: "northModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
@@ -98,8 +98,8 @@ export const basicInfoForm = [
   {
     formType: "input",
     label: "东坡组件数量",
+    type: "digit",
     value: "",
-    type: "number",
     placeholder: "请输入",
     name: "eastModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
@@ -107,8 +107,8 @@ export const basicInfoForm = [
   {
     formType: "input",
     label: "西坡组件数量",
+    type: "digit",
     value: "",
-    type: "number",
     placeholder: "请输入",
     name: "westModuleNumber",
     rules: [(val) => val < 0 && "请输入正整数或 0"],
@@ -139,7 +139,7 @@ export const basicInfoForm = [
     label: "方位角",
     required: true,
     value: "",
-    type: "number",
+    type: "digit",
     name: "azimuthAngle",
     rules: [(val) => (val * 1 > 359 || val * 1 < 0) && "只允许输入 0-360 (含0, 不含360) 之间的数字, 不允许输入小数点, 不允许输入其他字符或中文"],
     ...makeUnit("度"),
@@ -148,8 +148,8 @@ export const basicInfoForm = [
     formType: "input",
     label: "倾斜角",
     required: true,
-    value: "0",
-    type: "number",
+    value: "",
+    type: "digit",
     name: "tiltAngle",
     rules: [(val) => (val * 1 > 89 || val * 1 < 0) && "只允许输入 0-89 (含0, 不含89) 之间的数字, 不允许输入小数点, 不允许输入其他字符或中文"],
     ...makeUnit("度"),
@@ -159,7 +159,7 @@ export const basicInfoForm = [
     label: "安装最高点(房屋+光伏总高度)",
     required: true,
     value: "",
-    type: "digit",
+    // type: "digit",
     name: "installedHeight",
     rules: [(val) => val < 0 && "高度不能为负数"],
     ...makeUnit("米"),
@@ -185,7 +185,7 @@ export const zj = [
     label: "设计组件数量",
     value: "",
     required: true,
-    type: "number",
+    type: "digit",
     name: "quantity",
     ...makeUnit("块"),
     backfill(data) {
@@ -200,7 +200,7 @@ export const zj = [
     value: "",
     required: true,
     readonly: true,
-    type: "digit",
+    // type: "",
     name: "installedCapacityDesign",
     ...makeUnit("W", "dynamic"),
     backfill() {
@@ -208,7 +208,8 @@ export const zj = [
         const value = multiply(deviceSpec, quantity);
         this.realValue = value;
         const result = unitConver(value);
-        this.value = result.value;
+        console.log(result, 3333);
+        this.value = result.realValue;
         this.makeUnit(result.unit);
       });
     },
@@ -247,9 +248,7 @@ export const zj = [
         deviceType: "ZUJIAN",
         // ...lo.pick(params, ["installedCapacityDesign", "moduleBaseType", "moduleBackPlateType"]),
       };
-      if (params.deviceSpec && params.quantity) {
-        params.designDevice.push(result);
-      }
+      params.designDevice.push(result);
       delete params.deviceSpec;
       delete params.quantity;
       // delete params.installedCapacityDesign;
@@ -264,7 +263,7 @@ export const nbq = [
   {
     formType: "input",
     label: "逆变器规格型号",
-    type: "number",
+    type: "digit",
     name: "deviceSpec-nbq",
     value: "",
     ...makeUnit("kW"),
@@ -272,7 +271,7 @@ export const nbq = [
   {
     formType: "input",
     label: "逆变器个数",
-    type: "number",
+    type: "digit",
     name: "quantity-nbq",
     value: "",
     ...makeUnit("个"),
@@ -313,7 +312,10 @@ export const nbq = [
         text: "设计组串数量",
         formType: "button",
         className: "bg-[#ddd] text-white h-8 w-[60%] rounded-2xl van-haptics-feedback ",
-        click() {
+        async click() {
+          const event = useEvent();
+          await event.saveData();
+          await event.getData();
           setItem("designGroupShow", "value", true);
           const param = getParam();
           const query = lo.pick(param, ["id", "orderId", "designIdByPv"]);
@@ -393,7 +395,7 @@ export const cjq = [
   {
     formType: "input",
     label: "采集器个数",
-    type: "number",
+    type: "digit",
     name: "deviceSpec-cjq",
     required: true,
     value: "",
@@ -421,7 +423,7 @@ export const pdx = [
   {
     formType: "input",
     label: "配电箱规格型号",
-    type: "number",
+    type: "digit",
     name: "deviceSpec-pdx",
     value: "",
     ...makeUnit("A"),
@@ -429,7 +431,7 @@ export const pdx = [
   {
     formType: "input",
     label: "配电箱个数",
-    type: "number",
+    type: "digit",
     name: "quantity-pdx",
     value: "",
     ...makeUnit("个"),

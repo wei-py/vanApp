@@ -114,10 +114,10 @@ export const record = [
     hidden: computed(() => getItem("recordType", "realValue") != 1),
     ...makeUnit("kW"),
     getParam(params) {
-      params.recordCertificateCapacity = multiply(params.recordCertificateCapacity, 1000);
+      params.surplusCapacity = multiply(params.surplusCapacity, 1000);
     },
     backfill(data) {
-      this.value = divide(data.recordCertificateCapacity, 1000);
+      this.value = divide(data.surplusCapacity, 1000);
     },
   },
   {

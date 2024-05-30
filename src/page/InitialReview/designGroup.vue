@@ -1,10 +1,12 @@
 <script setup>
-const props = defineProps({ query: {
-  table: {},
-  id: {},
-  designIdByPv: {},
-  orderId: {}
-} });
+const props = defineProps({
+  query: {
+    table: {},
+    id: {},
+    designIdByPv: {},
+    orderId: {},
+  },
+});
 // const query = getQuery(); // 获取url参数
 const active = ref(0); // tab切换
 const tabData = ref({}); // tab数据
@@ -26,10 +28,10 @@ const tabs = computed(() => {
 async function getData() {
   const { data } = await http.get(queryUrl("design/get-design-nbq-pv", { designId: designId.value }));
   if (data.length) {
-    const dataByNbqName = lo.groupBy(data, 'nbqName')
+    const dataByNbqName = lo.groupBy(data, "nbqName");
     for (const tab in tabData.value) {
       if (dataByNbqName[tab]) {
-        tabData.value[tab] = dataByNbqName[tab][0]
+        tabData.value[tab] = dataByNbqName[tab][0];
       }
     }
     // tabData.value = data.reduce((pre, cur) => {
@@ -46,10 +48,11 @@ async function saveData() {
     designNbqPvList: Object.values(tabData.value),
   };
   const data = await http.post("design/put-design-nbq-pv", params);
-  return data
-  // if (data.code == 200) {
-  //   showSuccessToast("保存成功");
-  // }
+  if (data.code == 200) {
+    showSuccessToast("保存成功");
+  }
+  console.log(data, 3333)
+  return data;
 }
 
 async function initTabData() {
@@ -85,7 +88,7 @@ defineExpose({ saveData, getData });
             <!-- dc -->
             <van-grid :column-num="2" :border="false">
               <van-grid-item v-for="j in 4" :key="j">
-                <van-field :label="`DC${j}`" :required="j == 1" labelClass="!w-[25%] !text-right">
+                <van-field :label="`DC${j}`" :required="i < 3 && j == 1" labelClass="!w-[25%] !text-right">
                   <template #input>
                     <!-- {{ $log(tabData[t]) }} -->
                     <van-stepper allow-empty v-model="tabData[t][`pv${i}`][`dc${j}`]" step="1" min="0" integer />

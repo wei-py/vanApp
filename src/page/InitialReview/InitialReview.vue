@@ -109,7 +109,8 @@ eventManage({ getData, saveData, submitData, approvalData });
   <vantForm :form="_.billMaterials" class="pt-3" group-class="shadowC"> </vantForm>
 
   <!-- :style="{ width: '100%', height: '100%' }" -->
-  <van-popup v-model:show="_.show[0].value" position="right" class="w-full h-full" closeable>
+  <van-popup v-model:show="_.show[0].value" position="right" class="w-full h-full" >
+    <van-nav-bar title="设计组串数量" left-text="返回" @clickLeft="_.show[0].value = false" />
     <designGroup ref="designGroupDom" :query="_.show[0].query" />
   </van-popup>
 

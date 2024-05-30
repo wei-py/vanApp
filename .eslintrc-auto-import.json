@@ -478,6 +478,8 @@
     "viewOrg": true,
     "locat": true,
     "getHash": true,
-    "investorIdDic": true
+    "investorIdDic": true,
+    "getUrlName": true,
+    "viewFileType": true
   }
 }

@@ -53,7 +53,7 @@ async function saveData() {
             <vxe-table :data="slot.columns" align="left" header-align="center" max-height="90%">
               <vxe-column field="name">
                 <template #default="{ row }">
-                  <van-checkbox checked-color="#ffab30" class="van-haptics-feedback w-full" v-model="row.checked" @click="() => slot.check(row)">
+                  <van-checkbox icon-size="16px" checked-color="#ffab30" class="van-haptics-feedback w-full" v-model="row.checked" @click="() => slot.check(row)">
                     {{ row.name }}
                   </van-checkbox>
                 </template>

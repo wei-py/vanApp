@@ -5,6 +5,7 @@ const flag = useFlag();
 
 onMounted(() => {
   backfill(_, {});
+
   // flag.active = 1;
   // console.log(flag.active)
 });

@@ -92,14 +92,13 @@ export const form = [
     os: "",
     // show: '',
     async onMounted() {
-      const appInfo = await getAppInfo();
-      this.show = appInfo.version != appConfig.version;
-      this.os = appInfo.os;
-      this.value = appInfo.version;
-      // postMsg({ func: "getInfo" });
-      // window.getDeviceInfo = (info) => {
-      //   const appInfo = JSON.parse(info);
-      // };
+      postMsg({ func: "getInfo" });
+      window.getDeviceInfo = async (info) => {
+        const appInfo = JSON.parse(info);
+        // this.show = appInfo.version != appJson.versionCode;
+        this.os = appInfo.os;
+        this.value = appInfo.version;
+      };
     },
     inlineForm: [
       {

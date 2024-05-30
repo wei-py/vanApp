@@ -135,7 +135,8 @@ export const monitorForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.monitor = param.monitor.map((n) => sToUrl(n.url));
+      param.monitor = param.monitor.map((n) => getUploadUrl(n));
+      console.log(param.monitor, 33333);
     },
   },
 ];
@@ -151,7 +152,7 @@ export const omnibearingShadowOcclusionForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.omnibearingShadowOcclusion = param.omnibearingShadowOcclusion.map((n) => sToUrl(n.url));
+      param.omnibearingShadowOcclusion = param.omnibearingShadowOcclusion.map((n) => getUploadUrl(n));
     },
   },
   {
@@ -163,7 +164,7 @@ export const omnibearingShadowOcclusionForm = [
       lo.bind(makeImgs, this)(data);
     },
     getParam(param) {
-      param.allAroundReviewSurroundVideo = param.allAroundReviewSurroundVideo.map((n) => sToUrl(n.url));
+      param.allAroundReviewSurroundVideo = param.allAroundReviewSurroundVideo.map((n) => getUploadUrl(n));
     },
   },
 ];
@@ -173,11 +174,13 @@ export const propertyInsuranceForm = [
   {
     ...makeDate({ name: "startDate" }),
     label: "保险开始日期",
+    name: "startDate",
     required: true,
   },
   {
     ...makeDate({ name: "endDate" }),
     label: "保险结束日期",
+    name: "endDate",
     required: true,
   },
   // {
@@ -267,6 +270,7 @@ export const propertyInsuranceForm = [
     label: "保险公司",
     name: "insuranceCompany",
     placeholder: "请选择",
+    required: true,
     ...backSelect(),
     ...makeSelect("insuranceCompany", [], "dynamic"),
     async backfill(bData) {
@@ -274,14 +278,13 @@ export const propertyInsuranceForm = [
       const colums = data.map((n) => {
         return { text: n.insuranceCompany, value: n.insuranceCompany };
       });
-      console.log(bData[this.name], bData);
       this.makeSelect(bData[this.name], colums);
     },
   },
   {
     formType: "input",
     label: "保险编号",
-    requred: true,
+    required: true,
     name: "insuranceNumber",
     value: "",
     placeholder: "请输入",
@@ -293,7 +296,8 @@ export const propertyInsuranceForm = [
     readonly: true,
     ...backSelect(),
     ...makeSelect("insuranceType", [{ value: 1, text: "财产险" }]),
-    value: 1,
+    value: "财产险",
+    realvalue: 1,
   },
   {
     formType: "input",
@@ -329,7 +333,7 @@ export const propertyInsuranceForm = [
     name: "insurancePolicyP",
     required: true,
     backfill(data) {
-      lo.bind(makeImgs, this)(data.insuranceList[0]);
+      lo.bind(makeImgs, this)(lo.get(data, "insuranceList[0]", {}));
     },
     getParam(param) {
       if (!lo.isArray(param.insuranceList)) {
@@ -349,7 +353,7 @@ export const propertyInsuranceForm = [
       param.insurancePolicyP = param.insurancePolicyP.map((n) => getUploadUrl(n));
       insurance.insurancePolicyP = JSON.stringify(param.insurancePolicyP);
       param.insuranceList = [insurance];
-      delete param.insurancePolicyP;
+      pickList.forEach((p) => delete param[p]);
     },
   },
 ];

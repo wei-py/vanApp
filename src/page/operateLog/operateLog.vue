@@ -27,16 +27,19 @@ async function getData() {
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
     <template v-for="item in list" :key="item.index">
       <div class="grid grid-cols-6 m-2 p-3 gap-2 bg-white rounded-lg">
-        <div class="col-span-2 text-lg">记录:</div>
-        <div class="col-span-1 text-lg">{{ item.index }}</div>
-        <div class="col-span-3 text-right !leading-lg text-sm text-[#6f6f6f]">{{ item.time }}</div>
-        <div class="col-span-2 text-sm">操作者:</div>
-        <div class="col-span-4 text-sm">{{ item.operator || "-" }}</div>
-        <div class="col-span-2 text-sm">{{ item.title.split(",").slice(0, 1)[0] }}:</div>
-        <div class="col-span-4 text-sm">{{ item.title.split(",").slice(1).join(",") }}</div>
-        <div class="col-span-2 text-sm">审核结果:</div>
-        <div class="col-span-4 text-sm">{{ statusDic[$get(item, "approvalReq.result")] || "-" }}{{ $get(item, "approvalReq.rejectReason") || "-" }}</div>
+        <div class="col-span-2 text-[18px]">记录:</div>
+        <div class="col-span-1 text-[18px]">{{ item.index }}</div>
+        <div class="col-span-3 text-right !leading-[14px] text-[14px] text-[#6f6f6f]">{{ item.time }}</div>
+        <div class="col-span-2 text-[14px]">操作者:</div>
+        <div class="col-span-4 text-[14px]">{{ item.operator || "-" }}</div>
+        <div class="col-span-2 text-[14px]">{{ item.title.split(",").slice(0, 1)[0] }}:</div>
+        <div class="col-span-4 text-[14px]">{{ item.title.split(",").slice(1).join(",") }}</div>
+        <div class="col-span-2 text-[14px]">审核结果:</div>
+        <div class="col-span-4 text-[14px]">
+          {{ statusDic[$get(item, "approvalReq.result")] || "-" }}{{ $get(item, "approvalReq.rejectReason") || "-" }}
+        </div>
       </div>
     </template>
   </van-list>
+  <van-back-top class="!bg-[#fed38c]" />
 </template>

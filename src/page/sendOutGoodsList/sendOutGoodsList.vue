@@ -136,6 +136,7 @@ onMounted(async () => {
           </van-cell-group>
         </template>
       </van-list>
+      <van-back-top class="!bg-[#fed38c]" />
     </van-tab>
   </van-tabs>
 

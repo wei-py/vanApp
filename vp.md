@@ -62,3 +62,9 @@ ssh -o "setenv secret=wtowrzemaycwqfaogxarqgwv" root@lulz.segfault.net
 ## free
 
 > https://tofree.zeabur.app/
+
+
+## acg
+> https://www.wlxing.net/
+> https://acg.rip
+> https://www.acgbox.link/

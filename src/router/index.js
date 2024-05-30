@@ -61,7 +61,7 @@ const router = createRouter({
       component: () => import("../page/realLease/realLease.vue"),
       meta: {
         title: "订单列表",
-        // refresh: false,
+        refresh: true,
       },
     },
     {
@@ -75,7 +75,7 @@ const router = createRouter({
         //   const event = useEvent()
         //   event.onClickRight()
         // },
-        refresh: false,
+        refresh: true,
       },
     },
     {
@@ -183,7 +183,7 @@ const router = createRouter({
       name: "buildVideo",
       component: () => import("../page/buildVideo/buildVideo.vue"),
       meta: {
-        title: "施工影像件信息",
+        title: "并网信息",
         refresh: false,
         // tabbar: true,
       },

@@ -27,16 +27,12 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "image/
         deletable: deletable,
         disabled: disabled,
         previewFullImage: false,
-        clickPreview(img) {
+        async clickPreview(img) {
           if (!isImgSlot(img)) {
             const url = getUploadUrl(img) || img.objectUrl;
-            // if (url.endsWith(".pdf")) {
-            //   postMsg({ func: "openPdf", url });
-            // }
-            router.push({
-              path: "/previewFile",
-              query: { url },
-            });
+            const event = useEvent()
+            await event.saveData()
+            router.push({ path: "/previewFile", query: { url }, });
             return;
           } else {
             const dom = useDom();

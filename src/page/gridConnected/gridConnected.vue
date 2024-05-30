@@ -11,7 +11,8 @@ onMounted(() => {
 async function getData() {
   const url = "/order/get-grid";
   const { data } = await http.get(queryUrl(url, query));
-  backfill(_, { ...data, ...data.insuranceList[0] });
+
+  backfill(_, { ...data, ...lo.get(data, "insuranceList.0", {}) });
 }
 
 async function saveData() {

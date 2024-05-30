@@ -3,8 +3,8 @@ import { companyForm } from "./login";
 const _ = makeForm({ companyForm });
 const userStore = useUser();
 const user = reactive({
-  username: "superadmin",
-  password: "123456",
+  username: lo.get(userStore, "usernameList[0].text"),
+  password: lo.get(userStore, "usernameList[0].password"),
   code: "",
 
   usernameList: [],
@@ -19,13 +19,13 @@ const user = reactive({
   codeRule: toRaw(convertRules([(val) => val.length || "验证码必填"])),
 });
 
-const checked = ref([]);
+// const checked = ref(userStore.checked);
 const isPasswordToLogin = ref(true);
 
 async function onLogin(params) {
   const t = {
-    phone: "superadmin",
-    password: "CMJBG06#",
+    phone: user.username,
+    password: user.password,
     code: "",
     type: "password",
     systemType: "android",
@@ -33,21 +33,34 @@ async function onLogin(params) {
     appVersion: "2.4.16",
   };
   const body = lo.merge(t, params);
-  setItem('userId', 'loginInfo', body)
+  setItem("userId", "loginInfo", body);
   const { data } = await http.post("/login", body);
+
+  // 已阅读
+  if (!userStore.checked.includes("readed")) {
+    showFailToast("请阅读并同意博光 NEW 隐私政策和使用协议");
+    return;
+  }
+
   // 缓存用户信息
   userStore.info = data;
 
   // 缓存密码项
   params.text = params.phone;
-  userStore.usernameList.unshift(lo.omit(params, "phone"));
-  userStore.usernameList = lo.uniqBy(userStore.usernameList, "text");
+  if (userStore.checked.includes("remember")) {
+    userStore.usernameList.unshift(lo.omit(params, "phone"));
+    userStore.usernameList = lo.uniqBy(userStore.usernameList, "text");
+  } else {
+    const popIndex = userStore.usernameList.findIndex((n) => n.text == params.phone);
+    userStore.usernameList.splice(popIndex, 1);
+  }
 
   // 状态字典
   const resp = await http.get("order-state/dic");
   const statusDic = resp.data;
   const flag = useFlag();
   flag.statusDic = { ...statusDic.state, ...statusDic.stage, ...statusDic.task };
+  flag.tabbar = 0;
 
   // 选择组织
 
@@ -158,13 +171,13 @@ eventManage({ getData: onLogin });
           </van-field>
         </van-cell-group>
         <div class="w-full px-[4.5vw] pt-[2vh]">
-          <van-checkbox-group v-model="checked">
-            <van-checkbox icon-size="18px" checked-color="#ffab30" name="remember">记住密码</van-checkbox>
-            <van-checkbox class="py-[1vh]" icon-size="18px" checked-color="#ffab30" name="readed">
+          <van-checkbox-group v-model="userStore.checked">
+            <van-checkbox icon-size="16px" checked-color="#ffab30" name="remember">记住密码</van-checkbox>
+            <van-checkbox class="py-[1vh]" icon-size="16px" checked-color="#ffab30" name="readed">
               我已阅读并同意博光NEW
               <a class="text-[blue]" @click.stop="$openWeb('https://www.btosolarman.com/APP/boGuangAPP/privacy.txt', '隐私政策')">隐私政策</a>
               和
-              <a class="text-[blue]" @click.stop="$openWeb('/protocolOfUsage.html', '使用协议')">使用协议</a>
+              <a class="text-[blue]" @click.stop="$openWeb('/orderh5/protocolOfUsage.html', '使用协议')">使用协议</a>
             </van-checkbox>
           </van-checkbox-group>
         </div>
@@ -179,7 +192,7 @@ eventManage({ getData: onLogin });
       <div class="h-[30%] xCenter" @click="isPasswordToLogin = !isPasswordToLogin">
         <van-image class="w-[8%]" mode="aspectFit" src="./icons/loginRegister/phone.png" />
       </div>
-      <div class="text-center my-auto text-[#9c9c9c]">
+      <div class="text-center my-auto text-[#9c9c9c] text-[16px]">
         {{ isPasswordToLogin ? "密码登录" : "验证码登录" }}
       </div>
     </div>
@@ -211,5 +224,8 @@ eventManage({ getData: onLogin });
 :deep(.van-field__left-icon) {
   margin-right: 10px;
   color: #ffab30;
+}
+:deep(.van-checkbox__label) {
+  font-size: 16px !important;
 }
 </style>

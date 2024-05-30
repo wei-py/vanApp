@@ -9,9 +9,10 @@ export default function unitConver(value, toFix, unitList = ["W", "kW", "MW"]) {
   if (!value) {
     return { value: "0", unit: "W", scale, result: "0 W" };
   }
+  const realValue = value
   if (lo.isSafeInteger(toFix * 1)) {
     value = lo.floor(value * 1, toFix).toFixed(toFix);
   }
   const result = value + " " + unit;
-  return { value: value, unit, scale, result };
+  return { value: value, unit, scale, result, realValue };
 }

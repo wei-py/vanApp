@@ -14,7 +14,6 @@ const tasks = ref([
 // const active = ref(0);
 
 onMounted(() => {
-  // active.value = flag.headers.Biztype == "ZZD" ? 0 : 1;
   onChangeTab(flag.active);
 });
 

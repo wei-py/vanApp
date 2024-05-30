@@ -516,6 +516,7 @@ export const zldl = [
     formType: "input",
     name: "manufacturerZLDL",
     label: "直流电缆厂家名称",
+    labelClass: 'flex-none !w-[40%]',
     required: true,
     getParam(param) {
       if (!lo.isArray(param.devices)) {

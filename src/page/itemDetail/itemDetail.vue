@@ -116,7 +116,7 @@ function onClickRight() {
   router.push({ path: "/operateLog", query });
 }
 
-eventManage({onClickRight})
+eventManage({onClickRight, onRefresh: () => location.reload()})
 </script>
 
 <template>

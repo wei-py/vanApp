@@ -11,8 +11,8 @@ function onClickLeft() {
   router.go(-1);
 }
 
- function onClickRight() {
-  event.onClickRight()
+function onClickRight() {
+  event.onClickRight();
   // console.log(router.currentRoute)
 }
 
@@ -98,9 +98,9 @@ async function login() {
       <Suspense>
         <div class="flex-1 bg-[#f3f3f3] flex flex-col">
           <router-view :key="$route.fullPath" v-slot="{ Component }">
-            <KeepAlive>
-              <component :is="Component" />
-            </KeepAlive>
+            <!-- <KeepAlive> -->
+            <component :is="Component" />
+            <!-- </KeepAlive> -->
           </router-view>
         </div>
       </Suspense>
@@ -114,9 +114,9 @@ async function login() {
       <Suspense>
         <div class="flex-1 flex flex-col bg-gray-100">
           <router-view :key="$route.fullPath" v-slot="{ Component }">
-            <KeepAlive>
-              <component :is="Component" />
-            </KeepAlive>
+            <!-- <KeepAlive> -->
+            <component :is="Component" />
+            <!-- </KeepAlive> -->
           </router-view>
           <!-- <router-view :key="$route.fullPath"></router-view> -->
         </div>
@@ -283,18 +283,18 @@ label {
   margin: auto;
 }
 
-/*.van-field__error-message {
+.flex-col-reverse .van-field__error-message {
   margin: auto !important;
   text-align: center !important;
-}*/
+}
 
-.van-picker-column__item {
+/* .van-picker-column__item {
   .van-ellipsis {
     overflow: none;
     white-space: wrap;
     text-align: center;
   }
-}
+} */
 
 .\!w-\[50\%\] {
   width: 50% !important;
@@ -305,7 +305,8 @@ label {
 }
 
 .van-toast {
-  width: none !important;
+  width: fit-content !important;
+  max-width: 45% !important;
 }
 </style>
 
@@ -327,6 +328,7 @@ label {
 
 :deep(.van-field__label) {
   flex: none !important;
+  color: #232323 !important;
 }
 
 :deep(.vxe-table--render-default .vxe-table--border-line) {

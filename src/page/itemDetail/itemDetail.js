@@ -23,7 +23,6 @@ export const itemDetail = [
     valueClass: "mr-[10px] text-gray",
     titleClass,
     value: "-",
-    
   },
 ];
 
@@ -154,7 +153,9 @@ export const contractSign = [
           message: "提示：根据商务培训要求，选择正确的签约方式",
           confirmButtonText: "线上电子合同签约",
           confirmButtonDisabled: isZZD_ORG(),
+          confirmButtonColor: "#232323",
           cancelButtonText: "线下纸质合同签约",
+          cancelButtonColor: "#232323",
           cancelButtonDisabled: isZZD(),
           closeOnClickOverlay: true,
         })

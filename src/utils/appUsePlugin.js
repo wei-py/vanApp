@@ -16,20 +16,32 @@ export default function appUsePlugin(app) {
   app.use(createInstall(log, "log"));
   app.use(createInstall(isImg, "isImg"));
   app.use(createInstall(get, "get"));
+  app.use(createInstall(viewFileType, "viewFileType"));
   app.use(createInstall(unitConver, "unitConver"));
   app.use(createInstall(investorIdDic, "investorIdDic"));
   app.use(createInstall(lo.debounce, "debounce"));
 
   window.goBack = () => {
-    const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");
+    // const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");
+    const overlayDom = [...document.querySelectorAll(".van-overlay")];
+    const isOverlayShow = overlayDom.some((n) => n.style.display != "none");
+
     const dom = useDom();
 
     if (dom.showPreviewImg) {
       dom.showPreviewImg = false;
-      return 
+      return;
     }
-    if (!isPopupShow) {
+
+    if (!isOverlayShow) {
       router.go(-1);
+    } else {
+      for (const dom of overlayDom) {
+        if (dom.style.display != "none") {
+          dom.click();
+          break;
+        }
+      }
     }
   };
 }

@@ -25,6 +25,8 @@ export const businessReconnaissanceForm = [
           const address = await getCity(this.lng, this.lat);
           this.address = address.regeocode.formatted_address;
           showSuccessToast("定位成功");
+          const event = useEvent()
+          event.saveData()
         }
       };
     },

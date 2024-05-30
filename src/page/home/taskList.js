@@ -374,10 +374,11 @@ const checkTask = [
   },
   {
     text: "风险审查",
-    icon: "multiAudit",
+    icon: "riskReview",
     path: "/realLease",
     onChange() {
-      this.hidden = !isTYZF();
+      // this.hidden = !isTYZF();
+      this.hidden = true
     },
     tap() {
       showFailToast("功能开发中");
@@ -432,10 +433,11 @@ const checkTask = [
   },
   {
     text: "完工审核",
-    icon: "multiAudit",
+    icon: "completionAudit",
     path: "/realLease",
     onChange() {
-      this.hidden = !isTYZF();
+      // this.hidden = !isTYZF();
+      this.hidden = true
     },
     tap() {
       showFailToast("功能开发中");
@@ -461,10 +463,11 @@ const checkTask = [
   },
   {
     text: "投放审查",
-    icon: "multiAudit",
+    icon: "releaseReview",
     path: "/realLease",
     onChange() {
-      this.hidden = !isTYZF();
+      // this.hidden = !isTYZF();
+      this.hidden = true
     },
     tap() {
       showFailToast("功能开发中");
@@ -502,10 +505,11 @@ const checkTask = [
   },
   {
     text: "资方购售电审核",
-    icon: "multiAudit",
+    icon: "auditOfPurchasingView",
     path: "/realLease",
     onChange() {
-      this.hidden = !isTYZF();
+      // this.hidden = !isTYZF();
+      this.hidden = true
     },
     tap() {
       showFailToast("功能开发中");

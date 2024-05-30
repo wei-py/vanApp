@@ -14,8 +14,9 @@ export const useUser = defineStore(
   () => {
     const info = ref({});
     const usernameList = ref([])
+    const checked = ref([])
 
-    return { info, usernameList };
+    return { info, usernameList, checked };
   },
   {
     persist: {

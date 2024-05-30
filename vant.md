@@ -78,3 +78,7 @@ https://v2.tailwindcss.com/docs/guides/vue-3-vite
 ## office
 > https://github.com/501351981/vue-office?tab=readme-ov-file
 
+## font-size resize
+> https://github.com/yulimchen/vue3-h5-template/issues/44
+cnjm-postcss-px-to-viewport
+

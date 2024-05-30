@@ -20,7 +20,7 @@ const curTab = computed(() => tabs.value[tab.value]);
 const _ = makeForm({ filtrate, moreForm, newPopForm }); // 筛选参数表单
 // 参数
 const orderType = flag.headers.Biztype; // 业务类型
-const page = ref({ pageNum: 1, pageSize: 5, total: 0 }); // 分页
+const page = ref({ pageNum: 1, pageSize: 10, total: 0 }); // 分页
 const queryTag = ref(""); // 搜索内容
 const query = getQuery(); // 路由 query
 const formParams = ref({}); // 筛选参数
@@ -56,7 +56,7 @@ async function getTab() {
     });
   } else {
     lo.merge(params, filter.value, { orderType, queryTag: queryTag.value });
-    const isCsps = query.title == "初设评审"; // 从初设评审中跳转过来的
+    const isCsps = query.title == "初设审核"; // 从初设评审中跳转过来的
     const isKcsh = query.title == "勘察审核"; // 从勘察审核中跳转过来的
     url = isCsps ? "order-state/stage-design-state" : "order-state/stage-task-state";
     isKcsh && (params.stateId = "WAITING_APPROVAL");
@@ -72,13 +72,17 @@ async function getData() {
   const stateId = curTab.value.value.replace("orderCount", "");
   // 编辑参数
   const isZzOrWc = query.title == "终止" || query.title == "完成" || query.title == "订单列表";
+  //
   const body = { orderType, queryTag: queryTag.value }; // post 参数
   let url = "";
   if (isZzOrWc) {
     url = "/order/search";
+    if (query.title == "订单列表") {
+      body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
+    }
   } else {
     url = "/order/search-exclude-states";
-    // body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
+    body.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
   }
 
   // const url = isZzOrWc ? "/order/search" : "/order/search-exclude-states"; // 判断是否从终止或者完成中跳转过来
@@ -110,7 +114,7 @@ async function getData() {
 async function onChangeTab() {
   if (isCysj) return;
   page.value.pageNum = 1;
-  page.value.pageSize = 5;
+  page.value.pageSize = 10;
   list.value.length = 0;
   finished.value = false;
   await getDataThrottle();
@@ -121,18 +125,17 @@ async function onSearch() {
     if (isTYZF()) {
       newPop.value = true;
     } else {
-      
       router.push({
-        path: '/inquiry',
+        path: "/inquiry",
         query: {
-          investorId: 'YUEXIU',
-          type: flag.active == 0 ? 'ZZD' : 'ZZD_ORG'
-        }
+          investorId: "YUEXIU",
+          type: flag.active == 0 ? "ZZD" : "ZZD_ORG",
+        },
       });
     }
   } else {
     page.value.pageNum = 1;
-    page.value.pageSize = 5;
+    page.value.pageSize = 10;
     list.value.length = 0;
     finished.value = false;
     getDataThrottle();
@@ -142,7 +145,7 @@ async function onSearch() {
 
 async function onMenuChange(menu) {
   page.value.pageNum = 1;
-  page.value.pageSize = 5;
+  page.value.pageSize = 10;
   list.value.length = 0;
   finished.value = false;
   await getDataThrottle();
@@ -151,7 +154,7 @@ async function onMenuChange(menu) {
 function onPopConfirm() {
   formParams.value = getParam();
   page.value.pageNum = 1;
-  page.value.pageSize = 5;
+  page.value.pageSize = 10;
   list.value.length = 0;
   finished.value = false;
   getDataThrottle();
@@ -193,12 +196,20 @@ function goDetail(item) {
   // }
 }
 
-eventManage({ getData: getDataThrottle });
+eventManage({ getData: getDataThrottle, onRefresh: () => location.reload() });
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-100">
-    <van-search @blur="onChangeTab" v-model="queryTag" shape="round" background="#fff" placeholder="系统编号、进件编号、组织全称、姓名、手机号" show-action class="van-hairline--bottom">
+    <van-search
+      @blur="onChangeTab"
+      v-model="queryTag"
+      shape="round"
+      background="#fff"
+      placeholder="系统编号、进件编号、组织全称、姓名、手机号"
+      show-action
+      class="van-hairline--bottom"
+    >
       <template #action>
         <div class="yCenter">
           <van-button @click="onSearch" class="!w-auto !h-[30px] shadow !px-[15px] !rounded-full !border-none !bg-[#ffab30] !text-white">
@@ -209,8 +220,14 @@ eventManage({ getData: getDataThrottle });
       </template>
     </van-search>
 
-
-    <van-tabs v-model:active="tab" line-width="0" :ellipsis="false" title-active-color="#ffab30" @change="onChangeTab" class="van-hairline--bottom text-[14px]">
+    <van-tabs
+      v-model:active="tab"
+      line-width="0"
+      :ellipsis="false"
+      title-active-color="#ffab30"
+      @change="onChangeTab"
+      class="van-hairline--bottom text-[14px]"
+    >
       <van-tab v-for="t in tabs">
         <template #title>
           <div class="xCenter">{{ t.count }}</div>
@@ -231,17 +248,19 @@ eventManage({ getData: getDataThrottle });
           :title="t.title"
         />
       </van-dropdown-menu>
-      <div class="center w-[15vw] bg-white" @click="openPop">筛选</div>
+      <div class="center w-[15vw] bg-white text-[16px]" @click="openPop">筛选</div>
       <!-- <vButton :round="false" class="h-full">更多</vButton> -->
     </div>
 
     <van-popup v-model:show="moreShow" position="right" class="w-[90vw] h-[100vh]">
-      <vantForm :form="_.moreForm" class="pt-3" group-class="shadowC h-[92vh]">
+      <vantForm :form="_.moreForm" class="pt-3" group-class="shadowC h-[92vh] moreForm">
         <template #checkbox="{ slot }">
           <van-field :label="slot.label" input-align="right">
             <template #input>
               <van-radio-group v-model="slot.value" class="grid grid-cols-2 flex-end">
-                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30">{{ co.text }}</van-radio>
+                <van-radio class="ml-2 mt-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30" icon-size="16px">{{
+                  co.text
+                }}</van-radio>
               </van-radio-group>
             </template>
           </van-field>
@@ -250,7 +269,9 @@ eventManage({ getData: getDataThrottle });
           <van-field :label="slot.label" input-align="right" valueClass="yCenter">
             <template #input>
               <van-radio-group v-model="slot.value" class="grid grid-cols-2">
-                <van-radio class="ml-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30">{{ co.text }}</van-radio>
+                <van-radio class="ml-2" v-for="co of slot.columns" :name="co.value" label-disabled checked-color="#ffab30" icon-size="16px">{{
+                  co.text
+                }}</van-radio>
               </van-radio-group>
             </template>
           </van-field>
@@ -265,11 +286,12 @@ eventManage({ getData: getDataThrottle });
 
     <div class="xCenter pt-2 text-[14px]">有效订单数量: {{ page.total }}</div>
 
-    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
+    <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2 van-list">
       <template v-for="item in list" :key="item.orderBase.orderId">
         <card @click="goDetail(item)" :item="item"></card>
       </template>
     </van-list>
+    <van-back-top class="!bg-[#fed38c]" />
   </div>
 
   <van-popup v-model:show="newPop" round teleport="#app" transition-appear>
@@ -287,7 +309,7 @@ eventManage({ getData: getDataThrottle });
 :deep(.van-field__control) {
   font-size: 12px;
   @apply mb-[4px]
-  /* line-height: 24px !important; */
+  /* line-height: 24px !important; */;
 }
 :deep(.van-search__field) {
   @apply !px-0;
@@ -298,6 +320,9 @@ eventManage({ getData: getDataThrottle });
 
 :deep(.van-search__content) {
   background: #f7f7f7;
+}
+:deep(.moreForm .van-cell) {
+  padding: 2.2vw 0 !important;
 }
 </style>
 

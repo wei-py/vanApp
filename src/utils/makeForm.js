@@ -79,10 +79,14 @@ export function setFormItem(item) {
 function setForm(form) {
   for (let i = 0; i < form.length; i++) {
     if (lo.isFunction(form[i])) {
-      form[i] = form[i]()
+      const tmp = form[i]
+      form[i] = form[i]();
       form[i].forEach((n) => {
         setFormItem(n);
       });
+      onUnmounted(() => {
+        form[i] = tmp
+      })
     } else {
       form[i] = setFormItem(form[i]);
     }

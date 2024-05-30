@@ -39,9 +39,12 @@ function hidden(item) {
   return result;
 }
 function setRef(el, item) {
-  if (el) {
-    item.ref = el;
-  }
+  // if (el) {
+  //   if (item.formType == "popup") {
+  //     item.ref = el;
+  //   }
+  // }
+
   // if (item.longPress) {
   //   onLongPress(el, (e) => {
   //     item.longPress = e.target.src;
@@ -98,10 +101,8 @@ function getFunction(item, func, ...args) {
       <!-- vant 文件显示处理 -->
       <template #preview-cover="slot">
         <template v-if="!isImgSlot(slot)">
-          
           <template v-if="getUploadUrl(slot).endsWith('.pdf')">
-            <van-image :src="`.${orderh5}/icons/office/pdf.png`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
-
+            <van-image :src="`.${orderh5}/icons/office/pdf.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />
           </template>
           <template v-if="getUploadUrl(slot).endsWith('.ppt') || getUploadUrl(slot).endsWith('.pptx')">
             <van-image :src="`.${orderh5}/icons/office/ppt.svg`" class="w-[80px] h-[80px] !rounded-[8px] bg-[#f7f8fa]" fit="contain" />

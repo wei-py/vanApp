@@ -55,7 +55,6 @@ export const contractAward = [
             },
           ],
         },
-
         {
           ...makeTitle("电子合同下载"),
           hidden: computed(() => viewOrg() != "YUEXIU_ZZD_ORG"),
@@ -113,7 +112,10 @@ export const contractAward = [
             value: "",
             backfill(data) {
               const dic = { A: "甲方", B: "乙方", W: "待签约", S: "已签约", ["-"]: "-" };
-              this.value = data.data[this.name].split("").reduce((pre, cur) => (pre += dic[cur]), "");
+              this.value = lo
+                .get(data, `data${this.name}`, "")
+                .split("")
+                .reduce((pre, cur) => (pre += dic[cur]), "");
             },
           },
           {
@@ -123,7 +125,7 @@ export const contractAward = [
             name: "signeType",
             inputAlign: "right",
             onMounted() {
-              this.label = viewOrg().includes('TYZF') ? '签约方式' : '签署方式'
+              this.label = viewOrg().includes("TYZF") ? "签约方式" : "签署方式";
             },
             backfill(data) {
               // if (!lo.isNull(data.data)) {
@@ -145,7 +147,7 @@ export const contractAward = [
                     queryUrl("general-investor/get-actor-rent-sign-url", { signer: "A", signType: "sms", orderId: query.orderId })
                   );
                   if (data.code == 200) {
-                    showSuccessToast('已发送')
+                    showSuccessToast("已发送");
                   }
                 },
               },
@@ -161,7 +163,7 @@ export const contractAward = [
                     queryUrl("general-investor/get-actor-rent-sign-url", { signer: "A", signType: "app", orderId: query.orderId })
                   );
                   if (data.code == 200) {
-                    openWeb(data.data.actorSignTaskEmbedUrl)
+                    openWeb(data.data.actorSignTaskEmbedUrl);
                   }
                 },
               },
@@ -178,24 +180,26 @@ export const contractAward = [
             isLink: true,
             click() {
               if (!this.realValue) {
-                showFailToast(getItem("actorStatus", "value"));
+                const actorStatus = getItem("actorStatus", "value");
+                showFailToast(actorStatus || "没有合同可以查看");
                 // showFailToast({
                 //   className: "!bg-[red] !text-white",
                 //   message: getItem("actorStatus", "value"),
                 // });
               } else {
-                // router.push({
-                //   path: '/previewFile',
-                //   query: {
-                //     url: this.realValue,
-                //     title: this.label
-                //   }
-                // })
-                openUrl(this.realValue, this.label);
+                router.push({
+                  path: "/previewFile",
+                  query: {
+                    url: this.realValue,
+                    title: this.label,
+                    type: "pdf",
+                  },
+                });
+                // openUrl(this.realValue, this.label);
               }
             },
             backfill(data) {
-              this.realValue = data.data[this.name]?.[0] || "";
+              this.realValue = lo.get(data, `data${this.name}.0`);
             },
           },
         ];
@@ -405,8 +409,7 @@ export const signedSiteForm = [
         class: " !text-[14px] !px-10 !py-2 !bg-[#ffab30] !text-white !border-0",
         async click() {
           const params = getParam();
-          console.log(params, 3333);
-          if (viewOrg() == "YUEXIU_ZZD_ORG") {
+          if (viewOrg().includes("ZZD_ORG")) {
             const { data } = await http.post("order/org/put-contract", params);
           }
           // general-investor/put-offline-sign-rent-contract
@@ -446,12 +449,21 @@ export const button = [
           const downUrl = viewOrg() == "TYZF" ? "/order/general-investor/download-rent-contract" : "/order/leaseContract/get-pdf";
           const baseUrl = baseURLDic.mingjie.web;
           const url = queryUrl(`${baseUrl}${downUrl}`, params);
-          console.log(url, 333)
-          postMsg({ func: "openPdf", url });
+          // TODO
+          // console.log(url, 333)
+          // postMsg({ func: "openPdf", url });
           // window.open(url);
         },
       },
     ],
+    onMounted() {
+      const query = getQuery()
+      if (query.online == "true") {
+        this.inlineForm[0].text = "屋顶租赁合同下载";
+      } else {
+        this.inlineForm[0].text = "双方盖章租赁合同下载";
+      }
+    },
     backfill(data) {
       this.inlineForm[0].disabled = !data.TENANT;
     },

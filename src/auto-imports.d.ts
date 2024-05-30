@@ -98,6 +98,7 @@ declare global {
   const getStatusDic: typeof import('./store/useFlag.js')['getStatusDic']
   const getUploadUrl: typeof import('./utils/isImg.js')['getUploadUrl']
   const getUploadUrlName: typeof import('./utils/isImg.js')['getUploadUrlName']
+  const getUrlName: typeof import('./utils/isImg.js')['getUrlName']
   const getUserVo: typeof import('./store/useUser.js')['getUserVo']
   const getlongPressUrl: typeof import('./store/useDom.js')['getlongPressUrl']
   const gets: typeof import('./utils/gets.js')['gets']
@@ -453,6 +454,7 @@ declare global {
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
   const validate: typeof import('./store/useDom.js')['validate']
   const van: typeof import('vant')
+  const viewFileType: typeof import('./utils/viewFileType.js')['viewFileType']
   const viewOrg: typeof import('./utils/Biztype.js')['viewOrg']
   const wait: typeof import('./utils/wait.js')['wait']
   const waitValue: typeof import('./utils/waitValue.js')['default']

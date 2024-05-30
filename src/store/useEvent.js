@@ -6,6 +6,7 @@ export const useEvent = defineStore("event", () => {
   let onRefresh = async () => {};
   let approvalBackfill = async () => {};
   let onClickRight = async () => {}
+  
 
   return { getData, saveData, submitData, approvalData, onRefresh, approvalBackfill, onClickRight };
 });
