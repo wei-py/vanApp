@@ -106,7 +106,6 @@ export function makeImgs(data) {
   } else if (lo.isString(data[this.name])) {
     if (data[this.name].startsWith("[")) {
       this.inlineForm[0].value = JSON.parse(data[this.name]).map((n) => ({ url: sToUrl(n), ...pickImgName(n) }));
-      console.log(this.inlineForm[0].value, this.name);
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
       // file: new File([], '123123')
     } else if (isImg(data[this.name])) {

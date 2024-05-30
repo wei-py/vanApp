@@ -208,7 +208,6 @@ export const zj = [
         const value = multiply(deviceSpec, quantity);
         this.realValue = value;
         const result = unitConver(value);
-        console.log(result, 3333);
         this.value = result.realValue;
         this.makeUnit(result.unit);
       });

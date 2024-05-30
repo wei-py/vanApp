@@ -15,14 +15,15 @@ const commonTask = [
       taskId: "",
     },
   },
-  // {
-  //   text: '数据分析',
-  //   icon: 'dataAnalysis',
-  //   query: {
-  //     id: 1,
-  //     name: '134'
-  //   }
-  // },
+  {
+    text: '数据分析',
+    icon: 'dataAnalysis',
+    path: '/dataRank',
+    // query: {
+    //   id: 1,
+    //   name: '134'
+    // }
+  },
   {
     text: "设计变更",
     icon: "designChange",

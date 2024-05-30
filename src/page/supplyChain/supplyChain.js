@@ -1,3 +1,4 @@
+const orderh5 = location.port == 2222 ? "/orderh5" : "";
 export const sceneTask = [
   {
     text: "现场退货",
@@ -21,7 +22,8 @@ export const sceneTask = [
   return {
     ...n,
     from: "现场收货",
-    icon: `./icons/supplyChain/${n.icon}.png`,
+    icon: `./icons/supplyChain/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
+    // icon: `./icons/realLeaseTop/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`).replace("./icons", `.${orderh5}/icons`),
     tap() {
       router.push({ path: n.path, query: { ...n.query, from: "cysj", title: n.realText || n.text } });
     },
@@ -96,7 +98,7 @@ export const oneLevelTask = [
   return {
     ...n,
     from: "一级仓库任务(博通新能源)",
-    icon: `./icons/supplyChain/${n.icon}.png`,
+    icon: `./icons/supplyChain/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
     tap() {
       router.push({
         path: n.path,
@@ -176,7 +178,7 @@ export const twoLevelTask = [
   return {
     ...n,
     from: "二级仓库任务(供应商)",
-    icon: `./icons/supplyChain/${n.icon}.png`,
+    icon: `./icons/supplyChain/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
     tap() {
       router.push({
         path: n.path,
@@ -218,7 +220,7 @@ export const warehouseTask = [
   return {
     ...n,
     from: "仓库管理",
-    icon: `./icons/supplyChain/${n.icon}.png`,
+    icon: `./icons/supplyChain/${n.icon}.png`.replace("./icons", `.${orderh5}/icons`),
     tap() {
       router.push({
         path: n.path,

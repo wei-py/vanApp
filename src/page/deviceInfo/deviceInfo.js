@@ -36,7 +36,7 @@ export const zujian = [
       const designDevice = lo.get(data, "ZUJIAN.designDevice");
       const value = designDevice.reduce((pre, cur) => pre + cur.quantity * cur.deviceSpec, 0);
       const result = unitConver(value, 0, ["W", "kW", "MW"]);
-      this.value = result.value;
+      this.value = result.realValue;
       this.makeUnit(result.unit);
     },
   },

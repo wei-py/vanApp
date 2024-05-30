@@ -31,13 +31,19 @@ async function saveData() {
     v.inlineForm[0].click(false);
   });
   const data = await http.post("order/put-design", params);
+  // params.completeNbqPv = data
   return data;
+}
+
+function onClickLeft() {
+  _.show[0].value = false;
+  getData();
 }
 
 async function submitData(params) {
   params.completeNbqPv = getItem("completeNbqPv", "value");
   if (!params.completeNbqPv) {
-    showFailToast("设计组串数量中DC1和DC2是必填、是非零项");
+    showFailToast("设计组串数量中PV1、PV2 的 DC1 是必填、非零项");
     return;
   }
   const { data } = await http.post(queryUrl("approval/put-approval/bto/design", params));
@@ -64,7 +70,7 @@ eventManage({ getData, saveData, submitData, approvalData });
               round
               block
               size="mini"
-              class="!text-[14px] !w-[120px] !py-3 !bg-[#ddd] !border-0 !text-[white]"
+              class="!text-[14px] !w-[120px] !py-3 !bg-[#ffab30] !border-0 !text-[white]"
               @click="() => slot.click()"
             >
               设计变更记录
@@ -109,12 +115,12 @@ eventManage({ getData, saveData, submitData, approvalData });
   <vantForm :form="_.billMaterials" class="pt-3" group-class="shadowC"> </vantForm>
 
   <!-- :style="{ width: '100%', height: '100%' }" -->
-  <van-popup v-model:show="_.show[0].value" position="right" class="w-full h-full" >
-    <van-nav-bar title="设计组串数量" left-text="返回" @clickLeft="_.show[0].value = false" />
+  <van-popup v-model:show="_.show[0].value" position="right" class="w-full h-full">
+    <van-nav-bar title="设计组串数量" left-text="返回" @clickLeft="onClickLeft" />
     <designGroup ref="designGroupDom" :query="_.show[0].query" />
   </van-popup>
 
-  <vBtn></vBtn>
+  <vBtn v-if="query.status != '不可变更'"></vBtn>
 </template>
 
 <style>

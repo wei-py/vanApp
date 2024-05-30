@@ -48,14 +48,6 @@ async function getData() {
   const stepStageId = lo.get(data, "list.0.currentOrderState.0.stageId");
   stepActive.value = statusDic[stepStageId];
 
-  
-
-  gets(data, "*.currentOrderState.0", (v) => {
-    _.itemDetail[0].orderId = v?.orderId;
-    _.itemDetail[1].value = v?.orderId;
-    // _.itemDetail[2].orderId = v?.leaseReview?.contractNumber || "-";
-  });
-
   // // 各个阶段的状态
   forForm((form) => {
     if (form.valueClass) {
@@ -72,7 +64,6 @@ async function getData() {
       const stageId = v?.stageId;
       const value = statusDic[stateId] || "未开启";
       const title = statusDic[taskId] || statusDic[stageId] || "";
-      // console.log(title, value)
 
       forForm((val) => {
         if (val.title == title && val.isLink) {
@@ -96,19 +87,22 @@ async function getData() {
       });
     });
   });
-  if (_.initReview[1].value.includes("通过")) {
-    _.initReview[2].value = "可变更";
-  }
-  if (_.grid[1].value?.includes("待")) {
-    _.initReview[2].value = "不可变更";
-    _.initReview[2].valueClass = _.initReview[2].valueClass.replace(/text-[^ ]+/, "text-gray");
-  }
+
+
+  gets(data, "*.currentOrderState.0", (v) => {
+    _.itemDetail[0].orderId = v?.orderId;
+    _.itemDetail[1].value = v?.orderId;
+    // const isApproval = v.stageId == "DESIGN" && v.stateId == "WAITING_APPROVAL_BTO"
+  });
 
   gets(data, "list.0", (v) => {
     _.itemDetail[0].title = v?.customer?.name || v?.customerOrg?.orgName || "-"; // 用户名
     _.itemDetail[2].value = v?.leaseReview?.contractNumber || "-"; // 进件编号
     isDLS.value = v?.company?.type == "DLS";
     setItem("hasPutApprovalConstructBtn", "realValue", v.hasPutApprovalConstructBtn);
+    _.initReview[2].value = v.orderDesignUpdateState
+    const color = statusColor(v.orderDesignUpdateState)
+    _.initReview[2].valueClass = _.initReview[2].valueClass.replace(/text-[^ ]+/, "text-" + color);
   });
 }
 
@@ -116,7 +110,7 @@ function onClickRight() {
   router.push({ path: "/operateLog", query });
 }
 
-eventManage({onClickRight, onRefresh: () => location.reload()})
+eventManage({ onClickRight, onRefresh: () => location.reload() });
 </script>
 
 <template>

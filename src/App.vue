@@ -306,6 +306,7 @@ label {
 
 .van-toast {
   width: fit-content !important;
+  min-width: 20% !important;
   max-width: 45% !important;
 }
 </style>

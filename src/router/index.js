@@ -163,7 +163,7 @@ const router = createRouter({
       name: "build",
       component: () => import("../page/build/build.vue"),
       meta: {
-        title: "施工",
+        title: "施工信息",
         refresh: false,
         // tabbar: true,
       },
@@ -173,7 +173,7 @@ const router = createRouter({
       name: "deviceInfo",
       component: () => import("../page/deviceInfo/deviceInfo.vue"),
       meta: {
-        title: "施工",
+        title: "设备信息",
         refresh: false,
         // tabbar: true,
       },
@@ -183,7 +183,7 @@ const router = createRouter({
       name: "buildVideo",
       component: () => import("../page/buildVideo/buildVideo.vue"),
       meta: {
-        title: "并网信息",
+        title: "施工影像件信息",
         refresh: false,
         // tabbar: true,
       },
@@ -394,6 +394,16 @@ const router = createRouter({
       path: "/operateLog",
       name: "operateLog",
       component: () => import("../page/operateLog/operateLog.vue"),
+      meta: {
+        title: "操作记录",
+        refresh: false,
+        // tabbar: true,
+      },
+    },
+    {
+      path: "/dataRank",
+      name: "dataRank",
+      component: () => import("../page/dataRank/dataRank.vue"),
       meta: {
         title: "操作记录",
         refresh: false,

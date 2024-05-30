@@ -51,7 +51,6 @@ async function saveData() {
   if (data.code == 200) {
     showSuccessToast("保存成功");
   }
-  console.log(data, 3333)
   return data;
 }
 

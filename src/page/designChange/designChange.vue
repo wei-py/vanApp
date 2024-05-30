@@ -16,6 +16,10 @@ const list = ref([]); // 列表数据
 function onSearch() {}
 
 async function onChangeTab() {
+  page.value.pageNum = 1;
+  page.value.pageSize = 10;
+  list.value = [];
+  getDataThrottle();
   const { data } = await http.get("design/record-count");
   tabs.value[1].count = data[0].count;
   tabs.value[0].count = data[1].count;
@@ -24,7 +28,17 @@ async function onChangeTab() {
 const getDataThrottle = lo.debounce(getData, 300);
 async function getData() {
   const params = { ...tabs.value[tab.value], queryTag: queryTag.value, stageId: "DESIGN" };
-  const { data } = await http.post(queryUrl(`/order/search-exclude-states`, page.value), params);
+  let url = "";
+  if (!tab.value) {
+    // 设计变更
+    params.excludeSpecialStateIds = ["LOCK", "TERMINATE"];
+    url = "/order/search";
+  } else {
+    // 一键变更
+    url = "/order/search-exclude-states";
+    params.stateId = "APPROVAL_PASS_BTO";
+  }
+  const { data } = await http.post(queryUrl(url, page.value), params);
 
   const total = data.total;
   page.value.total = total;
@@ -34,6 +48,17 @@ async function getData() {
   loading.value = false;
   finished.value = page.value.pageNum * page.value.pageSize > total;
   page.value.pageNum++;
+}
+
+function onClickCard(item) {
+  // const isPass = item.orderStates.some((n) => {
+  //   return n.stageId == "CONSTRUCT" && n.stateId == "APPROVAL_PASS_LEASE";
+  // });
+  // if (isPass) {
+  //   showFailToast("不可变更");
+  // } else {
+    router.push({ path: "/itemDetail", query: { orderId: item.orderBase.orderId } });
+  // }
 }
 
 onMounted(() => {
@@ -71,9 +96,11 @@ onMounted(() => {
     </van-tab>
   </van-tabs>
 
+  <div class="xCenter pt-2 text-[14px]">有效订单数量: {{ page.total }}</div>
+
   <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="getDataThrottle" class="!pt-2">
     <template v-for="item in list" :key="item.orderBase.orderId">
-      <card @click="$router.push({ path: '/itemDetail', query: { orderId: item.orderBase.orderId } })" :item="item"></card>
+      <card @click="onClickCard(item)" :item="item"></card>
     </template>
   </van-list>
   <van-back-top class="!bg-[#fed38c]" />

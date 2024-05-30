@@ -48,7 +48,6 @@ function reformInput(item) {
   }
   if (item.type == "digit" && !lo.isFunction(item.backfill)) {
     item.backfill = function (data) {
-      console.log(this, data)
       this.value = data[this.name];
     };
   }

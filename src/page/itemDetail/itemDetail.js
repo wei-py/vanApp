@@ -187,6 +187,10 @@ export const record = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -208,6 +212,10 @@ export const initReview = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { orderId: getQuery().orderId, title: this.title } });
     },
   },
@@ -220,7 +228,11 @@ export const initReview = [
     isLink: true,
     value: "未开启",
     click() {
-      router.push({ path: this.name, query: { orderId: getQuery().orderId, title: this.title } });
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
+      router.push({ path: this.name, query: { orderId: getQuery().orderId, title: this.title, status: this.value } });
     },
   },
 ];
@@ -241,6 +253,10 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -253,6 +269,10 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -265,6 +285,10 @@ export const build = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -311,6 +335,10 @@ export const grid = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -332,6 +360,10 @@ export const ZYsettlement = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -353,6 +385,10 @@ export const DLSsettlement = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -365,6 +401,10 @@ export const DLSsettlement = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -386,6 +426,10 @@ export const electricityContract = [
     isLink: true,
     value: "未开启",
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },
@@ -412,6 +456,10 @@ export const income = [
       this.hidden = investorHidden("");
     },
     click() {
+      if (this.value == "未开启") {
+        showFailToast(this.title + "未开启");
+        return;
+      }
       router.push({ path: this.name, query: { ...getQuery() } });
     },
   },

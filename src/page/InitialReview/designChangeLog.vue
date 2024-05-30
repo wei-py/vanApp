@@ -52,19 +52,19 @@ async function showDesignGroup(t) {
     <template v-for="(t, i) of tableData" :key="i">
       <van-collapse-item :name="i" class="!p-0">
         <template #title>
-          <div>设计变更记录{{ tableData.length - i }}</div>
+          <div>{{ i == tableData.length - 1 ? "初设评审" : "设计变更记录 " + (tableData.length - i - 1) }}</div>
           <div>{{ t.createTime }}</div>
         </template>
         <van-cell-group inset border class="!p-1 !m-0 border">
           <van-cell title="设计类型" :value="t.designType" />
-          <van-cell title="南坡组件数量" :value="t.southModuleNumber" />
-          <van-cell title="北坡组件数量" :value="t.northModuleNumber" />
-          <van-cell title="东坡组件数量" :value="t.eastModuleNumber" />
-          <van-cell title="西坡组件数量" :value="t.westModuleNumber" />
+          <van-cell title="南坡组件数量" :value="t.southModuleNumber + ''" />
+          <van-cell title="北坡组件数量" :value="t.northModuleNumber + ''" />
+          <van-cell title="东坡组件数量" :value="t.eastModuleNumber + ''" />
+          <van-cell title="西坡组件数量" :value="t.westModuleNumber + ''" />
           <van-cell title="是否有天窗" :value="t.skyLight == 0 ? '无' : '有'" />
           <van-cell title="组件朝向" :value="t.moduleTowards" />
-          <van-cell title="方位角" :value="t.azimuthAngle" />
-          <van-cell title="倾斜角" :value="t.tiltAngle" />
+          <van-cell title="方位角" :value="t.azimuthAngle + ' 度'" />
+          <van-cell title="倾斜角" :value="t.tiltAngle + ' 度'" />
           <van-cell title="基底分类" :value="t.moduleBaseType" />
           <van-cell title="背板分类" :value="t.moduleBackPlateType" />
           <van-cell title="安装最高点(房屋+光伏总高度)" :value="t.installedHeight + ' 米'" />
@@ -74,7 +74,7 @@ async function showDesignGroup(t) {
                 {{ deviceTypeDic[row.deviceType] }}
               </template>
             </vxe-column>
-            <vxe-column field="deviceSpec" title="规格标准" />
+            <vxe-column field="deviceSpec" title="规格型号" />
             <vxe-column field="quantity" title="设备数量" />
           </vxe-table>
           <div class="xCenter py-1 van-hairline--top-bottom flex-col">
