@@ -20,8 +20,6 @@ async function getData() {
   backfill(_, { ...data, ...btns.data });
 }
 
-async function saveData() {}
-
 async function onRefresh() {
   location.reload();
 }

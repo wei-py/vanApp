@@ -1,11 +1,11 @@
 <script setup>
-const tableDate = ref("自定义"); // 快捷时间
+const tableDate = ref("全部"); // 快捷时间
 const tableCalen = ref(""); // 日期时间
 const tableDateShow = ref(false); //  快捷时间显示
 const tableCalenShow = ref(false); // 日期时间显示
 const tableData = ref([]); // 表格数据
 
-const previewDate = ref("自定义");
+const previewDate = ref("全部");
 const previewCalen = ref("");
 const previewDateShow = ref(false); //  快捷时间显示
 const previewCalenShow = ref(false); // 日期时间显示

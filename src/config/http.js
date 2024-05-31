@@ -21,11 +21,17 @@ http.interceptors.request.use(
     const headerInfo = getHeaderInfo();
     const flag = useFlag();
     flag.overlayShow = true;
+
+    const query = getQuery();
+    const queryHeader = {
+      Investor: query.investorId || "",
+      Biztype: query.type || "",
+    };
     converBaseUrl(config);
 
     if (!lo.isUndefined(headerInfo.Uid)) {
       lo.merge(config.headers, headerInfo);
-      lo.merge(config.headers, flag.headers);
+      lo.merge(config.headers, flag.headers, queryHeader);
     }
 
     return config;
@@ -66,7 +72,7 @@ function converBaseUrl(config) {
   }
 
   if (config.url.includes("order/sto")) {
-    config.baseURL += "Sto" + (location.port == 2222 ? '' : '/sto');
+    config.baseURL += "Sto" + (location.port == 2222 ? "" : "/sto");
     config.url = config.url.replace("/order/sto", "");
     config.url = config.url.replace(/\/\//g, "/");
   }
