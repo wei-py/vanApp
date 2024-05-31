@@ -1,6 +1,7 @@
 <script setup>
 import { companyForm } from "./login";
 const _ = makeForm({ companyForm });
+const orderh5 = location.port == 2222 ? "/orderh5" : "";
 const userStore = useUser();
 const user = reactive({
   username: lo.get(userStore, "usernameList[0].text"),
@@ -113,7 +114,7 @@ eventManage({ getData: onLogin });
 <template>
   <div class="h-full w-full flex-1 bg-white">
     <div class="h-[30vh] w-full center bgImg">
-      <van-image width="100" height="100" src="./icons/loginRegister/btoWhiteLogo.png" />
+      <van-image width="100" height="100" :src="`${orderh5}/icons/loginRegister/btoWhiteLogo.png`" />
     </div>
     <div class="h-[50vh] w-full pt-[5vh] px-[3vw]">
       <van-form @submit="onLogin">
@@ -190,7 +191,7 @@ eventManage({ getData: onLogin });
     <div class="h-[20vh] w-full flex flex-col">
       <van-divider :style="{ borderColor: '#9c9c9c', padding: '0 16px' }">其他登录方式</van-divider>
       <div class="h-[30%] xCenter" @click="isPasswordToLogin = !isPasswordToLogin">
-        <van-image class="w-[8%]" mode="aspectFit" src="./icons/loginRegister/phone.png" />
+        <van-image class="w-[8%]" mode="aspectFit" :src="`${orderh5}/icons/loginRegister/phone.png`" />
       </div>
       <div class="text-center my-auto text-[#9c9c9c] text-[16px]">
         {{ isPasswordToLogin ? "密码登录" : "验证码登录" }}

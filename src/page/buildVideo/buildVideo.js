@@ -211,7 +211,6 @@ export const electricStationMaterialForm = [
     },
   },
   {
-    required: true,
     ...makeUpload(999, 100),
     label: "特殊说明(如联排声明、联排支架分离细节、特殊申请)",
     imageName: "特殊说明",
@@ -246,6 +245,7 @@ export const trestleDistributionBoxForm = [
     label: "立柱与斜梁焊接",
     name: "立柱与斜梁焊接",
     imageName: "立柱与斜梁焊接",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -268,6 +268,7 @@ export const trestleDistributionBoxForm = [
     label: "斜梁与横梁焊接",
     imageName: "斜梁与横梁焊接",
     name: "斜梁与横梁焊接",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -312,6 +313,7 @@ export const trestleDistributionBoxForm = [
     label: "立柱东西间距",
     imageName: "立柱东西间距",
     name: "立柱东西间距",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -334,6 +336,7 @@ export const trestleDistributionBoxForm = [
     label: "立柱南北间距",
     imageName: "立柱南北间距",
     name: "立柱南北间距",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -356,6 +359,7 @@ export const trestleDistributionBoxForm = [
     label: "西北角拍东南支架",
     imageName: "西北角拍东南支架",
     name: "西北角拍东南支架",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -378,6 +382,7 @@ export const trestleDistributionBoxForm = [
     label: "东北角拍西南支架",
     imageName: "东北角拍西南支架",
     name: "东北角拍西南支架",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -400,6 +405,7 @@ export const trestleDistributionBoxForm = [
     label: "西南角拍东北支架",
     imageName: "西南角拍东北支架",
     name: "西南角拍东北支架",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -422,6 +428,7 @@ export const trestleDistributionBoxForm = [
     label: "东南角拍西北支架",
     imageName: "东南角拍西北支架",
     name: "东南角拍西北支架",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -444,6 +451,7 @@ export const trestleDistributionBoxForm = [
     label: "辅槽与横向集水槽搭接",
     imageName: "辅槽与横向集水槽搭接",
     name: "辅槽与横向集水槽搭接",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -467,6 +475,7 @@ export const trestleDistributionBoxForm = [
     label: "横向与竖向集水槽搭接",
     imageName: "横向与竖向集水槽搭接",
     name: "横向与竖向集水槽搭接",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -489,6 +498,7 @@ export const trestleDistributionBoxForm = [
     label: "纵向集水槽与天沟搭接",
     imageName: "纵向集水槽与天沟搭接",
     name: "纵向集水槽与天沟搭接",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -511,6 +521,7 @@ export const trestleDistributionBoxForm = [
     label: "横屏拍摄水槽托架",
     imageName: "横屏拍摄水槽托架",
     name: "横屏拍摄水槽托架",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -533,6 +544,7 @@ export const trestleDistributionBoxForm = [
     label: "下水管接至楼面下水口或接至一楼",
     imageName: "下水管接至楼面下水口或接至一楼",
     name: "下水管接至楼面下水口或接至一楼",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.trestleDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -581,6 +593,7 @@ export const componentInstallationForm = [
     label: "组件铭牌",
     name: "组件铭牌",
     imageName: "组件铭牌",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -603,6 +616,7 @@ export const componentInstallationForm = [
     label: "组件方位角",
     imageName: "组件方位角",
     name: "组件方位角",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -625,6 +639,7 @@ export const componentInstallationForm = [
     label: "组件倾角",
     imageName: "组件倾角",
     name: "组件倾角",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -647,6 +662,7 @@ export const componentInstallationForm = [
     label: "组件接地",
     imageName: "组件接地",
     name: "组件接地",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -669,6 +685,7 @@ export const componentInstallationForm = [
     label: "航拍俯视近景",
     imageName: "航拍俯视近景",
     name: "航拍俯视近景",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -691,6 +708,7 @@ export const componentInstallationForm = [
     label: "航拍坐北朝南远景",
     imageName: "航拍坐北朝南远景",
     name: "航拍坐北朝南远景",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.componentInstallation?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -717,6 +735,7 @@ export const wireRiggingForm = [
     label: "线缆品牌与型号",
     imageName: "线缆品牌与型号",
     name: "线缆品牌与型号",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -739,6 +758,7 @@ export const wireRiggingForm = [
     label: "线缆屋面走线管照片",
     imageName: "线缆屋面走线管照片",
     name: "线缆屋面走线管照片",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -761,6 +781,7 @@ export const wireRiggingForm = [
     label: "线缆下墙走线管照片",
     imageName: "线缆下墙走线管照片",
     name: "线缆下墙走线管照片",
+    required: true,
     ...makeUpload(1, 100),
     backfill(data) {
       const value = data?.wireRigging?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -787,6 +808,7 @@ export const groundingSystemForm = [
     label: "支架与接地扁铁",
     imageName: "支架与接地扁铁",
     name: "支架与接地扁铁",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.groundingSystem?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -809,6 +831,7 @@ export const groundingSystemForm = [
     label: "接地扁铁与接地极",
     imageName: "接地扁铁与接地极",
     name: "接地扁铁与接地极",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.groundingSystem?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -835,7 +858,8 @@ export const inverterDistributionBoxForm = [
     label: "逆变器和配电箱整体照",
     imageName: "逆变器和配电箱整体照",
     name: "逆变器和配电箱整体照",
-    ...makeUpload(1, 100),
+    required: true,
+    ...makeUpload(999, 100),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
@@ -857,6 +881,7 @@ export const inverterDistributionBoxForm = [
     label: "配电箱内部照",
     imageName: "配电箱内部照",
     name: "配电箱内部照",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -879,6 +904,7 @@ export const inverterDistributionBoxForm = [
     label: "逆变器铭牌照",
     imageName: "逆变器铭牌照",
     name: "逆变器铭牌照",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -901,6 +927,7 @@ export const inverterDistributionBoxForm = [
     label: "光精灵或采集器二维码",
     imageName: "光精灵或采集器二维码",
     name: "光精灵或采集器二维码",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -923,6 +950,7 @@ export const inverterDistributionBoxForm = [
     label: "支架系统接地阻值(<10Ω)",
     imageName: "支架系统接地阻",
     name: "支架系统接地阻",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -945,6 +973,7 @@ export const inverterDistributionBoxForm = [
     label: "电气系统接地阻值(<4Ω)",
     imageName: "电气系统接地阻值",
     name: "电气系统接地阻值",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -967,6 +996,7 @@ export const inverterDistributionBoxForm = [
     label: "开路电压照片1",
     imageName: "开路电压照片1",
     name: "开路电压照片1",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -989,6 +1019,7 @@ export const inverterDistributionBoxForm = [
     label: "开路电压照片2",
     imageName: "开路电压照片2",
     name: "开路电压照片2",
+    required: true,
     ...makeUpload(1, 50),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
@@ -1033,7 +1064,7 @@ export const inverterDistributionBoxForm = [
     label: "开路电压照片4",
     imageName: "开路电压照片4",
     name: "开路电压照片4",
-    ...makeUpload(1, 50),
+    ...makeUpload(1, 100),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
@@ -1055,7 +1086,7 @@ export const inverterDistributionBoxForm = [
     label: "开路电压照片",
     imageName: "开路电压照片",
     name: "开路电压照片",
-    ...makeUpload(1, 50),
+    ...makeUpload(999, 100),
     backfill(data) {
       const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
       this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
@@ -1081,6 +1112,7 @@ export const completionInspectionForm = [
     label: "施工自检单",
     imageName: "施工自检单",
     name: "施工自检单",
+    required: true,
     ...makeUpload(1, 100),
     backfill(data) {
       const value = data?.completionInspection?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";

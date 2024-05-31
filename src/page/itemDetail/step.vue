@@ -11,8 +11,8 @@ const active = computed(() => {
 </script>
 
 <template>
-  <div class="overflow-x-scroll px-[17px] !bg-[#ffab30] pt-[0vh]">
-    <van-steps :active="active" class="w-[200vw] h-full my-auto">
+  <div class="overflow-x-scroll px-[17px]  !bg-[#ffab30] pt-[0vh]">
+    <van-steps :active="active" class="w-[230vw] h-full my-auto">
       <van-step v-for="s in status" inactive-color="#ffffff" active-color="#07c160" active-icon="checked" inactive-icon="more">
         <p class="text-[16px]">{{ s }}</p>
         <template #inactive-icon>
@@ -58,7 +58,7 @@ const active = computed(() => {
 }
 
 :deep(.van-step__line) {
-  margin-top: 8px;
+  margin-top: 5px;
   background-color: white !important;
 }
 
@@ -69,5 +69,13 @@ const active = computed(() => {
 :deep(.van-icon) {
   font-size: 18px;
   /* display: none; */
+}
+:deep(.van-step__title) {
+  .van-icon {
+    font-size: 30px !important;
+  }
+  p {
+    margin-right: -15px !important;
+  }
 }
 </style>

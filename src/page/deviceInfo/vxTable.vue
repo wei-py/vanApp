@@ -21,7 +21,7 @@ const seqConfig = reactive({
     <vxe-column type="seq" width="50" title="序号"></vxe-column>
     <vxe-column field="" title="详细信息">
       <template #default="{ row }">
-        <cell :title="props.title + '名称'" :value="row.deviceNumber" />
+        <cell :title="props.title + '编号'" :value="row.deviceNumber" />
         <cell :title="props.title + '厂家'" :value="row.manufacturer" />
         <cell :title="props.title + '型号'" :value="row.specificationsModel" />
         <cell title="采集时间" :value="row.createTime" />

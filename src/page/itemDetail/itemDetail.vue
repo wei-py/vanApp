@@ -118,15 +118,15 @@ eventManage({ onClickRight, onRefresh: () => location.reload() });
     <step :stepActive="stepActive" class="h-[13vh] mb-[10px] shadowC" />
     <vantForm :form="_.itemDetail" group-class="itemDetailGrop">
       <template #person="{ slot }">
-        <van-cell title-class="!text-[20px] bg-[white] flex items-center  font-bold">
+        <van-cell title-class="!text-[20px] bg-[white] flex items-center  font-bold !flex-none w-[40%]">
           <template #title>
             <van-icon name="contact" class="mr-2" />
             {{ slot.title }}
           </template>
           <template #value>
             <div class="flex justify-end items-end w-full">
-              <plainButton class="!h-[auto]" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
-              <plainButton class="!h-[auto] !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
+              <plainButton class="!h-[auto] !py-1" @click.stop="$copyText(slot.orderId)"> 复制系统编号 </plainButton>
+              <plainButton class="!h-[auto] !py-1 !ml-2" @click.stop="$copyText(slot.stageId)"> 复制进件编号 </plainButton>
             </div>
           </template>
         </van-cell>

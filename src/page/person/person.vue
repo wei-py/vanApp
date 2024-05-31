@@ -17,7 +17,7 @@ function onLogout() {
 
 <template>
   <div class="flex-1 bg-[#fbf9f6]">
-    <div class="xCenter pt-[10%] text-[20px] text-white bgImg h-[30vh]">个人中心</div>
+    <div class="xCenter pt-[10%] text-[28px] text-white bgImg h-[30vh]">个人中心</div>
     <vantForm :form="_.form" class="pt-3 mx-3 mt-[-15vh]" group-class="shadowC "> </vantForm>
     <VanPopup v-model:show="_.modifyForm[0].show" class="!w-[90%] !mt-[-20%]" round position="center">
       <vantForm :form="_.modifyForm" group-class="shadowC">

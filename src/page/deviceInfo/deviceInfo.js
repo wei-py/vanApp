@@ -321,6 +321,7 @@ export const cjq = [
     formType: "input",
     label: "多台逆变器是否共用采集器",
     name: "cjqShare",
+    realValue: "",
     value: "",
     required: true,
     ...backSelect(),
@@ -332,6 +333,9 @@ export const cjq = [
       this.realValue = data.CJQ.cjqShare;
       const text = this.inlineForm[0].inlineForm[0].columns.find((n) => n.value == this.realValue)?.text || this.value;
       this.value = text;
+    },
+    getParam(param) {
+      param[this.name] = this.realValue
     },
   },
   {
@@ -538,7 +542,7 @@ export const pdx = [
     backfill(data) {
       const tableData = lo.get(data, "PDX.checkDeviceValidRes.deviceVos", []) || [];
       this.value = tableData.map((n) => {
-        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid"]);
+        return lo.pick(n, ["deviceNumber", "manufacturer", "specificationsModel", "createTime", "valid", "deviceType"]);
       });
     },
     getParam(param) {

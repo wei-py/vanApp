@@ -21,7 +21,7 @@ export const itemDetail = [
     name: "contractNumber",
     title: "进件编号",
     valueClass: "mr-[10px] text-gray",
-    titleClass,
+    titleClass: "!pl-[5px] !min-w-[20%] !flex-none",
     value: "-",
   },
 ];
