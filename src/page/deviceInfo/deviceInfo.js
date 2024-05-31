@@ -3,6 +3,7 @@ export const zujian = [
   {
     formType: "input",
     label: "组件编号",
+    placeholder: "检查手机定位权限是否开启",
     value: "",
     name: "deviceNumber-zujian",
     rightIcon: "scan",
@@ -66,14 +67,20 @@ export const zujian = [
     },
   },
   {
+    formType: "cell",
+    value: "若非扫码输入，需点击“添加”按钮",
+    valueClass: "text-red !text-center",
+  },
+  {
     formType: "input",
-    inputAlign: "center",
+    inputAlign: "left",
+    class: "!w-[60%] mx-auto",
     inlineForm: [
       {
-        slot: "input",
+        slot: "button",
         formType: "button",
         text: "添加",
-        className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        className: "bg-[#ffab30] text-white h-8 w-[80px] rounded-2xl van-haptics-feedback",
         click() {
           const deviceNumber = getItem("deviceNumber-zujian", "value");
           if (!deviceNumber.length) {
@@ -95,6 +102,12 @@ export const zujian = [
             setItem("deviceNumber-zujian", "value", "");
           });
         },
+      },
+      {
+        slot: "input",
+        formType: "button",
+        text: "去重",
+        className: "bg-[#ffab30] text-white h-8 !w-[80px] rounded-2xl van-haptics-feedback",
       },
     ],
   },
@@ -139,6 +152,7 @@ export const nbq = [
     value: "",
     name: "deviceNumber-nbq",
     rightIcon: "scan",
+    placeholder: "检查手机定位权限是否开启",
     clickRightIcon() {
       openCode((deviceNumber) => {
         setItem("table-nbq", (v) => {
@@ -160,10 +174,10 @@ export const nbq = [
   },
   {
     formType: "input",
-    label: "实收块数",
+    label: "实收个数",
     name: "ssgs",
     value: "0",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill() {
       watchItem("table-nbq", (v) => {
         this.value = v.length;
@@ -172,24 +186,36 @@ export const nbq = [
   },
   {
     formType: "input",
-    label: "应收块数",
+    label: "应收个数",
     name: "ysgs-nbq",
     value: "",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill(data) {
       const designDevice = lo.get(data, "NBQ.designDevice");
       this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
     },
   },
   {
+    formType: "cell",
+    value: "若非扫码输入，需点击“添加”按钮",
+    valueClass: "text-red !text-center",
+  },
+  {
     formType: "input",
-    inputAlign: "center",
+    inputAlign: "left",
+    class: "!w-[60%] mx-auto",
     inlineForm: [
       {
         slot: "input",
         formType: "button",
+        text: "去重",
+        className: "bg-[#ffab30] text-white h-8 !w-[80px] rounded-2xl van-haptics-feedback",
+      },
+      {
+        slot: "extra",
+        formType: "button",
         text: "添加",
-        className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        className: "bg-[#ffab30] text-white h-8 !w-[80px] rounded-2xl van-haptics-feedback",
         click() {
           const deviceNumber = getItem("deviceNumber-nbq", "value");
           if (!deviceNumber.length) {
@@ -255,6 +281,7 @@ export const cjq = [
     value: "",
     name: "deviceNumber-cjq",
     rightIcon: "scan",
+    placeholder: "检查手机定位权限是否开启",
     clickRightIcon() {
       openCode((deviceNumber) => {
         setItem("table-cjq", (v) => {
@@ -279,6 +306,7 @@ export const cjq = [
     label: "采集器型号",
     name: "cjqModel",
     value: "",
+    required: true,
     ...backSelect(),
     ...makeSelect("cjqModel", [
       { text: "光精灵Mini", value: "光精灵Mini" },
@@ -294,6 +322,7 @@ export const cjq = [
     label: "多台逆变器是否共用采集器",
     name: "cjqShare",
     value: "",
+    required: true,
     ...backSelect(),
     ...makeSelect("cjqShare", [
       { text: "否", value: 0 },
@@ -307,10 +336,10 @@ export const cjq = [
   },
   {
     formType: "input",
-    label: "实收块数",
+    label: "实收个数",
     name: "ssgs",
     value: "0",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill() {
       watchItem("table-cjq", (v) => {
         this.value = v.length;
@@ -319,24 +348,30 @@ export const cjq = [
   },
   {
     formType: "input",
-    label: "应收块数",
+    label: "应收个数",
     name: "ysgs-cjq",
     value: "",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill(data) {
       const designDevice = lo.get(data, "CJQ.designDevice");
       this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
     },
   },
   {
+    formType: "cell",
+    value: "若非扫码输入，需点击“添加”按钮",
+    valueClass: "text-red !text-center",
+  },
+  {
     formType: "input",
-    inputAlign: "center",
+    inputAlign: "left",
+    class: "!w-[60%] mx-auto",
     inlineForm: [
       {
-        slot: "input",
+        slot: "button",
         formType: "button",
         text: "添加",
-        className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        className: "bg-[#ffab30] text-white h-8 w-[80px] rounded-2xl van-haptics-feedback",
         click() {
           const deviceNumber = getItem("deviceNumber-cjq", "value");
           if (!deviceNumber.length) {
@@ -358,6 +393,12 @@ export const cjq = [
             setItem("deviceNumber-cjq", "value", "");
           });
         },
+      },
+      {
+        slot: "input",
+        formType: "button",
+        text: "去重",
+        className: "bg-[#ffab30] text-white h-8 !w-[80px] rounded-2xl van-haptics-feedback",
       },
     ],
   },
@@ -402,6 +443,7 @@ export const pdx = [
     value: "",
     name: "deviceNumber-pdx",
     rightIcon: "scan",
+    placeholder: "检查手机定位权限是否开启",
     clickRightIcon() {
       openCode((deviceNumber) => {
         setItem("table-pdx", (v) => {
@@ -423,10 +465,10 @@ export const pdx = [
   },
   {
     formType: "input",
-    label: "实收块数",
+    label: "实收个数",
     name: "ssgs",
     value: "0",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill() {
       watchItem("table-pdx", (v) => {
         this.value = v.length;
@@ -435,24 +477,30 @@ export const pdx = [
   },
   {
     formType: "input",
-    label: "应收块数",
+    label: "应收个数",
     name: "ysgs-pdx",
     value: "",
-    ...makeUnit("块"),
+    ...makeUnit("个"),
     backfill(data) {
       const designDevice = lo.get(data, "CJQ.designDevice");
       this.value = designDevice.reduce((pre, cur) => pre + cur.quantity, 0);
     },
   },
   {
+    formType: "cell",
+    value: "若非扫码输入，需点击“添加”按钮",
+    valueClass: "text-red !text-center",
+  },
+  {
     formType: "input",
-    inputAlign: "center",
+    inputAlign: "left",
+    class: "!w-[60%] mx-auto",
     inlineForm: [
       {
-        slot: "input",
+        slot: "button",
         formType: "button",
         text: "添加",
-        className: "bg-[#ffab30] text-white h-8 w-[30%] rounded-2xl van-haptics-feedback",
+        className: "bg-[#ffab30] text-white h-8 w-[80px] rounded-2xl van-haptics-feedback",
         click() {
           const deviceNumber = getItem("deviceNumber-pdx", "value");
           if (!deviceNumber.length) {
@@ -474,6 +522,12 @@ export const pdx = [
             setItem("deviceNumber-pdx", "value", "");
           });
         },
+      },
+      {
+        slot: "input",
+        formType: "button",
+        text: "去重",
+        className: "bg-[#ffab30] text-white h-8 !w-[80px] rounded-2xl van-haptics-feedback",
       },
     ],
   },
@@ -516,7 +570,8 @@ export const zldl = [
     formType: "input",
     name: "manufacturerZLDL",
     label: "直流电缆厂家名称",
-    labelClass: 'flex-none !w-[40%]',
+    labelClass: "flex-none !w-[40%]",
+    placeholder: "请选择或直接输入",
     required: true,
     getParam(param) {
       if (!lo.isArray(param.devices)) {
@@ -563,6 +618,7 @@ export const zldl = [
     ...makeSelect("specificationsModelZLDL", [], "dynamic"),
     formType: "input",
     label: "直流电缆型号",
+    placeholder: "请选择",
     name: "specificationsModelZLDL",
     required: true,
     async backfill(bData) {
@@ -588,9 +644,8 @@ export const zhijia = [
     formType: "input",
     name: "manufacturer-zhijia",
     label: "支架厂家名称",
-    required: true,
+    placeholder: "请选择或直接输入",
     getParam(param) {
-      console.log(99999999);
       if (!lo.isArray(param.devices)) {
         param.devices = [{}];
       }
@@ -639,6 +694,7 @@ export const zhijia = [
     formType: "input",
     label: "支架型号",
     name: "specificationsModel-zhijia",
+    placeholder: "请选择",
     required: true,
     async backfill(bData) {
       const { data } = await http.post("sto/device-args/list?option=specificationsModel", { deviceType: "ZHIJIA" });
@@ -661,6 +717,7 @@ export const zhijia = [
     formType: "input",
     label: "支架材质",
     name: "material-zhijia",
+    placeholder: "请选择",
     required: true,
     async backfill(bData) {
       const { data } = await http.post("sto/device-args/list?option=material", { deviceType: "ZHIJIA" });

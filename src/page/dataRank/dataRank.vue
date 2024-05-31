@@ -6,7 +6,19 @@ const tableData = ref([]); // 表格数据
  */
 async function getTableData() {
   const { data } = await http.get("/bi/company-statistics-chart");
-  tableData.value = data;
+  const getUnit = (val) => {
+    const result = unitConver(val);
+    return result.realValue + " " + result.unit;
+  };
+  tableData.value = data.map((n) => {
+    return {
+      ...n,
+      signedCapacity: getUnit(n.signedCapacity),
+      scannedCapacity: getUnit(n.scannedCapacity),
+      buildingCapacity: getUnit(n.buildingCapacity),
+      gridConnectionCapacity: getUnit(n.gridConnectionCapacity),
+    };
+  });
 }
 
 onMounted(() => {
@@ -34,12 +46,12 @@ function getPreviewData() {
       <template #value> </template>
     </van-cell>
     <vxe-table :data="tableData" align="center" header-align="center" max-height="400" stripe>
-      <!-- <vxe-column title="设备类型">
-        <template #default="{ row }">
-          {{ deviceTypeDic[row.deviceType] }}
+      <vxe-column type="seq" width="50" title="序号"></vxe-column>
+      <vxe-column field="companyName" title="组织名称" width="200">
+        <template #value="scope">
+          <van-noticeBar :text="scope.row.companyName" color="#191919" speed="15" />
         </template>
-      </vxe-column> -->
-      <vxe-column field="companyName" title="组织名称" width="200" />
+      </vxe-column>
       <vxe-column field="orderCount" title="累计订单" width="100" />
       <vxe-column field="signedCapacity" title="签约量" width="100" />
       <vxe-column field="scannedCapacity" title="扫码量" width="100" />
