@@ -1,6 +1,6 @@
 /*
- * @Author: rabbwei 
- * @Date: 2024-04-06 14:36:39 
+ * @Author: rabbwei
+ * @Date: 2024-04-06 14:36:39
  * @Last Modified by: rabbwei
  * @Last Modified time: 2024-04-25 19:44:47
  * @Desc: 登录获取用户数据缓存数据
@@ -13,10 +13,29 @@ export const useUser = defineStore(
   "user",
   () => {
     const info = ref({});
-    const usernameList = ref([])
-    const checked = ref([])
+    const usernameList = ref([]);
+    const checked = ref([]);
+    const httpBase = ref("");
+    const httpList = ref([
+      {
+        title: "boge",
+        name: "boge",
+      },
+      {
+        title: "mingjie",
+        name: "mingjie",
+      },
+      {
+        title: "sit",
+        name: "sit",
+      },
+      {
+        title: "prod",
+        name: "prod",
+      },
+    ]);
 
-    return { info, usernameList, checked };
+    return { info, usernameList, checked, httpBase, httpList };
   },
   {
     persist: {
@@ -39,12 +58,12 @@ export function setUserInfo(info) {
 
 export function getUserVo() {
   const user = useUser();
-  return user.info.userVo
+  return user.info.userVo;
 }
 
 export function getCompany() {
   const user = useUser();
-  return user.info.userVo.curUserCompanyVo.company
+  return user.info.userVo.curUserCompanyVo.company;
 }
 
 /**
@@ -53,12 +72,12 @@ export function getCompany() {
  */
 export function getHeaderInfo() {
   const user = useUser();
-  const flag = useFlag()
+  const flag = useFlag();
   return {
     Authorization: user.info.access_token,
     Uid: user.info.uid,
     Biztype: useFlag().headers.Biztype,
-    investor: flag.investor
+    investor: flag.investor,
     // Version: user.info.Version,
   };
 }

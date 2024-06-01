@@ -113,7 +113,7 @@ export const contractAward = [
             backfill(data) {
               const dic = { A: "甲方", B: "乙方", W: "待签约", S: "已签约", ["-"]: "-" };
               this.value = lo
-                .get(data, `data${this.name}`, "")
+                .get(data, `data.${this.name}`, "")
                 .split("")
                 .reduce((pre, cur) => (pre += dic[cur]), "");
             },
@@ -199,7 +199,7 @@ export const contractAward = [
               }
             },
             backfill(data) {
-              this.realValue = lo.get(data, `data${this.name}.0`);
+              this.realValue = lo.get(data, `data.${this.name}.0`);
             },
           },
         ];
@@ -457,7 +457,7 @@ export const button = [
       },
     ],
     onMounted() {
-      const query = getQuery()
+      const query = getQuery();
       if (query.online == "true") {
         this.inlineForm[0].text = "屋顶租赁合同下载";
       } else {

@@ -30,14 +30,14 @@ export default function makeUpload(maxCount = 999, width = 100, accept = "image/
         async clickPreview(img) {
           if (!isImgSlot(img)) {
             const url = getUploadUrl(img) || img.objectUrl;
-            const event = useEvent()
-            await event.saveData()
-            router.push({ path: "/previewFile", query: { url }, });
+            const event = useEvent();
+            await event.saveData();
+            router.push({ path: "/previewFile", query: { url } });
             return;
           } else {
             const dom = useDom();
             dom.imgIndex = dom.imgDoms.findIndex((n) => {
-              console.log(n, getUploadUrl(img), n == (getUploadUrl(img) || img.objectUrl));
+              // console.log(n, getUploadUrl(img), n == (getUploadUrl(img) || img.objectUrl));
               return n == (getUploadUrl(img) || img.objectUrl);
             });
             dom.showPreviewImg = true;

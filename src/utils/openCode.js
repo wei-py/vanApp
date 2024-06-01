@@ -9,12 +9,12 @@ function scanQRCode(callback) {
     if (result.startsWith("http")) {
       const { data } = await http.get("/device/url?httpUrl=" + result);
       showSuccessToast(JSON.stringify(data.data));
-      postMsg({ func: "vibration" });
+      postMsg({ func: "vibration" }); // 震动
       callback(data.data);
       postMsg({ func: "closeCode" });
     } else {
       showSuccessToast(result);
-      postMsg({ func: "vibration" });
+      postMsg({ func: "vibration" }); // 震动
       callback(result);
     }
   }, 5000);

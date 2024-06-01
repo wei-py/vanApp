@@ -131,7 +131,7 @@ export const certificate = [
           this.value = "";
           this.readonly = false;
           this.click = () => {
-            this.inlineForm[1].show = flag.btns.canEdit
+            this.inlineForm[1].show = flag.btns.canEdit;
           };
           setItem("surplusCapacity", "hidden", true);
         }
@@ -200,8 +200,18 @@ export const certificate = [
   {
     ...makeUpload(999, 100),
     label: "房屋权属证明",
+    //
     name: "propertyCertificate",
     required: true,
+    onMounted() {
+      if (viewOrg() == "TYZF_ZZD_ORG") {
+        this.label = "通用资方法人项目无需在此处上传房屋权属证明";
+        this.required = false;
+      } else {
+        this.label = "房屋权属证明";
+        this.required = true;
+      }
+    },
     backfill(data) {
       lo.bind(makeImgs, this)(data);
     },

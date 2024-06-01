@@ -313,8 +313,11 @@ export const nbq = [
         className: "bg-[#ddd] text-white h-8 w-[60%] rounded-2xl van-haptics-feedback ",
         async click() {
           const event = useEvent();
-          await event.saveData();
-          await event.getData();
+          const status = getQuery().status
+          if (status != "不可变更") {
+            await event.saveData();
+            await event.getData();
+          }
           setItem("designGroupShow", "value", true);
           const param = getParam();
           const query = lo.pick(param, ["id", "orderId", "designIdByPv"]);

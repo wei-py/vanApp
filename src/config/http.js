@@ -18,14 +18,17 @@ const http = axios.create({
 
 http.interceptors.request.use(
   (config) => {
+    const user = useUser()
+    config.baseURL = baseURLDic[user.httpBase].web
+
     const headerInfo = getHeaderInfo();
     const flag = useFlag();
     flag.overlayShow = true;
 
     const query = getQuery();
     const queryHeader = {
-      Investor: query.investorId || "",
-      Biztype: query.type || "",
+      Investor: query.investorId || headerInfo.investor,
+      Biztype: query.type || headerInfo.biztype,
     };
     converBaseUrl(config);
 

@@ -7,7 +7,7 @@ const props = defineProps({
     orderId: {},
   },
 });
-// const query = getQuery(); // 获取url参数
+const query = getQuery(); // 获取url参数
 const active = ref(0); // tab切换
 const tabData = ref({}); // tab数据
 const designId = computed(() => props.query.id || props.query.designIdByPv);
@@ -101,7 +101,13 @@ defineExpose({ saveData, getData });
     </van-tabs>
     <!-- <van-sticky :offset-bottom="20" position="bottom"> -->
     <div class="xCenter bg-opacity-100 pb-5">
-      <van-button @click="saveData" className="bg-[#ffab30] text-white h-8 w-[50%] rounded-2xl van-haptics-feedback ">保存</van-button>
+      <van-button
+        v-if="query.status != '不可变更'"
+        @click="saveData"
+        className="bg-[#ffab30] text-white h-8 w-[50%] rounded-2xl van-haptics-feedback "
+      >
+        保存
+      </van-button>
     </div>
     <!-- </van-sticky> -->
   </div>

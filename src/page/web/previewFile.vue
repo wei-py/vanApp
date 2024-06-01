@@ -1,6 +1,4 @@
 <script setup>
-// import VuePdfApp from "vue3-pdf-app";
-// import "vue3-pdf-app/dist/icons/main.css";
 import VueOfficeDocx from "@vue-office/docx"; //引入VueOfficeDocx组件
 import VueOfficePdf from "@vue-office/pdf";
 // import VueOfficeExcel from "@vue-office/excel";
@@ -23,7 +21,7 @@ const options = [
   [
     { name: "复制链接", icon: "https://img.icons8.com/?size=100&id=723&format=png&color=000000" },
     { name: "打开浏览器", icon: "https://img.icons8.com/?size=100&id=53372&format=png&color=000000" },
-    { name: "下载文件", icon: "https://img.icons8.com/?size=100&id=14300&format=png&color=000000" },
+    // { name: "下载文件", icon: "https://img.icons8.com/?size=100&id=14300&format=png&color=000000" },
     // { name: "分享海报", icon: "poster" },
     // { name: "二维码", icon: "qrcode" },
     // { name: "小程序码", icon: "weapp-qrcode" },

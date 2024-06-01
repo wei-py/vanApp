@@ -248,7 +248,7 @@ eventManage({ getData: getDataThrottle, onRefresh: () => location.reload() });
           :title="t.title"
         />
       </van-dropdown-menu>
-      <div class="center w-[15vw] bg-white text-[16px]" @click="openPop">筛选</div>
+      <div class="center w-[15vw] bg-white !text-[#323233] text-[16px] van-ellipsis" @click="openPop">筛选</div>
       <!-- <vButton :round="false" class="h-full">更多</vButton> -->
     </div>
 

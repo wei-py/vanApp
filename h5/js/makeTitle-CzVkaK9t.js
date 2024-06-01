@@ -1,0 +1,1 @@
+import{t as n}from"./class-COLQ8iHP.js";function r(t){return{formType:"cell",title:t,titleClass:n,class:"!p-0 h-[50px]"}}function o(t){return{makeUnit(e){this.inlineForm[0].text=e},inlineForm:[{slot:"button",formType:"button",size:"mini",className:"border-0 p-0 yCenter",text:t}]}}export{o as a,r as m};

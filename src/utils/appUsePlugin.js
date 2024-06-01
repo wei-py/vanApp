@@ -19,8 +19,8 @@ export default function appUsePlugin(app) {
   app.use(createInstall(viewFileType, "viewFileType"));
   app.use(createInstall(unitConver, "unitConver"));
   app.use(createInstall(investorIdDic, "investorIdDic"));
+  app.use(createInstall(appConfig, "appConfig"));
   app.use(createInstall(lo.debounce, "debounce"));
-
   window.goBack = () => {
     // const isPopupShow = [...document.querySelectorAll(".van-popup")].some((n) => n.style.display != "none");
     const overlayDom = [...document.querySelectorAll(".van-overlay")];

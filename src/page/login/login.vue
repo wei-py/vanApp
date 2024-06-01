@@ -1,7 +1,6 @@
 <script setup>
 import { companyForm } from "./login";
 const _ = makeForm({ companyForm });
-const orderh5 = location.port == 2222 ? "/orderh5" : "";
 const userStore = useUser();
 const user = reactive({
   username: lo.get(userStore, "usernameList[0].text"),
@@ -112,24 +111,28 @@ eventManage({ getData: onLogin });
 </script>
 
 <template>
-  <div class="h-full w-full flex-1 bg-white">
-    <div class="h-[30vh] w-full center bgImg">
-      <van-image width="100" height="100" :src="`${orderh5}/icons/loginRegister/btoWhiteLogo.png`" />
+  <div class="h-full w-full flex-1 bg-[#febc04] !overflow-hidden">
+    <div class="float-left mb-[-100vh] ml-[7vw] font-bold text-white text-[35px]">
+      <div class="mt-[10vh]">您 好 ,</div>
+      <div>欢 迎 使 用 博 光</div>
     </div>
-    <div class="h-[50vh] w-full pt-[5vh] px-[3vw]">
+    <div class="h-[30vh] w-full bgImg flex items-end justify-end">
+      <img class="h-[30vw] w-[30vw] mb-[-3vw] mr-[-5vw] z-0 object-contain" src="./newLogo.png" />
+    </div>
+    <div class="h-[70vh] bg-white rounded-t-[20px] py-[5vw] flex flex-col">
       <van-form @submit="onLogin">
         <van-cell-group inset>
+          <van-cell title="手机号" :border="false" titleClass="text-[25px]"></van-cell>
           <van-field
+            size="large"
             v-model="user.username"
             @update:model-value="onUsernameInput"
             name="phone"
             label=""
             placeholder="请输入账号"
             :rules="user.usernameRule"
-            right-icon="arrow"
-            left-icon="contact"
+            class="!text-[16px] !pt-[5px]"
             clearable
-            class="!bg-[#f2f5f9] mb-[1vh] shadow-inner rounded-lg"
             @click-right-icon="user.usernameListShow = !user.usernameListShow"
           >
             <template #extra>
@@ -142,25 +145,26 @@ eventManage({ getData: onLogin });
               />
             </template>
           </van-field>
+          <van-cell title="密码" :border="false" titleClass="text-[25px]"></van-cell>
 
           <van-field
             v-if="isPasswordToLogin"
+            size="large"
+            class="!text-[16px] !pt-[5px]"
             v-model="user.password"
-            :right-icon="user.passwordIcon"
-            :left-icon="isPasswordToLogin ? 'lock' : 'chat-o'"
             @click-right-icon="onPasswordIconClick"
             :type="isPasswordToLogin ? user.passwordType : ''"
-            class="!bg-[#f2f5f9] shadow-inner rounded-lg"
             :name="isPasswordToLogin ? 'password' : 'code'"
+            :right-icon="user.passwordIcon"
             placeholder="请输入密码"
             clearable
             :rules="user.passwordRule"
           />
           <van-field
             v-else
+            size="large"
+            class="!text-[16px] !pt-[5px]"
             v-model="user.code"
-            left-icon="comment-circle"
-            class="!bg-[#f2f5f9] shadow-inner rounded-lg"
             name="code"
             clearable
             :rules="user.codeRule"
@@ -171,38 +175,40 @@ eventManage({ getData: onLogin });
             </template>
           </van-field>
         </van-cell-group>
-        <div class="w-full px-[4.5vw] pt-[2vh]">
-          <van-checkbox-group v-model="userStore.checked">
-            <van-checkbox icon-size="16px" checked-color="#ffab30" name="remember">记住密码</van-checkbox>
-            <van-checkbox class="py-[1vh]" icon-size="16px" checked-color="#ffab30" name="readed">
-              我已阅读并同意博光NEW
-              <a class="text-[blue]" @click.stop="$openWeb('https://www.btosolarman.com/APP/boGuangAPP/privacy.txt', '隐私政策')">隐私政策</a>
-              和
-              <a class="text-[blue]" @click.stop="$openWeb('/orderh5/protocolOfUsage.html', '使用协议')">使用协议</a>
-            </van-checkbox>
-          </van-checkbox-group>
-        </div>
+        <van-checkbox-group v-model="userStore.checked" class="flex-1 justify-end flex flex-col px-[7vw]">
+          <van-checkbox icon-size="16px" checked-color="#ffab30" name="remember">记住密码</van-checkbox>
+        </van-checkbox-group>
 
-        <div class="w-full xCenter px-[4vw] py-[2vh]">
-          <vButton class="!w-full" native-type="submit">登录</vButton>
+        <div class="xCenter mt-[5vh]">
+          <vButton class="!w-[90%]" native-type="submit">登录</vButton>
+        </div>
+        <div class="w-[90%] mx-auto">
+          <van-divider>OR</van-divider>
+        </div>
+        <div class="xCenter">
+          <vButton class="!w-[90%]" @click="isPasswordToLogin = !isPasswordToLogin">
+            {{ isPasswordToLogin ? "密码登录" : "验证码一键登录" }}
+          </vButton>
         </div>
       </van-form>
-    </div>
-    <div class="h-[20vh] w-full flex flex-col">
-      <van-divider :style="{ borderColor: '#9c9c9c', padding: '0 16px' }">其他登录方式</van-divider>
-      <div class="h-[30%] xCenter" @click="isPasswordToLogin = !isPasswordToLogin">
-        <van-image class="w-[8%]" mode="aspectFit" :src="`${orderh5}/icons/loginRegister/phone.png`" />
-      </div>
-      <div class="text-center my-auto text-[#9c9c9c] text-[16px]">
-        {{ isPasswordToLogin ? "密码登录" : "验证码登录" }}
-      </div>
-    </div>
 
-    <van-popup v-model:show="_.companyForm[0].show" round teleport="#app" transition-appear>
-      <template #overlay-content>
-        <vantForm @click.prevent :form="_.companyForm" class="pt-[20vh] mx-10" group-class="shadowC"></vantForm>
-      </template>
-    </van-popup>
+      <van-tabs v-if="$appConfig.env == 'dev'" v-model:active="userStore.httpBase" title-active-color="#ffab30" color="#ffab30" class="mt-[10px]">
+        <van-tab v-for="h of userStore.httpList" :key="h.name" v-bind="h" class="ml-[9vw] mt-[10px]"> 生产环境: {{ h.name }} </van-tab>
+      </van-tabs>
+
+      <!-- <div class="mt-[5vw] text-[25px]">手机号</div>
+      <van-
+      <div class="text-[25px]">密码</div> -->
+      <van-checkbox-group v-model="userStore.checked" class="flex-1 justify-end flex flex-col px-[7vw]">
+        <!-- <van-checkbox icon-size="16px" checked-color="#ffab30" name="remember">记住密码</van-checkbox> -->
+        <van-checkbox class="py-[1vh]" icon-size="16px" checked-color="#ffab30" name="readed">
+          我已阅读并同意博光NEW
+          <a class="text-[blue]" @click.stop="$openWeb('https://www.btosolarman.com/APP/boGuangAPP/privacy.txt', '隐私政策')">隐私政策</a>
+          和
+          <a class="text-[blue]" @click.stop="$openWeb('/orderh5/protocolOfUsage.html', '使用协议')">使用协议</a>
+        </van-checkbox>
+      </van-checkbox-group>
+    </div>
   </div>
 </template>
 
@@ -212,9 +218,9 @@ eventManage({ getData: onLogin });
 }
 .bgImg {
   width: 100%;
-  background: #fff url("/background/login.png") center no-repeat;
-  border-bottom-right-radius: 50% 55px;
-  border-bottom-left-radius: 50% 55px;
+  background: #fff url("./newLogin.png") center/100%;
+  /* border-bottom-right-radius: 50% 55px;
+  border-bottom-left-radius: 50% 55px; */
 }
 :deep(.van-checkbox__icon) {
   @apply shadow-inner;

@@ -12,7 +12,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -20,8 +20,8 @@ export const electricStationMaterialForm = [
         imageList: this.inlineForm[0].value.map((n) => {
           return {
             imageAddr: getUploadUrl(n),
-            imageName: this.name
-          }
+            imageName: this.name,
+          };
         }),
         imageName: this.name,
       });
@@ -39,7 +39,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -62,7 +62,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -85,7 +85,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -108,7 +108,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -131,7 +131,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -154,7 +154,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -177,7 +177,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -200,7 +200,7 @@ export const electricStationMaterialForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -218,11 +218,10 @@ export const electricStationMaterialForm = [
     backfill(data) {
       const value = data?.electricStationMaterial?.find((n) => n.imageName == this.imageName)?.imageList || [];
       this.inlineForm[0].value = value.map((n) => ({ url: sToUrl(n.imageAddr) }));
-      const dom = useDom();
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.electricStationMaterial)) {
         params.electricStationMaterial = [];
       }
@@ -230,8 +229,8 @@ export const electricStationMaterialForm = [
         imageList: this.inlineForm[0].value.map((n) => {
           return {
             imageAddr: getUploadUrl(n),
-            imageName: this.name
-          }
+            imageName: this.name,
+          };
         }),
         imageName: this.name,
       });
@@ -254,7 +253,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -277,7 +276,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -299,7 +298,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -322,7 +321,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -345,7 +344,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -368,7 +367,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -391,7 +390,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -414,7 +413,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -437,7 +436,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -460,7 +459,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -484,7 +483,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -507,7 +506,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -530,7 +529,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -553,7 +552,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -575,7 +574,7 @@ export const trestleDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.trestleDistributionBox)) {
         params.trestleDistributionBox = [];
       }
@@ -602,7 +601,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -625,7 +624,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -648,7 +647,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -671,7 +670,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -694,7 +693,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -717,7 +716,7 @@ export const componentInstallationForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.componentInstallation)) {
         params.componentInstallation = [];
       }
@@ -744,7 +743,7 @@ export const wireRiggingForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.wireRigging)) {
         params.wireRigging = [];
       }
@@ -767,7 +766,7 @@ export const wireRiggingForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.wireRigging)) {
         params.wireRigging = [];
       }
@@ -790,7 +789,7 @@ export const wireRiggingForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.wireRigging)) {
         params.wireRigging = [];
       }
@@ -817,7 +816,7 @@ export const groundingSystemForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.groundingSystem)) {
         params.groundingSystem = [];
       }
@@ -840,7 +839,7 @@ export const groundingSystemForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.groundingSystem)) {
         params.groundingSystem = [];
       }
@@ -861,18 +860,23 @@ export const inverterDistributionBoxForm = [
     required: true,
     ...makeUpload(999, 100),
     backfill(data) {
-      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
-      this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageList || "";
+      this.inlineForm[0].value = value.map((n) => ({ url: sToUrl(n.imageAddr) }));
       const dom = useDom();
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
       params.inverterDistributionBox.push({
-        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageList: this.inlineForm[0].value.map((n) => {
+          return {
+            imageAddr: getUploadUrl(n),
+            imageName: this.name,
+          };
+        }),
         imageName: this.name,
       });
     },
@@ -890,7 +894,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -913,7 +917,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -936,7 +940,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -959,7 +963,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -982,7 +986,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -1005,7 +1009,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -1028,7 +1032,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -1050,7 +1054,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -1072,7 +1076,7 @@ export const inverterDistributionBoxForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
@@ -1088,18 +1092,24 @@ export const inverterDistributionBoxForm = [
     name: "开路电压照片",
     ...makeUpload(999, 100),
     backfill(data) {
-      const value = data?.inverterDistributionBox?.find((n) => n.imageName.includes(this.imageName))?.imageAddr || "";
-      this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
+      const value = data?.inverterDistributionBox?.find((n) => n.imageName == this.imageName)?.imageList || [];
+      this.inlineForm[0].value = value.map((n) => ({ url: sToUrl(n.imageAddr) }));
+      // this.inlineForm[0].value = value ? [{ url: sToUrl(value) }] : [];
       const dom = useDom();
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.inverterDistributionBox)) {
         params.inverterDistributionBox = [];
       }
       params.inverterDistributionBox.push({
-        imageAddr: this.inlineForm[0].value.map((n) => getUploadUrl(n))[0],
+        imageList: this.inlineForm[0].value.map((n) => {
+          return {
+            imageAddr: getUploadUrl(n),
+            imageName: this.name,
+          };
+        }),
         imageName: this.name,
       });
     },
@@ -1121,7 +1131,7 @@ export const completionInspectionForm = [
       pushImg(...this.inlineForm[0].value.map((n) => n.url));
     },
     getParam(params) {
-      delete params[this.name]
+      delete params[this.name];
       if (!lo.isArray(params.completionInspection)) {
         params.completionInspection = [];
       }

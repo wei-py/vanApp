@@ -1,1 +1,0 @@
-import{h as n}from"./index-DoomjHTc.js";import{x as i}from"./xe-utils-DXe260hc.js";let t=[];async function c(){if(t.length)return t;const{data:a}=await n.get("/area"),e=i.mapTree(a,r=>({text:r.name,value:r.code}),{children:"childList",mapChildren:"children"});return t=e,e}export{c as g};
